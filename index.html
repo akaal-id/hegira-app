@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hegira - Platform Event Terintegrasi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'hegra-turquoise': '#4b998e', // Original Green
+            'hegra-yellow': '#ebaf4c',    // Original Yellow
+            'hegra-navy': '#18093b',      // Original Violet
+            'hegra-white': '#feffff',     // Original White
+            'hegra-deep-navy': '#18093b',
+            'hegra-light-bg': '#feffff',
+            'hegra-card-bg': '#feffff',
+            'hegra-gradient-start': '#4b998e',
+            'hegra-gradient-mid': '#ebaf4c',
+            'hegra-gradient-end': '#ebaf4c',
+            'hegra-chino': '#d0cea9',
+
+            // New Auth Colors
+            'hegra-auth-primary': '#339999',    // Requested Turquoise
+            'hegra-auth-accent': '#F5AF47',     // Requested Gold
+            'hegra-auth-background': '#150439', // Requested Navy Background
+            'hegra-auth-text': '#FEFFFF',       // Requested Light Text (same as hegra-white)
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'fade-in': 'fadeIn 0.8s ease-out forwards',
+            'slide-in-left': 'slideInLeft 0.8s ease-out forwards',
+            'glow': 'glow 2s infinite alternate',
+            'slow-spin': 'spin 20s linear infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'hero-bg-pan': 'heroBgPan 15s ease infinite alternate',
+            'modal-appear': 'modalAppear 0.3s ease-out forwards', // General modal animation
+            'fade-in-up-delay': 'fadeInUpDelay 0.5s ease-out 0.2s forwards', // For modal content
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideInLeft: {
+              '0%': { opacity: '0', transform: 'translateX(-30px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 5px theme(colors.hegra-yellow), 0 0 10px theme(colors.hegra-yellow)' },
+              '100%': { boxShadow: '0 0 15px theme(colors.hegra-yellow / 0.8), 0 0 25px theme(colors.hegra-yellow / 0.8)' },
+            },
+            heroBgPan: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '100%': { backgroundPosition: '100% 50%' },
+            },
+            modalAppear: { // General modal animation
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            fadeInUpDelay: { // For modal content with delay
+              '0%': { opacity: '0', transform: 'translateY(15px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.525.0",
+    "@monaco-editor/react": "https://esm.sh/@monaco-editor/react@^4.7.0",
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
+    "remark-gfm": "https://esm.sh/remark-gfm@^4.0.1",
+    "jspdf": "https://esm.sh/jspdf@^3.0.1",
+    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
+    "leaflet": "https://esm.sh/leaflet@^1.9.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="font-sans bg-hegra-light-bg text-hegra-deep-navy">
+  <div id="root"></div>
+  <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

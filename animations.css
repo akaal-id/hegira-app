@@ -1,0 +1,123 @@
+/* animations.css */
+
+/* General Fade-in for elements on scroll */
+.animate-on-scroll {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.fade-in-up {
+  transform: translateY(30px);
+}
+.animate-on-scroll.fade-in-left {
+  transform: translateX(-30px);
+}
+.animate-on-scroll.fade-in-right {
+  transform: translateX(30px);
+}
+.animate-on-scroll.zoom-in {
+  transform: scale(0.9);
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+
+/* Example: Animated background for hero section */
+.hero-animated-bg {
+  /* Using shades of the new Violet #18093b */
+  background: linear-gradient(-45deg, #18093b, #2a1053, #3c176b, #4e1e83);
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
+  position: relative;
+  overflow: hidden; /* For pseudo-element particles */
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Optional: Subtle particle-like effect for hero */
+.hero-animated-bg::before,
+.hero-animated-bg::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle 10s infinite;
+}
+
+.hero-animated-bg::before {
+  top: 20%; left: 10%; animation-delay: 0s;
+}
+.hero-animated-bg::after {
+  top: 80%; left: 90%; animation-delay: 2s;
+}
+/* Add more pseudo elements or a JS solution for more particles */
+
+@keyframes sparkle {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  20% { opacity: 0.8; transform: translateY(-20px) scale(1); }
+  80% { opacity: 0.8; transform: translateY(-80px) scale(1); }
+  100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
+}
+
+/* Floating animation for icons */
+.icon-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+
+/* Glowing effect for buttons */
+.button-glow {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.button-glow:hover {
+  transform: translateY(-2px);
+  /* Use new yellow accent for glow */
+  box-shadow: 0 0 15px var(--hegra-yellow-accent), 0 0 25px var(--hegra-yellow-accent);
+}
+
+/* For animated progress bar */
+@keyframes fillProgress {
+  from { width: 0%; }
+  to { /* width is set dynamically by style prop */ }
+}
+.progress-bar-animated div {
+  animation: fillProgress 1.5s ease-out forwards;
+}
+
+/* Wave SVG or CSS shape for Newsletter */
+.wave-bg {
+  position: relative;
+  background-color: var(--hegra-deep-navy); /* Fallback, will be new Violet */
+}
+
+.wave-bg svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  z-index: 0;
+}
+
+.wave-bg .content-above-wave {
+  position: relative;
+  z-index: 1;
+}

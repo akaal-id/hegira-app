@@ -1,0 +1,168 @@
+
+:root {
+  --hegra-gradient-start: #4b998e; /* New Green */
+  --hegra-gradient-mid: #ebaf4c;   /* New Yellow */
+  --hegra-gradient-end: #ebaf4c;   /* New Yellow */
+  --hegra-deep-navy: #18093b;      /* New Violet (for text & dark elements) */
+  --hegra-light-bg: #feffff;       /* New White (for page background) */
+  --hegra-yellow-accent: #ebaf4c;   /* New Yellow */
+  --hegra-turquoise-accent: #4b998e; /* New Green */
+  --hegra-chino: #d0cea9;           /* New Chino */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--hegra-light-bg);
+  color: var(--hegra-deep-navy);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #e0e0e0; /* Lighter track - can be updated to a chino variant if needed */
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, var(--hegra-gradient-start), var(--hegra-gradient-mid));
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, var(--hegra-gradient-mid), var(--hegra-gradient-end));
+}
+
+.hero-slider-dots button.active { 
+  background-color: var(--hegra-turquoise-accent); /* Changed to turquoise */
+  transform: scale(1.2);
+}
+
+.event-card-category-b2c {
+  background: linear-gradient(45deg, var(--hegra-gradient-start), var(--hegra-gradient-mid));
+  color: var(--hegra-deep-navy); /* Dark text for light gradient */
+}
+.event-card-category-b2b {
+  background-color: var(--hegra-deep-navy); /* Violet */
+  color: var(--hegra-light-bg); /* White text */
+}
+.event-card-category-b2g {
+  background-color: var(--hegra-yellow-accent); /* Solid Yellow */
+  color: var(--hegra-deep-navy); /* Violet text */
+}
+
+/* Gradient text utility */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--hegra-gradient-start), var(--hegra-gradient-mid), var(--hegra-gradient-end));
+}
+
+
+/* Section title styling */
+.section-title {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy mb-4 text-center;
+}
+.section-subtitle {
+  @apply text-lg text-gray-600 max-w-2xl mx-auto text-center mb-10 md:mb-16; /* text-gray-600 might need to become a chino variant if too cool */
+}
+
+/* Glassmorphism effect for elements like Navbar (optional) */
+.glassmorphic {
+  background: rgba(255, 255, 255, 0.1); /* Adjust alpha for more/less transparency */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Custom scrollbar for horizontal event cards */
+.horizontal-event-scroll::-webkit-scrollbar {
+  height: 8px; /* Thinner scrollbar */
+}
+.horizontal-event-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray track */
+  border-radius: 10px;
+}
+.horizontal-event-scroll::-webkit-scrollbar-thumb {
+  background: var(--hegra-chino); /* Hegira Chino color */
+  border-radius: 10px;
+}
+.horizontal-event-scroll::-webkit-scrollbar-thumb:hover {
+  background: #b8b495; /* Darker Chino or another accent */
+}
+
+/* Button Hover Gradient Effect */
+.btn-hover-gradient {
+  position: relative; /* Needed for pseudo-element if used, or direct background manipulation */
+  overflow: hidden; /* To contain gradient movement */
+  background-size: 200% 100%; /* Make background wider than button */
+  background-image: linear-gradient(to right, 
+    var(--hegra-turquoise-accent) 0%, 
+    var(--hegra-yellow-accent) 50%, 
+    var(--hegra-turquoise-accent) 100%);
+  transition: background-position 0.5s ease-out;
+}
+
+.btn-hover-gradient:hover {
+  background-position: -100% 0; /* Shift gradient to the right on hover, creating movement */
+}
+
+
+/* Styling for prose content in CompanyDetailPage */
+.prose {
+  color: var(--hegra-deep-navy);
+}
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: var(--hegra-deep-navy);
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.prose strong {
+  color: var(--hegra-deep-navy);
+  font-weight: 600;
+}
+.prose a {
+  color: var(--hegra-turquoise-accent);
+  text-decoration: none;
+}
+.prose a:hover {
+  text-decoration: underline;
+}
+.prose ul > li::marker { /* Modern way to style list bullets */
+  color: var(--hegra-turquoise-accent);
+}
+.prose ol > li::marker {
+  color: var(--hegra-turquoise-accent);
+}
+.prose blockquote {
+  border-left-color: var(--hegra-chino);
+  color: var(--hegra-deep-navy);
+}
+.prose code {
+  color: var(--hegra-deep-navy);
+  background-color: rgba(208, 206, 169, 0.2); /* hegra-chino with alpha */
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+.prose pre {
+  background-color: rgba(24, 9, 59, 0.05); /* hegra-deep-navy with alpha */
+  border: 1px solid rgba(24, 9, 59, 0.1);
+  border-radius: 0.375rem;
+  padding: 1em;
+  overflow-x: auto;
+}
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 1em;
+}
