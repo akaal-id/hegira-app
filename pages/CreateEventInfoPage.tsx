@@ -100,8 +100,8 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
   return (
     <div className="bg-hegra-light-bg">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-hegra-navy to-hegra-turquoise py-20 md:py-32 text-white text-center" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in-up">
+      <section className="bg-gradient-to-br from-hegra-navy to-hegra-turquoise py-20 md:py-32 text-white text-center animate-on-scroll fade-in-up" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Zap size={64} className="mx-auto mb-6 text-hegra-yellow" />
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-jakarta font-bold mb-4">Wujudkan Event <span className="text-hegra-yellow">Impian Anda</span></h1>
           <p className="text-lg md:text-xl opacity-90 max-w-3xl mx-auto mb-8">
@@ -117,8 +117,8 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* About Hegra for Creators Section */}
-      <section className="py-16 md:py-24 bg-hegra-white" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
+      <section className="py-16 md:py-24 bg-hegra-white animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy">
               Mengapa Memilih <span className="text-hegra-turquoise">Hegra</span> untuk Event Anda?
@@ -154,8 +154,8 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* Portfolio Section */}
-      <section className="py-16 md:py-24 bg-gray-50" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
+      <section className="py-16 md:py-24 bg-gray-50 animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy">
               Portfolio <span className="text-gradient">Event Sukses</span> Kami
@@ -173,8 +173,8 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* Platform Features Section */}
-      <section className="py-16 md:py-24 bg-hegra-white" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
+      <section className="py-16 md:py-24 bg-hegra-white animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy">
               Fitur <span className="text-hegra-turquoise">Unggulan</span> Platform Kami
@@ -197,8 +197,8 @@ const CreateEventInfoPage: React.FC<CreateEventInfoPageProps> = ({
       </section>
 
       {/* How to Start Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-hegra-chino/20 to-hegra-chino/50" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll fade-in">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-hegra-chino/20 to-hegra-chino/50 animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Award size={48} className="mx-auto mb-6 text-hegra-yellow" />
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-jakarta font-bold text-hegra-deep-navy mb-4">
             Langkah Mudah Membuat Event Anda di Hegra

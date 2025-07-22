@@ -140,9 +140,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
       <HeroSlider events={heroEvents} onNavigate={onNavigate} />
 
       {/* Section 2: Temukan Event Menarik */}
-      <section id="events" className="py-16 md:py-24 bg-hegra-card-bg" ref={addToRefs}>
+      <section id="events" className="py-16 md:py-24 bg-hegra-card-bg animate-on-scroll fade-in" ref={addToRefs}>
         <div className="container mx-auto px-0 sm:px-6 lg:px-8"> {/* Adjusted padding for full-bleed scroll */}
-          <div className="flex flex-col md:flex-row justify-between items-center mb-10 md:mb-16 animate-on-scroll fade-in px-4 sm:px-0"> {/* Padding for title section */}
+          <div className="flex flex-col md:flex-row justify-between items-center mb-10 md:mb-16  px-4 sm:px-0"> {/* Padding for title section */}
             <div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy text-center md:text-left">Temukan Event <span className="text-gradient">Menarik</span></h2>
               <p className="text-neutral-700 mt-2 text-center md:text-left">Jelajahi berbagai acara terbaru dan paling populer.</p>
@@ -155,7 +155,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
             </button>
           </div>
           {/* Horizontal Scroll Container for Event Cards */}
-          <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 animate-on-scroll fade-in-up"> {/* Negative margins for full bleed effect */}
+          <div className="relative -mx-4 sm:-mx-6 lg:-mx-8"> {/* Negative margins for full bleed effect */}
             <div className="flex overflow-x-auto space-x-4 sm:space-x-6 lg:space-x-8 py-4 px-4 sm:px-6 lg:px-8 horizontal-event-scroll">
               {featuredEvents.length > 0 ? featuredEvents.map((event, index) => (
                 <div 
@@ -175,8 +175,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
       </section>
 
       {/* Section 3: About Hegira - Reconstructed */}
-      <section id="about-hegira" className="py-16 md:py-24 bg-hegra-chino/20" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll fade-in">
+      <section id="about-hegira" className="py-16 md:py-24 bg-hegra-chino/20 animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-4">
             <span className="bg-hegra-turquoise/20 text-hegra-turquoise font-semibold px-4 py-1.5 rounded-full text-xs inline-block">
               ABOUT US
@@ -195,7 +195,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 md:mb-16 animate-on-scroll fade-in-up">
+          <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 md:mb-16">
             <FeatureItem
               icon={TicketIconLucide}
               title="Tiket Terintegrasi"
@@ -222,15 +222,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
           <img
             src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80"
             alt="Hegira - Connecting Visions and Solutions"
-            className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-2xl shadow-xl animate-on-scroll fade-in-up"
+            className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-2xl shadow-xl"
           />
         </div>
       </section>
       
       {/* Section 4: Buat Event Anda */}
-      <section id="create-your-event" className="py-16 md:py-24 bg-hegra-white" ref={addToRefs}>
+      <section id="create-your-event" className="py-16 md:py-24 bg-hegra-white animate-on-scroll fade-in" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 md:mb-16 animate-on-scroll fade-in">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
               Buat Event <span className="text-gradient">Impian Anda</span>
             </h2>
@@ -238,7 +238,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               Hegra menyediakan platform lengkap untuk membantu Anda merencanakan, mempromosikan, dan mengelola event dengan sukses. Mulai dari konser, seminar, hingga workshop, semua jadi lebih mudah.
             </p>
           </div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16 animate-on-scroll fade-in-up">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
             <FeatureItem
               icon={Edit3}
               title="Pembuatan Event Mudah"
@@ -296,7 +296,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               iconColorClass="text-hegra-turquoise"
             />
           </div>
-          <div className="text-center animate-on-scroll fade-in">
+          <div className="text-center">
             <button 
               onClick={() => onNavigate('createEventInfo')} 
               className="bg-hegra-yellow text-hegra-navy font-bold py-3.5 px-8 rounded-lg text-lg 
@@ -310,9 +310,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
       </section>
 
       {/* Section 5: Business Matching */}
-      <section id="business-matching" className="py-16 md:py-24 bg-hegra-chino/20" ref={addToRefs}>
+      <section id="business-matching" className="py-16 md:py-24 bg-hegra-chino/20 animate-on-scroll fade-in" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 md:mb-16 animate-on-scroll fade-in">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
               Temukan <span className="text-gradient">Koneksi Bisnis</span> Potensial
             </h2>
@@ -320,7 +320,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               Perluas jaringan Anda, temukan vendor, mitra strategis, atau investor untuk event dan bisnis Anda melalui platform Business Matching Hegira.
             </p>
           </div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16 animate-on-scroll fade-in-up">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
             {sampleBusinessMatchingPartners.map((partner) => (
               <BusinessMatchingCard
                 key={partner.id}
@@ -330,7 +330,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               />
             ))}
           </div>
-          <div className="text-center animate-on-scroll fade-in">
+          <div className="text-center">
             <button 
               onClick={openSubscriptionModal} // Changed to openSubscriptionModal
               className="bg-hegra-turquoise text-white font-bold py-3.5 px-8 rounded-lg text-lg
@@ -344,9 +344,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
       </section>
 
       {/* Section 6: Articles & Insights */}
-      <section id="articles" className="py-16 md:py-24 bg-hegra-white" ref={addToRefs}>
+      <section id="articles" className="py-16 md:py-24 bg-hegra-white  animate-on-scroll fade-in" ref={addToRefs}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 md:mb-16 animate-on-scroll fade-in">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
               Artikel & <span className="text-gradient">Wawasan</span> Terbaru
             </h2>
@@ -354,12 +354,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               Dapatkan tips, tren, dan studi kasus terkini seputar dunia event dan business matching.
             </p>
           </div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16 animate-on-scroll fade-in-up">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
             {sampleArticles.map((article) => (
               <ArticleCard key={article.slug} {...article} onNavigate={(slug) => onNavigate('articlesPage', { articleSlug: slug })} />
             ))}
           </div>
-          <div className="text-center animate-on-scroll fade-in">
+          <div className="text-center">
             <button 
               onClick={() => onNavigate('articlesPage')}
               className="text-hegra-gradient-start hover:text-hegra-gradient-mid font-semibold transition-colors duration-300 group flex items-center mx-auto"
@@ -371,8 +371,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
       </section>
 
       {/* Section 7: Call to Action / Newsletter */}
-      <section id="newsletter" className="py-16 md:py-24 bg-gradient-to-r from-hegra-turquoise to-hegra-yellow" ref={addToRefs}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll fade-in">
+      <section id="newsletter" className="py-16 md:py-24 bg-gradient-to-r from-hegra-turquoise to-hegra-yellow animate-on-scroll fade-in" ref={addToRefs}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Zap size={48} className="mx-auto mb-4 text-white" />
           <h2 className="text-3xl md:text-4xl font-bold font-jakarta text-hegra-white mb-4">
             Jangan Ketinggalan Update Terbaru dari Hegira!
