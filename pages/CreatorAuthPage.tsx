@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PageName } from '../HegiraApp';
 import Logo from '../components/Logo';
 // RoleTabs import removed
-import { Eye, EyeOff, Mail, Lock, User, Briefcase, ArrowLeft, CheckCircle, BarChart3, Users as UsersIcon, Server, BrainCircuit, LogIn, Calendar } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Briefcase, ArrowLeft, BarChart3, Users as UsersIcon, Server, BrainCircuit, Calendar } from 'lucide-react';
 
 type AuthMode = 'login' | 'signup';
 

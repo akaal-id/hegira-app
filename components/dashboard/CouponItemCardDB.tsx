@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { Tag, Edit3, Trash2 } from 'lucide-react';
 import { TicketCategory } from '../../HegiraApp'; // Import TicketCategory
-import DeleteConfirmationModal from './modals/DeleteConfirmationModal';
+import DeleteConfirmationModal from './modals/DeleteConfirmationModal'; // New import
 
 export interface CouponData {
   id: string;
@@ -56,7 +56,7 @@ const CouponItemCardDB: React.FC<CouponItemCardDBProps> = ({ coupon, eventTicket
         const ticket = eventTickets.find(t => t.id === id);
         return ticket ? ticket.name : `ID: ${id}`; // Fallback if ticket not found
     }).join(', ')
-    : 'Semua Tiket';
+    : 'Total Transaksi';
 
   const handleDeleteClick = () => {
     setIsDeleteModalOpen(true);

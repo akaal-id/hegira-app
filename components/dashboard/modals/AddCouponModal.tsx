@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CouponData } from '../CouponItemCardDB';
 import { TicketCategory } from '../../../HegiraApp';
 import { X, Save } from 'lucide-react';
@@ -24,23 +24,18 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     discountType: 'percentage',
     discountValue: 0,
     quantity: undefined,
-    resetsDaily: false, // New field default
+    resetsDaily: false,
     startDate: undefined,
     endDate: undefined,
     minPurchase: undefined,
     applicableTicketIds: [],
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [isTicketDropdownOpen, setIsTicketDropdownOpen] = useState(false);
-  const ticketSelectorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (initialCouponData) {
       setFormData({
-        name: '',
-        code: '',
-        discountType: 'percentage',
-        discountValue: 0,
+      
         resetsDaily: false,
         ...initialCouponData,
         applicableTicketIds: initialCouponData.applicableTicketIds || [],
@@ -62,18 +57,6 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     }
     setFormErrors({});
   }, [initialCouponData, isOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ticketSelectorRef.current && !ticketSelectorRef.current.contains(event.target as Node)) {
-        setIsTicketDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ticketSelectorRef]);
 
   if (!isOpen) return null;
 
@@ -124,31 +107,14 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
     }
   };
   
-  const handleTicketSelect = (ticketId: string) => {
-    setFormData(prev => {
-        const currentIds = prev.applicableTicketIds || [];
-        if (!currentIds.includes(ticketId)) {
-            return { ...prev, applicableTicketIds: [...currentIds, ticketId] };
-        }
-        return prev;
-    });
+  const handleTicketSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const ticketId = e.target.value;
+    setFormData(prev => ({
+        ...prev,
+        applicableTicketIds: ticketId ? [ticketId] : [],
+    }));
   };
 
-  const handleTicketDeselect = (ticketId: string) => {
-      setFormData(prev => ({
-          ...prev,
-          applicableTicketIds: (prev.applicableTicketIds || []).filter(id => id !== ticketId)
-      }));
-  };
-
-  const selectedTicketsObjects = availableTickets.filter(ticket => 
-    (formData.applicableTicketIds || []).includes(ticket.id)
-  );
-
-  const unselectedTickets = availableTickets.filter(ticket => 
-      !(formData.applicableTicketIds || []).includes(ticket.id)
-  );
-  
   const modalTitle = initialCouponData ? "Edit Kupon" : "Tambah Kupon Baru";
   const saveButtonText = initialCouponData ? "Simpan Perubahan" : "Tambah Kupon";
   const inputClass = `w-full py-2.5 px-3 bg-white border rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors placeholder-gray-400 text-sm`;
@@ -248,46 +214,40 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
           </div>
 
           {/* Applicable Tickets Selector */}
-          <div className="pt-3 border-t border-gray-200" ref={ticketSelectorRef}>
-            <label htmlFor="applicableTickets" className="block text-sm font-medium text-gray-700 mb-1">Tiket yang Berlaku (Opsional)</label>
+          <div className="pt-3 border-t border-gray-200">
+            <label htmlFor="applicableTicketIds" className="block text-sm font-medium text-gray-700 mb-1">Tiket yang Berlaku (Opsional)</label>
             <div className="relative">
-              <div 
-                  onClick={() => setIsTicketDropdownOpen(!isTicketDropdownOpen)}
-                  className="w-full min-h-[44px] py-1.5 px-3 bg-white border border-gray-300 rounded-lg shadow-sm flex flex-wrap items-center gap-1.5 cursor-pointer focus-within:ring-1 focus-within:ring-hegra-turquoise transition-colors"
-                  tabIndex={0}
-                  aria-haspopup="listbox"
-                  aria-expanded={isTicketDropdownOpen}
-              >
-                  {selectedTicketsObjects.length > 0 ? (
-                      selectedTicketsObjects.map(ticket => (
-                          <span key={ticket.id} className="flex items-center gap-1.5 bg-hegra-turquoise text-white text-xs font-medium px-2 py-1 rounded-full animate-fade-in-up-sm">
-                              {ticket.name}
-                              <button type="button" onClick={(e) => { e.stopPropagation(); handleTicketDeselect(ticket.id); }} className="text-white/70 hover:text-white" aria-label={`Hapus tiket ${ticket.name}`}>
-                                  <X size={12} />
-                              </button>
-                          </span>
-                      ))
-                  ) : (
-                      <span className="text-sm text-gray-400">Berlaku untuk semua tiket (default)</span>
-                  )}
-              </div>
-              {isTicketDropdownOpen && unselectedTickets.length > 0 && (
-                  <ul className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto" role="listbox">
-                      {unselectedTickets.map(ticket => (
-                          <li 
-                              key={ticket.id} 
-                              onClick={() => handleTicketSelect(ticket.id)}
-                              className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                              role="option"
-                              aria-selected="false"
-                          >
-                              {ticket.name}
-                          </li>
-                      ))}
-                  </ul>
-              )}
+                <select
+                    id="applicableTicketIds"
+                    name="applicableTicketIds"
+                    value={formData.applicableTicketIds?.[0] || ''}
+                    onChange={handleTicketSelectionChange}
+                    className={`${inputClass} appearance-none border-gray-300 pr-16 ${!formData.applicableTicketIds?.[0] ? 'text-gray-400' : 'text-hegra-navy'}`}
+                >
+                    <option value="" disabled>Pilih tiket</option>
+                    {availableTickets.map(ticket => (
+                        <option key={ticket.id} value={ticket.id}>{ticket.name}</option>
+                    ))}
+                </select>
+                
+                {formData.applicableTicketIds && formData.applicableTicketIds.length > 0 && (
+                    <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, applicableTicketIds: [] }))}
+                        className="absolute inset-y-0 right-0 flex items-center pr-8 text-gray-400 hover:text-red-500 transition-colors z-10"
+                        aria-label="Hapus pilihan tiket"
+                    >
+                        <X size={18} />
+                    </button>
+                )}
+
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Jika kosong, kupon akan berlaku untuk semua kategori tiket di event ini.</p>
+            <p id="applicable-tickets-hint" className="text-xs text-gray-500 mt-1">
+                Jika kosong, kupon akan berlaku untuk total transaksi pesanan.
+            </p>
           </div>
 
           <div className="flex flex-col sm:flex-row-reverse gap-3 pt-4 border-t border-gray-200">
@@ -314,12 +274,10 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ isOpen, onClose, onSave
         .custom-scrollbar-modal::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
         .custom-scrollbar-modal::-webkit-scrollbar-thumb { background: var(--hegra-chino, #d0cea9); border-radius: 10px; }
         .custom-scrollbar-modal::-webkit-scrollbar-thumb:hover { background: #b8b495; }
-        select {
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-          background-position: right 0.5rem center;
-          background-repeat: no-repeat;
-          background-size: 1.5em 1.5em;
-          padding-right: 2.5rem;
+        /* Removed generic select styling to allow for custom inline button */
+        select[multiple] {
+          background-image: none;
+          padding-right: 0.75rem;
         }
       `}</style>
     </div>
