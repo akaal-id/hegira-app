@@ -2,10 +2,10 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
 */
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TicketCategoryWithEventInfo, formatEventTime, formatDisplayDate } from '../../HegiraApp';
-import { Edit3, Trash2, AlertTriangle, Globe, Ticket as TicketIcon } from 'lucide-react';
-import DeleteConfirmationModal from './modals/DeleteConfirmationModal';
+import { Edit3, Trash2, Ticket as TicketIcon } from 'lucide-react';
+import DeleteConfirmationModal from './modals/DeleteConfirmationModal'; // New import
 
 interface TicketItemCardDBProps {
   ticket: TicketCategoryWithEventInfo;
@@ -48,34 +48,39 @@ const TicketItemCardDB: React.FC<TicketItemCardDBProps> = ({ ticket, onEdit, onD
   }
 
 
-  const useEventSched = ticket.useEventSchedule === undefined ? true : ticket.useEventSchedule;
+  const scheduleDisplay = useMemo(() => {
+    const useEventSched = ticket.useEventSchedule === undefined ? true : ticket.useEventSchedule;
+    if (useEventSched) {
+      return 'Mengikuti Jadwal Event';
+    }
 
-  let dateStringToFormat = ticket.eventDateDisplay;
-  if (!useEventSched && ticket.ticketStartDate) {
-      // ticket.ticketStartDate and ticket.ticketEndDate are YYYY-MM-DD.
-      // formatDisplayDate expects YYYY/MM/DD, so we replace hyphens.
+    let dateStringToFormat = ticket.eventDateDisplay;
+    if (ticket.ticketStartDate) {
       const startDate = ticket.ticketStartDate.replace(/-/g, '/');
       if (ticket.ticketEndDate && ticket.ticketEndDate !== ticket.ticketStartDate) {
-          const endDate = ticket.ticketEndDate.replace(/-/g, '/');
-          dateStringToFormat = `${startDate} - ${endDate}`;
+        const endDate = ticket.ticketEndDate.replace(/-/g, '/');
+        dateStringToFormat = `${startDate} - ${endDate}`;
       } else {
-          dateStringToFormat = startDate;
+        dateStringToFormat = startDate;
       }
-  }
-  const displayTicketDate = formatDisplayDate(dateStringToFormat);
-
-  let ticketTimeDisplayValue = ticket.eventTimeDisplay; 
-  let ticketTzValue = ticket.eventTimezone;
-
-  if (!useEventSched && ticket.ticketStartTime) {
-    ticketTimeDisplayValue = ticket.ticketStartTime;
-    if (ticket.ticketIsTimeRange && ticket.ticketEndTime) {
-      ticketTimeDisplayValue += ` - ${ticket.ticketEndTime}`;
-    } else if (!ticket.ticketIsTimeRange) {
-      ticketTimeDisplayValue += ` - Selesai`;
     }
-    ticketTzValue = ticket.ticketTimezone || ticket.eventTimezone;
-  }
+    const displayTicketDate = formatDisplayDate(dateStringToFormat);
+
+    let ticketTimeDisplayValue = "Waktu tidak diatur";
+    if (ticket.ticketStartTime) {
+      ticketTimeDisplayValue = ticket.ticketStartTime;
+      if (ticket.ticketIsTimeRange && ticket.ticketEndTime) {
+        ticketTimeDisplayValue += ` - ${ticket.ticketEndTime}`;
+      } else {
+        ticketTimeDisplayValue += ` - Selesai`;
+      }
+    }
+    const displayTicketTime = formatEventTime(ticketTimeDisplayValue, ticket.ticketTimezone || ticket.eventTimezone);
+
+    return `${displayTicketDate}, ${displayTicketTime}`;
+  }, [ticket]);
+
+
 
   const handleDeleteClick = () => {
     setIsDeleteModalOpen(true);
@@ -142,28 +147,23 @@ const TicketItemCardDB: React.FC<TicketItemCardDBProps> = ({ ticket, onEdit, onD
             </div>
             
             <div className="flex justify-between items-center">
-              <span className="text-gray-500">Ketersediaan</span>
-              <span className={`text-xs ${derivedStatusColor}`}>
+              <span className="text-gray-500">Status Ketersediaan</span>
+              <span className={`text-xs font-medium ${derivedStatusColor}`}>
                 {derivedStatusText}
               </span>
+            </div>
+
+            <div className="flex justify-between items-start pt-3 border-t border-gray-100">
+                <span className="text-gray-500 flex-shrink-0">Jadwal Berlaku</span>
+                <span className="font-medium text-right ml-2" title={scheduleDisplay}>
+                    {scheduleDisplay}
+                </span>
             </div>
           </div>
         </div>
         
         <div className="p-5 border-t border-gray-100 mt-auto bg-gray-50/50">
-          <div className="space-y-1.5 text-xs">
-            <div className="flex items-center">
-              <Globe size={14} className="mr-1.5 text-gray-400 flex-shrink-0"/>
-              <span className="text-gray-500">Jadwal Berlaku: {useEventSched ? 'Mengikuti Jadwal Event' : 'Jadwal Khusus'}</span>
-            </div>
-            {!useEventSched && (
-              <div className="pl-5 text-gray-600">
-                <p>Tgl: {displayTicketDate}</p>
-                <p>Waktu: {formatEventTime(ticketTimeDisplayValue, ticketTzValue)}</p>
-              </div>
-            )}
-          </div>
-          <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-baseline">
+          <div className="flex justify-between items-baseline">
             <span className="text-md font-semibold text-hegra-deep-navy">Harga</span>
             <span className="text-xl font-bold text-hegra-yellow">{formatCurrency(ticket.price)}</span>
           </div>

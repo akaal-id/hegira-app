@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState, useMemo, useEffect } from 'react';
-import { UserRole, PageName, EventData, TicketCategory } from '../HegiraApp'; 
-import { Bookmark, Ticket as TicketIconLucide, BarChart2, Settings, PlusCircle, LogOut, LayoutDashboard, Edit3, Users, Info, FileText, UserCircle, ClipboardList, Briefcase, ArrowLeft, ShoppingCart, Search as SearchIcon, UserCog, DollarSign as DollarSignIcon } from 'lucide-react'; 
+import { UserRole, PageName, EventData } from '../HegiraApp'; 
+import { Bookmark, Ticket as TicketIconLucide, ArrowLeft, ShoppingCart, Users, Info, UserCircle, ClipboardList, Briefcase, DollarSign as DollarSignIcon } from 'lucide-react'; 
 import EventCard from '../components/EventCard';
 import EventListPageDB from './dashboard/EventListPageDB'; 
 import CreateEventPageDB from './dashboard/CreateEventPageDB'; 
@@ -16,8 +16,6 @@ import PesananDB from './dashboard/PesananDB';
 import PengunjungDB from './dashboard/PengunjungDB'; 
 import AccountInfoDB from './dashboard/AccountInfoDB'; 
 import DashboardLayout from '../components/dashboard/DashboardLayout'; 
-import EventSelectorCardDB from '../components/dashboard/EventSelectorCardDB';
-import { ChevronLeft, ChevronRight } from 'lucide-react'; 
 import ManajemenCrewPageDB from './dashboard/ManajemenCrewPageDB';
 import PendapatanDB from './dashboard/PendapatanDB'; 
 
@@ -63,8 +61,24 @@ export type DashboardViewId =
   'createEventView' | 'editEventView' | 'detailEventView' | 
   'savedEvents' | 'ticketHistory' | 'manajemenCrew' | 'pendapatan';
 
-// Default sidebar for Creator/Organization
-export const sidebarSectionsCreatorDefault: { title: string; items: { id: DashboardViewId; label: string; icon: React.ElementType; path: string; }[] }[] = [
+// Add these types above your sidebarSectionsCreatorDefault definition
+
+type SidebarSubItem = {
+  id: DashboardViewId;
+  label: string;
+  path: string;
+};
+
+type SidebarItem = {
+  id: DashboardViewId | string; // allow string for parent/section IDs
+  label: string;
+  icon: React.ElementType;
+  path: string;
+  subItems?: SidebarSubItem[];
+};
+
+// Update sidebar sections to use SidebarItem
+export const sidebarSectionsCreatorDefault: { title: string; items: SidebarItem[] }[] = [
     {
       title: 'Manajemen Event',
       items: [
@@ -79,8 +93,7 @@ export const sidebarSectionsCreatorDefault: { title: string; items: { id: Dashbo
     },
 ];
 
-// Visitor sidebar (simplified)
-export const sidebarSectionsVisitor: { title: string; items: { id: DashboardViewId; label: string; icon: React.ElementType; path: string; }[] }[] = [
+export const sidebarSectionsVisitor: { title: string; items: SidebarItem[] }[] = [
   {
     title: 'Aktivitas Saya',
     items: [
@@ -109,8 +122,6 @@ interface DashboardPageProps {
   onUpdateExistingEvent: (updatedEvent: EventData) => void; 
   onOpenRoleSwitchModal: () => void; 
 }
-
-const ITEMS_PER_PAGE_EVENT_SELECTION = 6;
 
 // Larger dataset for creator/organization dashboard event list
 const manyCreatorDashboardEvents = (creatorName: string): EventData[] => [
@@ -352,8 +363,8 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
   const [selectedEventForDataView, setSelectedEventForDataView] = useState<EventData | null>(null); // For PesananDB, PengunjungDB
 
   // State for EventSelectorCardDB when used standalone (not currently with new flow)
-  const [searchTermForEventSelection, setSearchTermForEventSelection] = useState('');
-  const [currentPageForEventSelection, setCurrentPageForEventSelection] = useState(1);
+  // const [searchTermForEventSelection, setSearchTermForEventSelection] = useState('');
+  // const [currentPageForEventSelection, setCurrentPageForEventSelection] = useState(1);
 
 
   const [creatorData, setCreatorData] = useState<CreatorAccountData>({
@@ -372,6 +383,19 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     }
   }, [userName, userRole, creatorData.fullName]);
 
+  const handleEventUpdate = (updatedEvent: EventData) => {
+    // Update the global state in HegiraApp
+    onUpdateExistingEvent(updatedEvent);
+    // Also update the local state to ensure the dashboard UI refreshes immediately
+    // This is crucial for components like TicketManagementPage that update the event
+    // but don't navigate away.
+    if (contextualEventSelected && contextualEventSelected.id === updatedEvent.id) {
+        setContextualEventSelected(updatedEvent);
+    }
+    if (selectedEventForDetail && selectedEventForDetail.id === updatedEvent.id) {
+        setSelectedEventForDetail(updatedEvent);
+    }
+  };
 
   const handleUpdatePhoneNumber = (newPhoneNumber: string) => {
     setCreatorData(prev => ({ ...prev, phoneNumber: newPhoneNumber }));
@@ -411,10 +435,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
           items: [
             { id: 'detailEventView' as DashboardViewId, label: 'Detail Event', icon: Info, path: `/dashboard/event/${contextualEventSelected.id}/detail` },
             { 
-              id: 'ticketsCouponsParent' as any, // Parent ID
+              id: 'ticketsCouponsParent',
               label: 'Tiket & Kupon', 
               icon: TicketIconLucide, 
-              path: '#', // Not a real path
+              path: '#',
               subItems: [
                 { id: 'ticketManagement' as DashboardViewId, label: 'Tiket', path: `/dashboard/event/${contextualEventSelected.id}/tickets` },
                 { id: 'couponManagement' as DashboardViewId, label: 'Kupon', path: `/dashboard/event/${contextualEventSelected.id}/coupons` },
@@ -447,20 +471,20 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     if (contextualEventSelected) {
         const eventNameShort = contextualEventSelected.name.substring(0, 22) + (contextualEventSelected.name.length > 22 ? '...' : '');
         const allItems = currentSidebarSections.flatMap(s => s.items);
-        const parentItem = allItems.find(item => item.subItems?.some(sub => sub.id === viewId));
+        const parentItem = allItems.find((item): item is SidebarItem => !!item && Array.isArray((item as SidebarItem).subItems) && (item as SidebarItem).subItems!.some((sub: SidebarSubItem) => sub.id === viewId));
         if(parentItem) {
-          const subItem = parentItem.subItems?.find(sub => sub.id === viewId);
+          const subItem = parentItem.subItems?.find((sub: SidebarSubItem) => sub.id === viewId);
           if(subItem) return subItem.label;
         }
         
         const kelolaSection = currentSidebarSections.find(section => section.title === eventNameShort);
         if (kelolaSection) {
-            const contextualItem = kelolaSection.items.find(item => item.id === viewId);
+            const contextualItem = kelolaSection.items.find((item): item is SidebarItem => !!item && 'label' in item && 'id' in item && item.id === viewId);
             if (contextualItem) return contextualItem.label;
         }
     }
 
-    const generalItem = currentSidebarSections.flatMap(s => s.items).find(i => i.id === viewId);
+    const generalItem = currentSidebarSections.flatMap(s => s.items).find((i): i is SidebarItem => !!i && 'label' in i && 'id' in i && i.id === viewId);
     if (generalItem) return generalItem.label;
     
     if (viewId === 'detailEventView' && selectedEventForDetail) return `Detail: ${selectedEventForDetail.name.substring(0,25)}...`;
@@ -504,27 +528,11 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
     setActiveView(viewId);
   };
   
-  const handleEventSelectedForDataView = (event: EventData) => {
-    setSelectedEventForDataView(event);
-  };
+  // const handleEventSelectedForDataView = (event: EventData) => { ... };
 
-  const handleBackToEventSelectionForDataView = () => {
-    setSelectedEventForDataView(null);
-  };
+  // const handleBackToEventSelectionForDataView = () => { ... };
   
-  const filteredEventsForSelectionList = useMemo(() => {
-    return allEvents.filter(event =>
-      event.name.toLowerCase().includes(searchTermForEventSelection.toLowerCase()) ||
-      event.location.toLowerCase().includes(searchTermForEventSelection.toLowerCase())
-    );
-  }, [allEvents, searchTermForEventSelection]);
-
-  const totalPagesForEventSelection = Math.ceil(filteredEventsForSelectionList.length / ITEMS_PER_PAGE_EVENT_SELECTION);
-  const currentDisplayEventsForSelection = useMemo(() => {
-    const startIndex = (currentPageForEventSelection - 1) * ITEMS_PER_PAGE_EVENT_SELECTION;
-    return filteredEventsForSelectionList.slice(startIndex, startIndex + ITEMS_PER_PAGE_EVENT_SELECTION);
-  }, [filteredEventsForSelectionList, currentPageForEventSelection]);
-
+  // const filteredEventsForSelectionList = useMemo(() => { ... }, [allEvents, searchTermForEventSelection]);
 
   const renderVisitorDashboardContent = () => {
     switch (activeView) {
@@ -647,7 +655,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
             </div>;
       case 'ticketManagement':
         if (contextualEventSelected) {
-          return <TicketManagementPage selectedEvent={contextualEventSelected} onUpdateEvent={onUpdateExistingEvent} />;
+          return <TicketManagementPage selectedEvent={contextualEventSelected} onUpdateEvent={handleEventUpdate} />;
         }
         return <div>Pilih event untuk mengelola tiket.</div>; // Fallback
       case 'couponManagement':
@@ -720,7 +728,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       activeViewId={activeView}
       currentViewLabel={currentViewLabel}
       sidebarSections={currentSidebarSections}
-      onSelectView={handleSwitchView}
+      onSelectView={(viewId: string, data?: any) => handleSwitchView(viewId as DashboardViewId, data)}
       onNavigate={onNavigate}
       onLogout={onLogout}
       userName={userName} 

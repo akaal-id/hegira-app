@@ -4,7 +4,7 @@
 */
 import React, { useState, useEffect } from 'react';
 import { TicketCategory } from '../../../HegiraApp';
-import { X, Save,DollarSign, List, CheckSquare, AlertTriangle, Info, Calendar, ClockIcon } from 'lucide-react';
+import { X, Save } from 'lucide-react';
 
 type TicketFormData = Omit<TicketCategory, 'id' | 'maxQuantity' | 'availabilityStatus'> & { id?: string; maxQuantity: number }; // maxQuantity is now number, availabilityStatus removed
 
@@ -29,7 +29,7 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
     price: 0,
     description: '',
     maxQuantity: 100, // Default to 100, must be > 0
-    useEventSchedule: false, 
+    useEventSchedule: true, 
     ticketStartDate: '',
     ticketEndDate: '',
     ticketStartTime: '',
@@ -51,7 +51,6 @@ const AddTicketModal: React.FC<AddTicketModalProps> = ({
         id: initialTicketData.id, // Ensure ID is carried over for editing
         categoryLabel: initialTicketData.categoryLabel || '',
         maxQuantity: initialTicketData.maxQuantity === undefined ? 100 : initialTicketData.maxQuantity, // Ensure maxQuantity is a number
-        useEventSchedule: initialTicketData.useEventSchedule === undefined ? false : initialTicketData.useEventSchedule,
         ticketTimezone: initialTicketData.ticketTimezone || (eventTimezone ? (eventTimezone as TicketCategory['ticketTimezone']) : 'WIB'),
         ticketIsTimeRange: initialTicketData.ticketIsTimeRange === undefined ? true : initialTicketData.ticketIsTimeRange,
        });
