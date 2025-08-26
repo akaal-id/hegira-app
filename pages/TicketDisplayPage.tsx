@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { TransactionData, PageName } from '../HegiraApp'; // Renamed import
 import PrintableTicket from '../components/PrintableTicket'; // New import
-import { Download, ArrowLeft, Loader2 } from 'lucide-react';
+import { Download, ArrowLeft, Loader2, Ticket as TicketIcon } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -77,6 +77,66 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
     pdf.save(`Hegira_E-Tiket_${orderId}.pdf`);
     setIsLoading(false);
   };
+
+  const handleViewTicket = async () => {
+    setIsLoading(true);
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const ticketElements = document.querySelectorAll('.printable-ticket-a4');
+    const pdfWidth = 210; // A4 width in mm
+    const pdfHeight = 297; // A4 height in mm
+
+    for (let i = 0; i < ticketElements.length; i++) {
+      const ticketElement = ticketElements[i] as HTMLElement;
+      
+      ticketElement.style.display = 'block';
+      ticketElement.style.opacity = '1';
+
+      try {
+        const canvas = await html2canvas(ticketElement, {
+          scale: 2, 
+          useCORS: true,
+          logging: false, 
+        });
+        
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const aspectRatio = imgProps.width / imgProps.height;
+        
+        let imgWidth = pdfWidth; 
+        let imgHeight = imgWidth / aspectRatio;
+
+        if (imgHeight > pdfHeight) {
+          imgHeight = pdfHeight;
+          imgWidth = imgHeight * aspectRatio;
+        }
+        
+        const xOffset = (pdfWidth - imgWidth) / 2;
+        const yOffset = (pdfHeight - imgHeight) / 2;
+
+        if (i > 0) {
+          pdf.addPage();
+        }
+        pdf.addImage(imgData, 'JPEG', xOffset, yOffset, imgWidth, imgHeight);
+
+      } catch (error) {
+        console.error("Error capturing ticket element:", error);
+        if (i > 0) pdf.addPage();
+        pdf.text("Error rendering ticket.", 10, 10);
+      }
+       ticketElement.style.display = '';
+       ticketElement.style.opacity = '';
+    }
+    
+    // Open PDF in new tab instead of downloading
+    const pdfBlob = pdf.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl, '_blank');
+    
+    // Clean up the URL object after a delay
+    setTimeout(() => URL.revokeObjectURL(pdfUrl), 1000);
+    setIsLoading(false);
+  };
   
   const totalTicketsPurchased = formData.additionalTicketHolders?.length || 0;
 
@@ -91,14 +151,24 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
                 <ArrowLeft size={18} className="mr-2 transform group-hover:-translate-x-1 transition-transform" />
                 Kembali ke Detail Transaksi
             </button>
-            <button
-                onClick={handleDownloadAllTickets}
-                disabled={isLoading || totalTicketsPurchased === 0}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-hegra-yellow text-hegra-navy font-bold py-2.5 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed self-end sm:self-center"
-            >
-                {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
-                {isLoading ? 'Memproses PDF...' : 'Unduh Semua Tiket (PDF)'}
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 self-end sm:self-center">
+                <button
+                    onClick={handleViewTicket}
+                    disabled={isLoading || totalTicketsPurchased === 0}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-hegra-turquoise text-white font-bold py-2.5 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    {isLoading ? <Loader2 size={20} className="animate-spin" /> : <TicketIcon size={20} />}
+                    {isLoading ? 'Memproses PDF...' : 'Lihat Tiket-ku'}
+                </button>
+                <button
+                    onClick={handleDownloadAllTickets}
+                    disabled={isLoading || totalTicketsPurchased === 0}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-hegra-yellow text-hegra-navy font-bold py-2.5 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
+                    {isLoading ? 'Memproses PDF...' : 'Unduh Semua Tiket (PDF)'}
+                </button>
+            </div>
         </div>
         
         {totalTicketsPurchased === 0 && 
@@ -132,7 +202,6 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
                     ticketNumber={ticketNumber}
                     categoryName={categoryName}
                     holderName={holder.fullName}
-                    holderWhatsApp={holder.whatsAppNumber} 
                     event={event}
                     orderId={orderId}
                     transactionId={transactionId}

@@ -153,8 +153,8 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'Beranda', target: 'landing' as PageName },
-    { name: 'Event', target: 'events' as PageName },
+    { name: 'Beranda', target: 'landing' as PageName, url: '/' },
+    { name: 'Event', target: 'events' as PageName, url: '/events' },
     // { name: 'Business Matching', target: 'business' as PageName }, // Removed Business Matching
   ];
 
@@ -162,6 +162,12 @@ const Navbar: React.FC<NavbarProps> = ({
     onNavigate(target);
     setIsMobileMenuOpen(false); 
   };
+
+  // Generate proper URLs for navigation
+  const getEventUrl = () => '/events';
+  const getBusinessUrl = () => '/business';
+  const getHelpUrl = () => '/help';
+  const getLandingUrl = () => '/';
   
   const handleAuthButtonClick = () => { 
     onOpenAuthModal();

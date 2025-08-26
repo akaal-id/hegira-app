@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState, useCallback, useEffect } from 'react';
+import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import EventPage from './pages/EventPage';
@@ -34,6 +35,8 @@ import CompanyDetailPage from './pages/business-matching/CompanyDetailPage';
 import RoleSwitchModal from './components/RoleSwitchModal';
 import OrganizationVerificationModal from './components/auth/OrganizationVerificationModal';
 import { ShoppingCart, Users, UserCog, PlusCircle, AlertTriangle } from 'lucide-react';
+import { generateEventSlug, generateCompanySlug } from './src/routes';
+
 
 
 // Define core data types here or import from a types file
@@ -272,7 +275,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     parkingAvailable: true, ageRestriction: '18+', arrivalInfo: 'Pintu masuk dari Lobby Utara ITC Depok, naik lift ke lantai paling atas.',
     status: 'Aktif', theme: 'Konser Musik', address: 'Jl. Margonda Raya No.56, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431',
     termsAndConditions: 'Dilarang membawa makanan dan minuman dari luar. Dilarang membawa senjata tajam dan obat-obatan terlarang. Tiket yang sudah dibeli tidak dapat dikembalikan.',
-    eventSlug: 'local-soundscape-depok', narahubungName: 'Panitia Soundscape', narahubungPhone: '081200001111', narahubungEmail: 'info@localsound.id'
+    eventSlug: 'local-soundscape-indie-music-night', narahubungName: 'Panitia Soundscape', narahubungPhone: '081200001111', narahubungEmail: 'info@localsound.id'
   },
   {
     id: 2, category: 'B2B', name: 'Creator Connect 2025',
@@ -292,7 +295,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     googleMapsQuery: 'Margo City, Depok',
     parkingAvailable: true, ageRestriction: '17+', arrivalInfo: 'Registrasi di Main Atrium Margo City, lantai dasar.',
     status: 'Aktif', theme: 'Konferensi & Workshop', address: 'Jl. Margonda Raya No.358, Kemiri Muka, Kecamatan Beji, Kota Depok, Jawa Barat 16423',
-    eventSlug: 'creator-connect-2025', narahubungName: 'Tim Hegira Events', narahubungPhone: '081211112222', narahubungEmail: 'events@hegira.com'
+    eventSlug: 'creator-connect-2025-conference', narahubungName: 'Tim Hegira Events', narahubungPhone: '081211112222', narahubungEmail: 'events@hegira.com'
   },
   {
     id: 3, category: 'B2G', name: 'Forum Digitalisasi UMKM Nasional',
@@ -311,7 +314,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     summary: 'Forum pemerintah & UMKM untuk akselerasi transformasi digital.',
     googleMapsQuery: 'Hotel Indonesia Kempinski Jakarta',
     status: 'Draf', theme: 'Forum & Pameran', address: 'Jl. M.H. Thamrin No.1, Menteng, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10310',
-    eventSlug: 'forum-umkm-digital-2025', narahubungName: 'Sekretariat Forum', narahubungPhone: '0215550011', narahubungEmail: 'info@forumumkm.go.id'
+    eventSlug: 'forum-digitalisasi-umkm-nasional-2025', narahubungName: 'Sekretariat Forum', narahubungPhone: '0215550011', narahubungEmail: 'info@forumumkm.go.id'
   },
    {
     id: 4, category: 'B2C', name: 'Pameran Seni Kontemporer "RuangRupa"',
@@ -329,7 +332,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     summary: 'Pameran karya seni kontemporer dari seniman muda Indonesia.',
     googleMapsQuery: 'Galeri Nasional Indonesia',
     status: 'Aktif', theme: 'Pameran Seni', address: 'Jl. Medan Merdeka Tim. No.14, Gambir, Kecamatan Gambir, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10110',
-    eventSlug: 'ruangrupa-art-exhibition', narahubungName: 'Kurator Pameran', narahubungPhone: '085678901234', narahubungEmail: 'ruangrupa@artmail.com'
+    eventSlug: 'pameran-seni-kontemporer-ruangrupa', narahubungName: 'Kurator Pameran', narahubungPhone: '085678901234', narahubungEmail: 'ruangrupa@artmail.com'
   },
   {
     id: 14, category: 'B2C', name: 'Cita Rasa Nusantara Food Festival',
@@ -347,7 +350,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     summary: 'Festival kuliner Nusantara dengan ratusan tenant dan demo masak.',
     googleMapsQuery: 'Lapangan Banteng Jakarta',
     status: 'Aktif', theme: 'Festival Kuliner', address: 'Ps. Baru, Kecamatan Sawah Besar, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta',
-    eventSlug: 'cita-rasa-nusantara-fest', narahubungName: 'Tim Kuliner Hegira', narahubungPhone: '081233334444', narahubungEmail: 'foodfest@hegira.com'
+    eventSlug: 'cita-rasa-nusantara-food-festival', narahubungName: 'Tim Kuliner Hegira', narahubungPhone: '081233334444', narahubungEmail: 'foodfest@hegira.com'
   },
   {
     id: 101, category: 'B2C', name: 'Jakarta Culinary Expo 2025', // Event used in dashboard examples
@@ -381,7 +384,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     summary: 'Turnamen e-sport dengan kualifikasi online dan grand final offline.',
     googleMapsQuery: 'BritAma Arena Jakarta',
     status: 'Selesai', theme: 'Turnamen E-Sport', address: 'Jl. Raya Kelapa Nias, Kelapa Gading Tim., Kec. Klp. Gading, Jkt Utara, Daerah Khusus Ibukota Jakarta 14240',
-    eventSlug: 'hegira-echampions-cup-2025', narahubungName: 'Panitia E-Sport Hegira', narahubungPhone: '089988887777', narahubungEmail: 'esports@hegira.com'
+    eventSlug: 'hegira-echampions-cup-2025-tournament', narahubungName: 'Panitia E-Sport Hegira', narahubungPhone: '089988887777', narahubungEmail: 'esports@hegira.com'
   }
 ];
 
@@ -407,7 +410,11 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
 }));
 
 
-const HegiraApp: React.FC = () => {
+  const HegiraApp: React.FC = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const params = useParams();
+  
   const [currentPage, setCurrentPage] = useState<PageName>('landing');
   const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
   const [checkoutData, setCheckoutData] = useState<CheckoutInfo | null>(null);
@@ -442,6 +449,96 @@ const HegiraApp: React.FC = () => {
 
   const openSubscriptionModal = () => setIsSubscriptionModalOpen(true);
   const closeSubscriptionModal = () => setIsSubscriptionModalOpen(false);
+
+  // Sync current page with URL
+  useEffect(() => {
+    const path = location.pathname;
+    let newPage: PageName = 'landing';
+    
+    if (path === '/' || path === '/beranda') newPage = 'landing';
+    else if (path === '/events') newPage = 'events';
+    else if (path.startsWith('/events/') && path.includes('/checkout')) newPage = 'checkout';
+    else if (path.startsWith('/events/') && path.includes('/payment')) newPage = 'paymentLoading';
+    else if (path.startsWith('/events/') && path.includes('/success')) newPage = 'transactionSuccess';
+    else if (path.startsWith('/events/') && path.includes('/ticket')) newPage = 'ticketDisplay';
+    else if (path.startsWith('/events/')) newPage = 'eventDetail';
+    else if (path === '/business') newPage = 'business';
+    else if (path.startsWith('/business/')) newPage = 'businessDetail';
+    else if (path === '/help') newPage = 'help';
+    else if (path === '/login') newPage = 'login';
+    else if (path === '/signup') newPage = 'signup';
+    else if (path === '/dashboard') newPage = 'dashboard';
+    else if (path === '/dashboard-bm') newPage = 'dashboard';
+    else if (path === '/create-event') newPage = 'createEventInfo';
+    else if (path === '/creator-auth') newPage = 'creatorAuth';
+    else if (path === '/otp') newPage = 'otpInput';
+    else if (path === '/articles') newPage = 'articlesPage';
+    else if (path === '/home') newPage = 'home';
+    
+    if (newPage !== currentPage) {
+      setCurrentPage(newPage);
+    }
+  }, [location.pathname, currentPage]);
+
+  // Handle URL parameters and load data
+  useEffect(() => {
+    const path = location.pathname;
+    
+    // Handle event detail page
+    if (path.startsWith('/events/') && !path.includes('/checkout') && !path.includes('/payment') && !path.includes('/success') && !path.includes('/ticket')) {
+      const eventSlug = params.eventSlug;
+      if (eventSlug) {
+        const event = allEventsData.find(e => e.eventSlug === eventSlug);
+        if (event) {
+          setSelectedEvent(event);
+        }
+      }
+    }
+    
+    // Handle checkout page
+    if (path.includes('/checkout')) {
+      const eventSlug = params.eventSlug;
+      if (eventSlug) {
+        const event = allEventsData.find(e => e.eventSlug === eventSlug);
+        if (event) {
+          // Try to get checkout data from sessionStorage
+          const storedData = sessionStorage.getItem('navigationData');
+          if (storedData) {
+            try {
+              const data = JSON.parse(storedData);
+              if (data.event?.id === event.id) {
+                setCheckoutData(data);
+              }
+            } catch (e) {
+              console.error('Error parsing navigation data:', e);
+            }
+          }
+        }
+      }
+    }
+    
+    // Handle other event-related pages
+    if (path.includes('/payment') || path.includes('/success') || path.includes('/ticket')) {
+      const eventSlug = params.eventSlug;
+      if (eventSlug) {
+        const event = allEventsData.find(e => e.eventSlug === eventSlug);
+        if (event) {
+          // Try to get transaction data from sessionStorage
+          const storedData = sessionStorage.getItem('navigationData');
+          if (storedData) {
+            try {
+              const data = JSON.parse(storedData);
+              if (data.checkoutInfo?.event?.id === event.id) {
+                setTransactionResult(data);
+              }
+            } catch (e) {
+              console.error('Error parsing navigation data:', e);
+            }
+          }
+        }
+      }
+    }
+  }, [location.pathname, params, allEventsData]);
 
   const handleAddNewEvent = (newEvent: EventData) => {
     setAllEventsData(prevEvents => [newEvent, ...prevEvents]);
@@ -490,7 +587,7 @@ const HegiraApp: React.FC = () => {
       if (currentConfirmationTarget.resetCallback) {
         currentConfirmationTarget.resetCallback();
       }
-      navigate(currentConfirmationTarget.page, currentConfirmationTarget.data);
+      navigateToPage(currentConfirmationTarget.page, currentConfirmationTarget.data);
     }
     setIsConfirmationModalOpen(false);
     setCurrentConfirmationTarget(null);
@@ -501,7 +598,7 @@ const HegiraApp: React.FC = () => {
     setCurrentConfirmationTarget(null);
   };
 
-  const navigate = useCallback((page: PageName, data?: any) => {
+  const navigateToPage = useCallback((page: PageName, data?: any) => {
     setIsAppLoading(true);
     setLoadingMessage(page === 'landing' ? 'Kembali ke Beranda...' : `Menuju ${page}...`);
 
@@ -510,7 +607,6 @@ const HegiraApp: React.FC = () => {
         setActiveAuthRole("Event Creator");
         setAuthPageToShow('creatorAuth');
       }
-
 
       if (page === 'eventDetail' && data) {
         setSelectedEvent(data as EventData);
@@ -524,7 +620,6 @@ const HegiraApp: React.FC = () => {
         // setSelectedCompanyForDetail(data as BusinessMatchingCardData);
       }
 
-
       if (page !== 'login' && page !== 'signup' && page !== 'otpInput' && page !== 'creatorAuth' && page !== 'paymentLoading') {
         setAuthPageToShow(null);
         setIsAuthSelectionModalOpen(false);
@@ -535,7 +630,112 @@ const HegiraApp: React.FC = () => {
       setCurrentPage(page);
       setIsAppLoading(false);
     }, 300);
-  }, [transactionResult, isLoggedIn]);
+
+    // Use React Router navigation
+    let path = '/';
+    
+    switch (page) {
+      case 'landing':
+        path = '/';
+        break;
+      case 'events':
+        path = '/events';
+        break;
+      case 'eventDetail':
+        if (data?.eventSlug) {
+          path = `/events/${data.eventSlug}`;
+        } else if (data?.name) {
+          path = `/events/${generateEventSlug(data.name)}`;
+        } else {
+          path = '/events';
+        }
+        break;
+      case 'checkout':
+        if (data?.event?.eventSlug) {
+          path = `/events/${data.event.eventSlug}/checkout`;
+        } else if (data?.event?.name) {
+          path = `/events/${generateEventSlug(data.event.name)}/checkout`;
+        } else {
+          path = '/events';
+        }
+        break;
+      case 'paymentLoading':
+        if (data?.event?.eventSlug) {
+          path = `/events/${data.event.eventSlug}/payment`;
+        } else if (data?.event?.name) {
+          path = `/events/${generateEventSlug(data.event.name)}/payment`;
+        } else {
+          path = '/events';
+        }
+        break;
+      case 'transactionSuccess':
+        if (data?.event?.eventSlug) {
+          path = `/events/${data.event.eventSlug}/success`;
+        } else if (data?.event?.name) {
+          path = `/events/${generateEventSlug(data.event.name)}/success`;
+        } else {
+          path = '/events';
+        }
+        break;
+      case 'ticketDisplay':
+        if (data?.event?.eventSlug) {
+          path = `/events/${data.event.eventSlug}/ticket`;
+        } else if (data?.event?.name) {
+          path = `/events/${generateEventSlug(data.event.name)}/ticket`;
+        } else {
+          path = `/events/${generateEventSlug(data.event.name)}/ticket`;
+        }
+        break;
+      case 'business':
+        path = '/business';
+        break;
+      case 'businessDetail':
+        if (data?.slug) {
+          path = `/business/${data.slug}`;
+        } else if (data?.name) {
+          path = `/business/${generateCompanySlug(data.name)}`;
+        } else {
+          path = '/business';
+        }
+        break;
+      case 'help':
+        path = '/help';
+        break;
+      case 'login':
+        path = '/login';
+        break;
+      case 'signup':
+        path = '/signup';
+        break;
+      case 'dashboard':
+        path = '/dashboard';
+        break;
+      case 'createEventInfo':
+        path = '/create-event';
+        break;
+      case 'creatorAuth':
+        path = '/creator-auth';
+        break;
+      case 'otpInput':
+        path = '/otp';
+        break;
+      case 'articlesPage':
+        path = '/articles';
+        break;
+      case 'home':
+        path = '/home';
+        break;
+      default:
+        path = '/';
+    }
+
+    // Store data in sessionStorage for the next page to access
+    if (data) {
+      sessionStorage.setItem('navigationData', JSON.stringify(data));
+    }
+
+    navigate(path);
+  }, [transactionResult, isLoggedIn, navigate]);
 
 
   const handleLogin = (role: UserRole, name?: string) => {
@@ -552,12 +752,12 @@ const HegiraApp: React.FC = () => {
     setIsAuthSelectionModalOpen(false);
     
     if (postLoginRedirect) {
-      navigate(postLoginRedirect.page, postLoginRedirect.data);
+      navigateToPage(postLoginRedirect.page, postLoginRedirect.data);
       setPostLoginRedirect(null);
     } else if (role === 'creator' || role === 'organization') {
-        navigate('dashboard');
+        navigateToPage('dashboard');
     } else {
-        navigate('landing');
+        navigateToPage('landing');
     }
   };
 
@@ -610,7 +810,7 @@ const HegiraApp: React.FC = () => {
     setActiveAuthRole(role);
     setIsAuthSelectionModalOpen(false);
     if (role === "Event Creator") {
-      navigate('creatorAuth');
+      navigateToPage('creatorAuth');
     } else {
       setAuthPageToShow('login');
     }
@@ -662,7 +862,7 @@ const HegiraApp: React.FC = () => {
     setIsRoleSwitchModalOpen(false);
     setIsOrganizationVerificationModalOpen(false);
     setPostLoginRedirect(null); // Clear redirect on close
-    navigate('landing');
+          navigateToPage('landing');
   };
 
   const handleSwitchToSignup = () => {
@@ -709,7 +909,7 @@ const HegiraApp: React.FC = () => {
         orderId: newOrderId,
     };
     setTransactionResult(newTransactionData);
-    navigate('paymentLoading');
+    navigateToPage('paymentLoading', { event: checkoutDataWithFinalPrice.event });
   };
 
   const loggedInUserEmail = userEmailForOtpContext || (isLoggedIn ? `${userRole}@hegira.com` : '');
@@ -725,21 +925,21 @@ const HegiraApp: React.FC = () => {
     if (isAppLoading && currentPage !== 'paymentLoading') return <FullScreenLoader />;
     
     switch (currentPage) {
-      case 'landing': return <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
-      case 'events': return <EventPage events={allEventsData.filter(e => e.status === 'Aktif')} onNavigate={navigate} />;
-      case 'business': return <BusinessMatchingPage onNavigate={navigate} />;
+      case 'landing': return <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
+      case 'events': return <EventPage events={allEventsData.filter(e => e.status === 'Aktif')} onNavigate={navigateToPage} />;
+      case 'business': return <BusinessMatchingPage onNavigate={navigateToPage} />;
       case 'help': return <HelpPage />;
       case 'dashboard':
         if (!isLoggedIn || !userRole) {
-          navigate('landing'); return null;
+          navigateToPage('landing'); return null;
         }
         if (userRole === 'organization') {
-          return <BusinessMatchingDashboardPage onNavigate={navigate} onLogout={handleLogout} userName={userName} userRole={userRole} onOpenRoleSwitchModal={() => setIsRoleSwitchModalOpen(true)} />;
+          return <BusinessMatchingDashboardPage onNavigate={navigateToPage} onLogout={handleLogout} userName={userName} userRole={userRole} onOpenRoleSwitchModal={() => setIsRoleSwitchModalOpen(true)} />;
         } else {
-          return <DashboardPage
+                      return <DashboardPage
                     userRole={userRole}
                     userName={userName}
-                    onNavigate={navigate}
+                    onNavigate={navigateToPage}
                     onLogout={handleLogout}
                     allEvents={allEventsData}
                     onAddNewEvent={handleAddNewEvent}
@@ -749,27 +949,27 @@ const HegiraApp: React.FC = () => {
                     onOpenRoleSwitchModal={() => setIsRoleSwitchModalOpen(true)}
                   />;
         }
-      case 'eventDetail': return selectedEvent ? <EventDetailPage event={selectedEvent} onNavigate={navigate} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation}/> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
-      case 'checkout': return checkoutData ? <CheckoutPage checkoutInfo={checkoutData} eventForBackNav={checkoutData.event} onNavigate={navigate} onProcessPayment={handleProcessPayment} isLoggedIn={isLoggedIn} loggedInUserData={loggedInUserData} onOpenLoginModal={(role) => handleOpenAuthModal(role, { page: 'checkout', data: checkoutData })} formatDisplayDate={formatDisplayDate} formatEventTime={formatEventTime} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
-      case 'paymentLoading': return transactionResult ? <PaymentLoadingPage onNavigate={navigate} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation} checkoutInfoToReturnTo={transactionResult.checkoutInfo} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
-      case 'transactionSuccess': return transactionResult ? <TransactionSuccessPage transactionData={transactionResult} onNavigate={navigate} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
-      case 'ticketDisplay': return transactionResult ? <TicketDisplayPage transactionData={transactionResult} onNavigate={navigate}/> : <LandingPage heroEvents={allEventsData.slice(0,3)} featuredEvents={allEventsData.slice(0,6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
-      case 'createEventInfo': return <CreateEventInfoPage onNavigate={navigate} onOpenAuthModal={() => handleOpenAuthModal()} isLoggedIn={isLoggedIn} userRole={userRole} />;
-      case 'articlesPage': return <ArticleListPage onNavigate={navigate} />;
-      case 'businessDetail': return selectedEvent ? <CompanyDetailPage company={selectedEvent as unknown as BusinessMatchingCardData} onNavigate={navigate} /> : <BusinessMatchingPage onNavigate={navigate} />;
+      case 'eventDetail': return selectedEvent ? <EventDetailPage event={selectedEvent} onNavigate={navigateToPage} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation}/> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
+      case 'checkout': return checkoutData ? <CheckoutPage checkoutInfo={checkoutData} eventForBackNav={checkoutData.event} onNavigate={navigateToPage} onProcessPayment={handleProcessPayment} isLoggedIn={isLoggedIn} loggedInUserData={loggedInUserData} onOpenLoginModal={(role) => handleOpenAuthModal(role, { page: 'checkout', data: checkoutData })} formatDisplayDate={formatDisplayDate} formatEventTime={formatEventTime} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
+      case 'paymentLoading': return transactionResult ? <PaymentLoadingPage onNavigate={navigateToPage} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation} checkoutInfoToReturnTo={transactionResult.checkoutInfo} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
+      case 'transactionSuccess': return transactionResult ? <TransactionSuccessPage transactionData={transactionResult} onNavigate={navigateToPage} /> : <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
+      case 'ticketDisplay': return transactionResult ? <TicketDisplayPage transactionData={transactionResult} onNavigate={navigateToPage}/> : <LandingPage heroEvents={allEventsData.slice(0,3)} featuredEvents={allEventsData.slice(0,6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
+      case 'createEventInfo': return <CreateEventInfoPage onNavigate={navigateToPage} onOpenAuthModal={() => handleOpenAuthModal()} isLoggedIn={isLoggedIn} userRole={userRole} />;
+      case 'articlesPage': return <ArticleListPage onNavigate={navigateToPage} />;
+      case 'businessDetail': return selectedEvent ? <CompanyDetailPage company={selectedEvent as unknown as BusinessMatchingCardData} onNavigate={navigateToPage} /> : <BusinessMatchingPage onNavigate={navigateToPage} />;
       case 'creatorAuth':
         if (authPageToShow === 'otpInput' && activeAuthRole && activeAuthRole !== "Event Visitor") {
             return null;
         }
         return <CreatorAuthPage
                   initialMode="signup"
-                  onNavigate={navigate}
+                  onNavigate={navigateToPage}
                   onLoginSuccess={(name) => handleLogin('creator', name)}
                   onSignupSuccess={handleGenericSignupSuccess}
                />;
       case 'otpInput':
         if (authPageToShow !== 'otpInput' || !userEmailForOtpContext) {
-          navigate('landing');
+          navigateToPage('landing');
           return null;
         }
         return <OtpInputPage
@@ -778,10 +978,10 @@ const HegiraApp: React.FC = () => {
                     onVerifySuccess={handleOtpVerificationSuccess}
                     onResendOtp={handleResendOtp}
                     onChangeEmail={handleChangeEmailForOtp}
-                    onNavigate={navigate}
+                    onNavigate={navigateToPage}
                 />;
-      case 'home': return <Home onNavigate={navigate} />;
-      default: return <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigate} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
+      case 'home': return <Home onNavigate={navigateToPage} />;
+      default: return <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
     }
   };
   
@@ -801,7 +1001,7 @@ const HegiraApp: React.FC = () => {
     <>
       {!hideNavbar && (
         <Navbar
-          onNavigate={navigate}
+          onNavigate={navigateToPage}
           currentPage={currentPage}
           isLoggedIn={isLoggedIn}
           userRole={userRole!}
@@ -815,9 +1015,9 @@ const HegiraApp: React.FC = () => {
         {renderPage()}
       </div>
       {!hideFooter && (
-        <Footer onNavigate={navigate} currentPage={currentPage} />
+        <Footer onNavigate={navigateToPage} currentPage={currentPage} />
       )}
-      {!hideNavbar && <FloatingHelpButton onNavigate={navigate} />}
+      {!hideNavbar && <FloatingHelpButton onNavigate={navigateToPage} />}
 
       {isAuthSelectionModalOpen && (
         <AuthSelectionModal
@@ -864,7 +1064,7 @@ const HegiraApp: React.FC = () => {
             onVerifySuccess={handleOtpVerificationSuccess}
             onResendOtp={handleResendOtp}
             onChangeEmail={handleChangeEmailForOtp}
-            onNavigate={navigate}
+            onNavigate={navigateToPage}
         />
        )}
 

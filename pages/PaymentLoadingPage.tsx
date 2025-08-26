@@ -21,11 +21,11 @@ const PaymentLoadingPage: React.FC<PaymentLoadingPageProps> = ({
   useEffect(() => {
     const processingTime = Math.random() * 2000 + 3000; // 3-5 seconds
     const timer = setTimeout(() => {
-      onNavigate('transactionSuccess');
+      onNavigate('transactionSuccess', { event: checkoutInfoToReturnTo.event });
     }, processingTime);
 
     return () => clearTimeout(timer);
-  }, [onNavigate]);
+  }, [onNavigate, checkoutInfoToReturnTo.event]);
 
   const handleCancelPayment = () => {
     // HegiraApp's modal will use a generic message, or we can customize it

@@ -5,6 +5,9 @@
 import React, { useState, useEffect } from 'react';
 import { TransactionData, PageName, formatEventTime, formatDisplayDate } from '../HegiraApp'; // Renamed import
 import { CheckCircle, QrCode, Mail, MessageCircle as WhatsAppIcon, Phone, CalendarDays, MapPin, User, Info, Download, Home as HomeIcon, X, Ticket, Eye, Clock, CalendarPlus } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import QRCode from 'qrcode';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
@@ -130,6 +133,7 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
   const [showSuccessToast, setShowSuccessToast] = useState(true);
   const [toastOpacity, setToastOpacity] = useState(0);
   const [canAddToCalendar, setCanAddToCalendar] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   useEffect(() => {
     let hideTimer: number;
@@ -155,7 +159,29 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
     } else {
       setCanAddToCalendar(false);
     }
-  }, [event.dateDisplay, event.timeDisplay, event.timezone]);
+    
+    // Generate main QR code
+    const generateMainQR = async () => {
+      try {
+        const qrCanvas = document.getElementById('mainQrCode') as HTMLCanvasElement;
+        if (qrCanvas) {
+          await QRCode.toCanvas(qrCanvas, `${transactionId} | ${event.name} | ${formData.fullName}`, {
+            width: 128,
+            margin: 2,
+            color: {
+              dark: '#18093B',
+              light: '#FFFFFF'
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error generating main QR code:', error);
+      }
+    };
+    
+    // Wait for DOM to be ready
+    setTimeout(generateMainQR, 100);
+  }, [event.dateDisplay, event.timeDisplay, event.timezone, transactionId, event.name, formData.fullName]);
 
   const handleAddToCalendar = () => {
     const parsedDate = parseDateString(event.dateDisplay);
@@ -207,8 +233,171 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
   
   const totalTicketsPurchased = selectedTickets.reduce((sum, ticket) => sum + ticket.quantity, 0);
 
-  const handleViewMyTickets = () => {
-    onNavigate('ticketDisplay', transactionData);
+  const handleViewMyTickets = async () => {
+    setIsGeneratingPDF(true);
+    // Generate PDF and open in new tab
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    
+    // Create a temporary container for the ticket
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '0';
+    tempContainer.style.width = '210mm';
+    tempContainer.style.height = '297mm';
+    tempContainer.style.padding = '8mm';
+    tempContainer.style.boxSizing = 'border-box';
+    tempContainer.style.backgroundColor = 'white';
+    tempContainer.style.fontFamily = '"Plus Jakarta Sans", sans-serif';
+    tempContainer.style.color = '#18093b';
+    tempContainer.style.display = 'flex';
+    tempContainer.style.flexDirection = 'column';
+    
+    // Add ticket content
+    tempContainer.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 6mm; margin-bottom: 6mm; border-bottom: 0.5px solid #e5e7eb;">
+        <div>
+          <img src="/image/hegiralogo.png" alt="Hegira Logo" style="height: 56px; width: auto;" />
+          <p style="font-size: 9pt; color: #4b5563; margin-top: 1.5mm;">Tiket Resmi Diterbitkan oleh Hegira</p>
+        </div>
+        <div style="text-align: right; max-width: 60%;">
+          <h1 style="font-size: 18pt; font-weight: bold; line-height: 1.2; color: #18093b; margin-bottom: 1mm;">${event.name}</h1>
+          ${event.summary ? `<p style="font-size: 9pt; color: #4b5563; word-break: break-word;">${event.summary}</p>` : ''}
+        </div>
+      </div>
+      
+      <div style="flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm;">
+        <div style="display: flex; flex-direction: column;">
+          <div style="text-align: center; padding: 3mm; border: 0.5px solid #d1d5db; border-radius: 3mm; background-color: #f9fafb;">
+            <div style="margin: 0 auto; width: 38mm; height: 38mm; display: flex; align-items: center; justify-content: center; background-color: white; border-radius: 2mm; border: 0.5px solid #ccc;">
+              <canvas id="qrCanvas" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            <p style="font-size: 8pt; color: #6b7280; margin-top: 2mm; text-transform: uppercase;">Nomor Tiket</p>
+            <p style="font-size: 11pt; font-weight: 600; letter-spacing: 0.03em; word-break: break-all; color: #18093b;">${orderId}</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 3mm;">
+          <div style="padding: 3mm; border: 1px solid #4b998e; border-radius: 3mm; background-color: rgba(75,153,142,0.05);">
+            <p style="font-size: 8pt; color: #4b998e; font-weight: 500; text-transform: uppercase; margin-bottom: 1mm;">Kategori Tiket</p>
+            <p style="font-size: 14pt; font-weight: bold; color: #4b998e; margin-bottom: 1mm;">${selectedTickets.map(t => t.categoryName).join(', ')}</p>
+          </div>
+          
+          <div>
+            <h3 style="font-size: 10pt; font-weight: 600; color: #18093b; margin-bottom: 1.5mm; border-bottom: 0.5px solid #eee; padding-bottom: 1mm;">Data Pemesan</h3>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">Nama:</span>
+              <span style="color: #18093b;">${formData.fullName}</span>
+            </div>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">Email:</span>
+              <span style="color: #18093b;">${formData.email}</span>
+            </div>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">Telepon:</span>
+              <span style="color: #18093b;">${formData.phoneNumber}</span>
+            </div>
+          </div>
+          
+          <div>
+            <h3 style="font-size: 10pt; font-weight: 600; color: #18093b; margin-bottom: 1.5mm; border-bottom: 0.5px solid #eee; padding-bottom: 1mm;">Informasi Event</h3>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">Tanggal:</span>
+              <span style="color: #18093b;">${formatDisplayDate(event.dateDisplay)}</span>
+            </div>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">Waktu:</span>
+              <span style="color: #18093b;">${formatEventTime(event.timeDisplay, event.timezone)}</span>
+            </div>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">Lokasi:</span>
+              <span style="color: #18093b;">${event.location}</span>
+            </div>
+          </div>
+          
+          <div>
+            <h3 style="font-size: 10pt; font-weight: 600; color: #18093b; margin-bottom: 1.5mm; border-bottom: 0.5px solid #eee; padding-bottom: 1mm;">Detail Pesanan</h3>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">ID Pesanan:</span>
+              <span style="color: #18093b;">${orderId}</span>
+            </div>
+            <div style="font-size: 9pt; margin-bottom: 1.5mm;">
+              <span style="font-weight: 500; color: #374151; margin-right: 1mm;">ID Transaksi:</span>
+              <span style="color: #18093b;">${transactionId}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: auto; padding-top: 6mm; border-top: 0.5px solid #e5e7eb; font-size: 7.5pt; color: #6b7280; text-align: center;">
+        <p>E-tiket ini adalah bukti sah untuk memasuki event. Harap simpan dengan baik. Dilarang menggandakan tiket ini. Syarat dan ketentuan berlaku.</p>
+        <p style="margin-top: 1mm;">&copy; ${new Date().getFullYear()} Hegira Event Platform. Info lebih lanjut: www.hegira.id</p>
+        ${event.organizerName ? `<p style="margin-top: 0.5mm;">Diselenggarakan oleh: ${event.organizerName}</p>` : ''}
+      </div>
+    `;
+    
+    document.body.appendChild(tempContainer);
+    
+    // Generate QR code for the ticket
+    try {
+      const qrCanvas = tempContainer.querySelector('#qrCanvas') as HTMLCanvasElement;
+      if (qrCanvas) {
+        await QRCode.toCanvas(qrCanvas, `${orderId} | ${event.name} | ${formData.fullName}`, {
+          width: 120,
+          margin: 2,
+          color: {
+            dark: '#18093B',
+            light: '#FFFFFF'
+          }
+        });
+      }
+    } catch (qrError) {
+      console.error('Error generating QR code:', qrError);
+    }
+    
+    try {
+      const canvas = await html2canvas(tempContainer, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
+      const imgProps = pdf.getImageProperties(imgData);
+      const aspectRatio = imgProps.width / imgProps.height;
+      
+      const pdfWidth = 210;
+      const pdfHeight = 297;
+      
+      let imgWidth = pdfWidth;
+      let imgHeight = imgWidth / aspectRatio;
+      
+      if (imgHeight > pdfHeight) {
+        imgHeight = pdfHeight;
+        imgWidth = imgHeight * aspectRatio;
+      }
+      
+      const xOffset = (pdfWidth - imgWidth) / 2;
+      const yOffset = (pdfHeight - imgHeight) / 2;
+      
+      pdf.addImage(imgData, 'JPEG', xOffset, yOffset, imgWidth, imgHeight);
+      
+      // Open PDF in new tab
+      const pdfBlob = pdf.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl, '_blank');
+      
+      // Clean up the URL object after a delay
+      setTimeout(() => URL.revokeObjectURL(pdfUrl), 1000);
+      
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
+    } finally {
+      // Clean up temporary container
+      document.body.removeChild(tempContainer);
+      setIsGeneratingPDF(false);
+    }
   };
 
   return (
@@ -250,7 +439,7 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
 
               <div className="mb-6 p-4 border border-dashed border-gray-300 rounded-lg text-center bg-gray-50">
                 <h3 className="text-lg font-jakarta font-medium text-hegra-navy mb-2">Pindai untuk Masuk Event</h3>
-                <QrCode size={128} className="mx-auto text-hegra-navy my-4" /> 
+                <canvas id="mainQrCode" className="mx-auto my-4" style={{ width: '128px', height: '128px' }} />
                 <p className="text-xs text-gray-500">Tunjukkan kode ini saat memasuki area event. Detail per tiket dapat dilihat di "Lihat Tiket-ku".</p>
               </div>
               
@@ -378,9 +567,19 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                   <div className="space-y-3 mt-6">
                     <button
                       onClick={handleViewMyTickets}
-                      className="w-full flex items-center justify-center gap-2 bg-hegra-yellow text-hegra-navy font-semibold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-colors"
+                      disabled={isGeneratingPDF}
+                      className="w-full flex items-center justify-center gap-2 bg-hegra-yellow text-hegra-navy font-semibold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <Eye size={18} /> Lihat Tiket-ku
+                      {isGeneratingPDF ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-hegra-navy"></div>
+                          Membuat PDF...
+                        </>
+                      ) : (
+                        <>
+                          <Eye size={18} /> Lihat Tiket-ku (PDF)
+                        </>
+                      )}
                     </button>
                     <button
                       onClick={handleDownloadTicket} 
@@ -440,9 +639,19 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
               </div>
               <button
                   onClick={handleViewMyTickets}
-                  className="bg-hegra-yellow text-hegra-navy font-semibold py-2.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-1.5 text-sm"
+                  disabled={isGeneratingPDF}
+                  className="bg-hegra-yellow text-hegra-navy font-semibold py-2.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-1.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                  <Eye size={16} /> Lihat Tiket-ku
+                  {isGeneratingPDF ? (
+                    <>
+                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-hegra-navy"></div>
+                      Membuat PDF...
+                    </>
+                  ) : (
+                    <>
+                      <Eye size={16} /> Lihat Tiket-ku (PDF)
+                    </>
+                  )}
               </button>
           </div>
 

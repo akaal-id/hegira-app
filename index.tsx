@@ -4,14 +4,14 @@
 */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import HegiraApp from './HegiraApp'; // Corrected import path
+import App from './src/App'; // Use the new App component with React Router
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <HegiraApp /> {/* Component name is HegiraApp, matching export */}
+      <App />
     </React.StrictMode>
   );
 } else {
