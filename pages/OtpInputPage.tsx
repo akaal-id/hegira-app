@@ -187,7 +187,7 @@ const OtpInputPage: React.FC<OtpInputPageProps> = ({
           ) : (
             <KeyRound size={18} className="mr-2" />
           )}
-          {isLoading ? "Memverifikasi..." : "Verifikasi Kode"}
+                          {isLoading ? "Verifying..." : "Verify Code"}
         </button>
 
         <div className="text-xs text-gray-500 space-y-1.5">

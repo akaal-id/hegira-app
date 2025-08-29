@@ -74,7 +74,7 @@ export const UserMenuButton: React.FC<UserMenuButtonProps> = ({
   const userMenuButtonActiveStyles = `bg-hegra-turquoise/10 text-hegra-turquoise border border-hegra-turquoise hover:bg-hegra-turquoise/20`;
   const userMenuButtonInactiveStyles = `text-hegra-deep-navy hover:bg-hegra-turquoise/5`;
 
-  const primaryNavText = context === 'dashboard' ? "Beranda" : "Dashboard";
+  const primaryNavText = context === 'dashboard' ? "Home" : "Dashboard";
   const PrimaryNavIcon = context === 'dashboard' ? Home : LayoutDashboard;
 
 
@@ -153,9 +153,9 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { name: 'Beranda', target: 'landing' as PageName, url: '/' },
-    { name: 'Event', target: 'events' as PageName, url: '/events' },
-    // { name: 'Business Matching', target: 'business' as PageName }, // Removed Business Matching
+    { name: 'Home', target: 'landing' as PageName, url: '/' },
+    { name: 'Events', target: 'events' as PageName, url: '/events' },
+    { name: 'Business Matching', target: 'business' as PageName }, // Uncommented Business Matching
   ];
 
   const handleLinkClick = (target: PageName) => {
@@ -203,10 +203,10 @@ const Navbar: React.FC<NavbarProps> = ({
 
 
   // Dynamic button text and styles for LOGGED IN users (Visitor/Kreator/Organisasi)
-  let dynamicButtonText = "Ganti Peran"; // Default if something is off
+  let dynamicButtonText = "Switch Role"; // Default if something is off
   let DynamicButtonIcon = Users;    
   let dynamicButtonStyles = `bg-gray-200 text-gray-700 border border-gray-300 hover:bg-gray-300`; 
-  let dynamicButtonAriaLabel = "Ganti Peran Pengguna";
+  let dynamicButtonAriaLabel = "Switch User Role";
   const baseModeButtonStyles = `px-5 py-2.5 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-colors`;
 
   if (isLoggedIn) {
@@ -217,15 +217,15 @@ const Navbar: React.FC<NavbarProps> = ({
         dynamicButtonStyles = `bg-hegra-turquoise/10 text-hegra-turquoise border border-hegra-turquoise hover:bg-hegra-turquoise/20 ${baseModeButtonStyles}`;
         break;
       case 'creator':
-        dynamicButtonText = "Kreator";
+        dynamicButtonText = "Creator";
         dynamicButtonStyles = `bg-hegra-yellow/10 text-hegra-navy border border-hegra-yellow hover:bg-hegra-yellow/20 ${baseModeButtonStyles}`;
         break;
       case 'organization':
-        dynamicButtonText = "Organisasi";
+        dynamicButtonText = "Organization";
         dynamicButtonStyles = `bg-hegra-chino/10 text-hegra-navy border border-hegra-chino hover:bg-hegra-chino/20 ${baseModeButtonStyles}`;
         break;
       default: 
-        dynamicButtonText = "Ganti Peran"; 
+        dynamicButtonText = "Switch Role"; 
         dynamicButtonStyles = `bg-gray-200 text-gray-700 border border-gray-300 hover:bg-gray-300 ${baseModeButtonStyles}`; 
         break;
     }
@@ -242,7 +242,7 @@ const Navbar: React.FC<NavbarProps> = ({
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <button onClick={() => handleLinkClick('landing')} aria-label="Hegira Beranda" className="focus:outline-none">
+                              <button onClick={() => handleLinkClick('landing')} aria-label="Hegira Home" className="focus:outline-none">
               <Logo 
                 className={`font-bold italic text-2xl h-9 sm:h-10 w-auto transition-colors duration-300 ${logoTextColor}`} 
                 useGradient={false} 
@@ -293,16 +293,16 @@ const Navbar: React.FC<NavbarProps> = ({
                           onNavigate('createEventInfo');
                       }}
                       className={createEventNotLoggedInStyles}
-                      aria-label="Buat Event"
+                      aria-label="Create Event"
                   >
-                      <PlusCircle size={18} /> Buat Event
+                      <PlusCircle size={18} /> Create Event
                   </button>
                   <button
                       onClick={handleAuthButtonClick} 
                       className={authButtonStyles}
-                      aria-label="Masuk atau Daftar" 
+                      aria-label="Login or Register" 
                   >
-                      <UserCircle size={18} className="text-hegra-turquoise" /> Masuk / Daftar
+                      <UserCircle size={18} className="text-hegra-turquoise" /> Login / Register
                   </button>
                 </>
              )}
@@ -316,7 +316,7 @@ const Navbar: React.FC<NavbarProps> = ({
                           ${mobileIconColor}`}
               aria-controls="mobile-menu"
               aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? "Tutup menu" : "Buka menu"}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMobileMenuOpen ? <X className="block h-7 w-7" /> : <Menu className="block h-7 w-7" />}
             </button>
@@ -368,16 +368,16 @@ const Navbar: React.FC<NavbarProps> = ({
                         setIsMobileMenuOpen(false);
                     }}
                     className={createEventNotLoggedInMobileStyles}
-                    aria-label="Buat Event"
+                    aria-label="Create Event"
                 >
-                    <PlusCircle size={18} /> Buat Event
+                    <PlusCircle size={18} /> Create Event
                 </button>
                 <button
                   onClick={handleAuthButtonClick} 
                   className={`w-full text-center ${authButtonStyles} py-3`}
-                  aria-label="Masuk atau Daftar" 
+                  aria-label="Login or Register" 
                 >
-                  <UserCircle size={18} className="text-hegra-turquoise" /> Masuk / Daftar
+                  <UserCircle size={18} className="text-hegra-turquoise" /> Login / Register
                 </button>
               </>
             )}

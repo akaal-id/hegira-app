@@ -14,16 +14,16 @@ const CompanyAboutSection: React.FC<CompanyAboutSectionProps> = ({ description, 
   return (
     <section aria-labelledby="about-company-title" className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
       <h2 id="about-company-title" className="text-xl font-semibold text-hegra-deep-navy mb-3">
-        Tentang Perusahaan
+        About Company
       </h2>
       <div 
         className="prose prose-sm max-w-none text-gray-700 mb-6"
-        dangerouslySetInnerHTML={{ __html: description || '<p>Deskripsi perusahaan belum tersedia.</p>' }}
+        dangerouslySetInnerHTML={{ __html: description || '<p>Company description not available.</p>' }}
       />
 
       {specializations && specializations.length > 0 && (
         <div>
-          <h3 className="text-md font-semibold text-hegra-deep-navy mb-2.5">Spesialisasi & Keunggulan:</h3>
+          <h3 className="text-md font-semibold text-hegra-deep-navy mb-2.5">Specializations & Strengths:</h3>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
             {specializations.map((spec, index) => (
               <li key={index} className="flex items-center text-sm text-gray-700">

@@ -96,7 +96,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
   const [showBackConfirmModal, setShowBackConfirmModal] = useState(false);
   const [backConfirmStep, setBackConfirmStep] = useState(1);
-  const [backModalConfig, setBackModalConfig] = useState({ title: '', message: '', confirmText: 'Ya', cancelText: 'Tidak' });
+  const [backModalConfig, setBackModalConfig] = useState({ title: '', message: '', confirmText: 'Yes', cancelText: 'No' });
 
   // New states for Checkout Confirmation Modal
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -171,17 +171,17 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
   const validateEmail = (email: string): boolean => {
     if (!email) {
-      setEmailError("Email tidak boleh kosong.");
+              setEmailError("Email cannot be empty.");
       return false;
     }
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(email)) {
-      setEmailError("Format email tidak valid.");
+              setEmailError("Email format is not valid.");
       return false;
     }
     const domain = email.substring(email.lastIndexOf('@') + 1).toLowerCase();
     if (DISALLOWED_EMAIL_DOMAINS.includes(domain)) {
-      setEmailError("Domain email tidak diizinkan. Harap gunakan email permanen.");
+              setEmailError("Email domain not allowed. Please use a permanent email.");
       return false;
     }
     setEmailError(null);
@@ -190,7 +190,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
   const validatePhoneNumber = (number: string): boolean => {
     if (!number) {
-      setPhoneError("Nomor telepon tidak boleh kosong.");
+              setPhoneError("Phone number cannot be empty.");
       return false;
     }
     if (number.length < MIN_PHONE_DIGITS) {
@@ -235,7 +235,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
         const discountAmount = originalTotalPrice * 0.10;
         setDiscountedPrice(originalTotalPrice - discountAmount);
         setCouponApplied(true);
-        alert("Kupon DISKON10 berhasil diterapkan! Anda mendapat diskon 10%.");
+        alert("Coupon DISKON10 successfully applied! You get a 10% discount.");
     } else if (couponCode.trim() === "") {
         setDiscountedPrice(null);
         setCouponApplied(false);
@@ -243,7 +243,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
     } else {
         setDiscountedPrice(null);
         setCouponApplied(false);
-        alert("Kode kupon tidak valid.");
+        alert("Invalid coupon code.");
     }
   };
   
@@ -266,7 +266,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
     }
 
     if (ticketHoldersData.some((holder, index) => !syncWithBookerFlags[index] && (!holder.fullName || !holder.whatsAppNumber))) {
-        alert("Harap lengkapi semua data pemegang tiket yang tidak disinkronkan dari data pemesan.");
+        alert("Please complete all ticket holder data that is not synchronized from the booker's data.");
         return;
     }
 
@@ -303,10 +303,10 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
     if (isFormDirty()) {
       setBackConfirmStep(1);
       setBackModalConfig({
-        title: "Kembali ke Detail Event?",
-        message: "Data formulir yang sudah Anda isi akan hilang. Apakah Anda yakin ingin melanjutkan?",
-        confirmText: "Ya, Lanjutkan",
-        cancelText: "Tidak, Tetap di Sini"
+        title: "Return to Event Detail?",
+        message: "The form data you have filled in will be lost. Are you sure you want to continue?",
+        confirmText: "Yes, Continue",
+        cancelText: "No, Stay Here"
       });
       setShowBackConfirmModal(true);
     } else {
@@ -318,10 +318,10 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
     if (backConfirmStep === 1) {
       setBackConfirmStep(2);
       setBackModalConfig({
-        title: "Konfirmasi Kembali Sekali Lagi",
-        message: "Ini akan MENGHAPUS SEMUA data yang telah Anda masukkan dan Anda akan kembali ke halaman detail event. Apakah Anda benar-benar yakin?",
-        confirmText: "Ya, Hapus & Kembali",
-        cancelText: "Tidak, Batalkan"
+        title: "Confirm Return Once More",
+        message: "This will DELETE ALL the data you have entered and you will return to the event detail page. Are you absolutely sure?",
+        confirmText: "Yes, Delete & Return",
+        cancelText: "No, Cancel"
       });
     } else if (backConfirmStep === 2) {
       setShowBackConfirmModal(false);
@@ -349,7 +349,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
             className="flex items-center text-sm text-hegra-turquoise hover:text-hegra-navy font-semibold transition-colors group"
           >
             <ArrowLeft size={18} className="mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Kembali ke Detail Event
+                            Return to Event Detail
           </button>
         </div>
 
@@ -391,7 +391,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
               </div>
 
               <div className="space-y-3 mb-6">
-                <h4 className="text-md font-jakarta font-semibold text-hegra-navy">Tiket yang Dipilih:</h4>
+                <h4 className="text-md font-jakarta font-semibold text-hegra-navy">Selected Tickets:</h4>
                 {selectedTickets.map(ticket => (
                   <div key={ticket.categoryId} className="flex justify-between items-center text-sm p-3 bg-gray-50 rounded-md">
                     <div>
@@ -425,7 +425,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   </button>
                 </div>
                 {couponApplied && discountedPrice !== null && (
-                  <p className="text-xs text-green-600 mt-1">Kupon diterapkan! Diskon 10%.</p>
+                  <p className="text-xs text-green-600 mt-1">Coupon applied! 10% discount.</p>
                 )}
               </div>
 
@@ -437,7 +437,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                   </div>
                 )}
                 <div className="flex justify-between items-center text-lg font-bold mt-1">
-                  <span className="text-hegra-navy">Total Pembayaran:</span>
+                  <span className="text-hegra-navy">Total Payment:</span>
                   <span className="text-hegra-yellow">{formatCurrency(effectiveTotalPrice)}</span>
                 </div>
               </div>
@@ -605,10 +605,10 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                               className="w-full py-2.5 px-4 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors appearance-none bg-white"
                               value={formData.gender} onChange={handleMainFormInputChange}
                           >
-                              <option value="" disabled>Pilih jenis kelamin</option>
-                              <option value="Laki-laki">Laki-laki</option>
-                              <option value="Perempuan">Perempuan</option>
-                              <option value="Lainnya">Lainnya</option>
+                                                              <option value="" disabled>Select gender</option>
+                                                              <option value="Laki-laki">Male</option>
+                                <option value="Perempuan">Female</option>
+                              <option value="Lainnya">Other</option>
                           </select>
                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                               <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -690,24 +690,24 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
             )}
             
             <div className="pt-6 border-t mt-6">
-                 <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Metode Pembayaran</h3>
-                 <p className="text-sm text-gray-600 mb-3">Pilihan metode pembayaran akan tersedia di langkah berikutnya setelah konfirmasi data ini. Untuk saat ini, ini adalah simulasi.</p>
+                 <h3 className="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Payment Method</h3>
+                 <p className="text-sm text-gray-600 mb-3">Payment method options will be available in the next step after confirming this data. For now, this is a simulation.</p>
                  <div className="p-4 bg-gray-100 rounded-lg flex items-center gap-3 border border-gray-200">
                     <CreditCard size={24} className="text-hegra-turquoise flex-shrink-0"/>
-                    <span className="text-gray-700 text-sm">Anda akan diarahkan ke halaman simulasi proses pembayaran setelah mengkonfirmasi data.</span>
+                    <span className="text-gray-700 text-sm">You will be redirected to the payment process simulation page after confirming the data.</span>
                  </div>
             </div>
               
             <div className="hidden lg:block mt-8 pt-4 border-t">
             <p className="text-xs text-gray-500 mb-4">
-                Dengan mengklik tombol di bawah, Anda menyetujui <a href="#" className="text-hegra-turquoise hover:underline">Syarat & Ketentuan Pembelian Tiket</a> dan <a href="#" className="text-hegra-turquoise hover:underline">Kebijakan Privasi</a> Hegira.
+                By clicking the button below, you agree to <a href="#" className="text-hegra-turquoise hover:underline">Ticket Purchase Terms & Conditions</a> and <a href="#" className="text-hegra-turquoise hover:underline">Privacy Policy</a> of Hegira.
             </p>
             <button 
                 type="submit"
                 className="w-full bg-hegra-yellow text-hegra-navy font-bold py-3.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-lg focus:outline-none focus:ring-2 focus:ring-hegra-navy focus:ring-offset-2 shadow-md hover:shadow-lg transform hover:scale-105"
             >
                 <ShoppingCart size={22} className="mr-1"/>
-                Konfirmasi Data & Lanjutkan
+                Confirm Data & Continue
             </button>
             </div>
           </form>
@@ -740,11 +740,11 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
         <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white p-3 border-t border-gray-200 shadow-lg">
             <div className="flex justify-between items-center mb-2">
                 <div>
-                    <p className="text-xs text-gray-500">Total Pembayaran</p>
+                    <p className="text-xs text-gray-500">Total Payment</p>
                     <p className="text-lg font-bold text-hegra-yellow">{formatCurrency(effectiveTotalPrice)}</p>
                 </div>
                  {couponApplied && discountedPrice !== null && (
-                     <span className="text-xs text-green-600 bg-green-100 px-1.5 py-0.5 rounded-full">Diskon 10%</span>
+                     <span className="text-xs text-green-600 bg-green-100 px-1.5 py-0.5 rounded-full">10% Discount</span>
                  )}
             </div>
             <div className="flex gap-2 mb-2.5 items-center">
@@ -753,14 +753,14 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                     name="couponCodeMobileSticky"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    placeholder="Kode Kupon"
+                    placeholder="Coupon Code"
                     className="flex-grow py-2 px-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 text-xs bg-white"
-                    aria-label="Kode Kupon Mobile"
+                    aria-label="Coupon Code Mobile"
                 />
                 <button
                     type="button"
                     onClick={handleApplyCoupon}
-                    aria-label="Terapkan kupon"
+                    aria-label="Apply coupon"
                     className="bg-hegra-turquoise text-white p-1.5 rounded-md hover:bg-opacity-90"
                 >
                     <Tag size={18} />
@@ -773,10 +773,10 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({
                 className="w-full bg-hegra-yellow text-hegra-navy font-bold py-3 px-5 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 text-sm"
             >
                 <ShoppingCart size={18} />
-                Lanjutkan ke Pembayaran
+                Continue to Payment
             </button>
             <p className="text-[10px] text-gray-400 mt-1.5 text-center">
-                Dengan melanjutkan, Anda menyetujui S&K Hegira.
+                By continuing, you agree to Hegira's T&C.
             </p>
         </div>
     </div>

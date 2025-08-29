@@ -68,7 +68,7 @@ const EventDetailPageDB: React.FC<EventDetailPageDBProps> = ({
       setIsLinkCopied(true);
       setTimeout(() => setIsLinkCopied(false), 2000);
     } catch (err) {
-      alert('Gagal menyalin link event.');
+      alert('Failed to copy event link.');
     }
   };
 
@@ -78,11 +78,11 @@ const EventDetailPageDB: React.FC<EventDetailPageDBProps> = ({
 
   const getStatusButtonConfig = () => {
     if (eventData.status === 'Aktif') {
-      return { text: 'Akhiri Event', icon: PowerOff, action: () => onToggleEventStatus(eventData, 'Selesai'), className: 'bg-red-500 hover:bg-red-600 text-white' };
+      return { text: 'End Event', icon: PowerOff, action: () => onToggleEventStatus(eventData, 'Selesai'), className: 'bg-red-500 hover:bg-red-600 text-white' };
     } else if (eventData.status === 'Draf') {
-      return { text: 'Aktifkan Event', icon: Power, action: () => onToggleEventStatus(eventData, 'Aktif'), className: 'bg-green-500 hover:bg-green-600 text-white' };
+      return { text: 'Activate Event', icon: Power, action: () => onToggleEventStatus(eventData, 'Aktif'), className: 'bg-green-500 hover:bg-green-700 text-white' };
     }
-    return { text: 'Event Selesai', icon: CheckCircle, action: () => {}, className: 'bg-gray-300 text-gray-600 cursor-not-allowed', disabled: true };
+    return { text: 'Event Completed', icon: CheckCircle, action: () => {}, className: 'bg-gray-300 text-gray-600 cursor-not-allowed', disabled: true };
   };
   const statusButtonConfig = getStatusButtonConfig();
 
@@ -130,7 +130,7 @@ const EventDetailPageDB: React.FC<EventDetailPageDBProps> = ({
           {/* Left Column: Cover, Link, Descriptions */}
           <div className="w-full lg:w-3/5 order-2 lg:order-1 p-4 sm:p-6 lg:pr-3 xl:pr-6">
             <section className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Cover Foto</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Cover Photo</h3>
               <div className="relative w-full rounded-lg overflow-hidden border border-gray-200 bg-gray-100 aspect-[16/6]">
                 <img
                   src={eventData.coverImageUrl || eventData.posterUrl || FALLBACK_PAGE_POSTER_URL}
@@ -142,72 +142,72 @@ const EventDetailPageDB: React.FC<EventDetailPageDBProps> = ({
             </section>
             
             <section className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Link Event Publik</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Public Event Link</h3>
               <div className="flex items-center gap-2">
                 <div className="flex-grow flex items-center border border-gray-300 rounded-md bg-gray-50 px-3 py-2 text-sm text-gray-700">
                   <LinkIcon size={16} className="text-gray-500 mr-2 flex-shrink-0" />
                   <span className="truncate" title={eventPageLink}>{eventPageLink}</span>
                 </div>
-                <button onClick={handleCopyLink} title="Salin Link" className="p-2.5 text-gray-600 hover:text-hegra-turquoise bg-gray-100 hover:bg-gray-200 rounded-md border border-gray-300"><Upload size={18} /></button>
-                <button onClick={handlePreviewLink} title="Pratinjau Link" className="p-2.5 text-gray-600 hover:text-hegra-turquoise bg-gray-100 hover:bg-gray-200 rounded-md border border-gray-300"><Eye size={18} /></button>
+                <button onClick={handleCopyLink} title="Copy Link" className="p-2.5 text-gray-600 hover:text-hegra-turquoise bg-gray-100 hover:bg-gray-200 rounded-md border border-gray-300"><Upload size={18} /></button>
+                <button onClick={handlePreviewLink} title="Preview Link" className="p-2.5 text-gray-600 hover:text-hegra-turquoise bg-gray-100 hover:bg-gray-200 rounded-md border border-gray-300"><Eye size={18} /></button>
               </div>
-              {isLinkCopied && <p className="text-xs text-green-600 mt-1.5">Link disalin!</p>}
+              {isLinkCopied && <p className="text-xs text-green-600 mt-1.5">Link copied!</p>}
             </section>
 
             <section className="mb-6">
               <div className="flex justify-between items-center mb-1.5">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Deskripsi Event</h3>
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Event Description</h3>
                 <button onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)} className="text-xs text-hegra-turquoise hover:underline flex items-center">
-                  {isDescriptionExpanded ? 'Sembunyikan' : 'Selengkapnya'}
+                  {isDescriptionExpanded ? 'Hide' : 'Show More'}
                   {isDescriptionExpanded ? <ChevronUp size={16} className="ml-0.5" /> : <ChevronDown size={16} className="ml-0.5" />}
                 </button>
               </div>
               <div className={`prose prose-sm max-w-none text-gray-700 ${!isDescriptionExpanded ? 'line-clamp-5' : ''}`}
-                   dangerouslySetInnerHTML={{ __html: eventData.fullDescription || '<p>Tidak ada deskripsi.</p>'}} />
+                   dangerouslySetInnerHTML={{ __html: eventData.fullDescription || '<p>No description available.</p>'}} />
             </section>
 
             <section>
               <div className="flex justify-between items-center mb-1.5">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Syarat dan Ketentuan</h3>
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Terms and Conditions</h3>
                 <button onClick={() => setIsTermsExpanded(!isTermsExpanded)} className="text-xs text-hegra-turquoise hover:underline flex items-center">
-                  {isTermsExpanded ? 'Sembunyikan' : 'Selengkapnya'}
+                  {isTermsExpanded ? 'Hide' : 'Show More'}
                   {isTermsExpanded ? <ChevronUp size={16} className="ml-0.5" /> : <ChevronDown size={16} className="ml-0.5" />}
                 </button>
               </div>
                <div className={`prose prose-sm max-w-none text-gray-700 ${!isTermsExpanded ? 'line-clamp-5' : ''}`}
-                   dangerouslySetInnerHTML={{ __html: eventData.termsAndConditions || '<p>Syarat dan ketentuan belum diatur.</p>'}} />
+                   dangerouslySetInnerHTML={{ __html: eventData.termsAndConditions || '<p>Terms and conditions not set.</p>'}} />
             </section>
           </div>
           
           {/* Right Column: Details */}
           <div className="w-full lg:w-2/5 order-1 lg:order-2 p-4 sm:p-6 lg:border-l lg:border-gray-200">
             <section className="mb-5">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Informasi Utama</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Main Information</h3>
               <div className="space-y-1 text-sm">
-                <DetailRightColumnItem label="Kategori" value={eventData.category} valueClassName="text-hegra-deep-navy font-medium text-right"/>
-                <DetailRightColumnItem label="Tema" value={eventData.theme} valueClassName="text-hegra-deep-navy font-medium text-right"/>
-                <DetailRightColumnItem label="Tanggal" value={formatDisplayDate(eventData.dateDisplay)} valueClassName="text-hegra-deep-navy text-right"/>
-                <DetailRightColumnItem label="Waktu" value={formatEventTime(eventData.timeDisplay, eventData.timezone)} valueClassName="text-hegra-deep-navy text-right"/>
-                <DetailRightColumnItem label="Lokasi" value={eventData.location} valueClassName="text-hegra-deep-navy text-right"/>
-                <DetailRightColumnItem label="Alamat" value={eventData.address} valueClassName="text-hegra-deep-navy text-right"/>
-                <DetailRightColumnItem label="Google Maps" value={eventData.googleMapsQuery || "Belum diatur"} isLink={!!eventData.googleMapsQuery} href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventData.googleMapsQuery || eventData.location)}`} valueClassName="text-hegra-turquoise text-right"/>
+                <DetailRightColumnItem label="Category" value={eventData.category} valueClassName="text-hegra-deep-navy font-medium text-right"/>
+                <DetailRightColumnItem label="Theme" value={eventData.theme} valueClassName="text-hegra-deep-navy font-medium text-right"/>
+                <DetailRightColumnItem label="Date" value={formatDisplayDate(eventData.dateDisplay)} valueClassName="text-hegra-deep-navy text-right"/>
+                <DetailRightColumnItem label="Time" value={formatEventTime(eventData.timeDisplay, eventData.timezone)} valueClassName="text-hegra-deep-navy text-right"/>
+                <DetailRightColumnItem label="Location" value={eventData.location} valueClassName="text-hegra-deep-navy text-right"/>
+                <DetailRightColumnItem label="Address" value={eventData.address} valueClassName="text-hegra-deep-navy text-right"/>
+                <DetailRightColumnItem label="Google Maps" value={eventData.googleMapsQuery || "Not set"} isLink={!!eventData.googleMapsQuery} href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventData.googleMapsQuery || eventData.location)}`} valueClassName="text-hegra-turquoise text-right"/>
               </div>
             </section>
 
             <section className="mb-5">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Informasi Tambahan</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Additional Information</h3>
               <div className="space-y-1 text-sm">
-                <DetailRightColumnItem label="Parkir" value={eventData.parkingAvailable === false ? 'Bayar/Terbatas' : (eventData.parkingAvailable === true ? 'Gratis/Tersedia' : 'N/A')} />
-                <DetailRightColumnItem label="Batasan Usia" value={eventData.ageRestriction || 'Semua Umur'} />
-                <DetailRightColumnItem label="Info Kedatangan" value={eventData.arrivalInfo || 'Sesuai jadwal'} />
+                <DetailRightColumnItem label="Parking" value={eventData.parkingAvailable === false ? 'Paid/Limited' : (eventData.parkingAvailable === true ? 'Free/Available' : 'N/A')} />
+                <DetailRightColumnItem label="Age Restriction" value={eventData.ageRestriction || 'All Ages'} />
+                <DetailRightColumnItem label="Arrival Info" value={eventData.arrivalInfo || 'As scheduled'} />
               </div>
             </section>
 
             <section>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Narahubung Event</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Event Contact Person</h3>
               <div className="space-y-1 text-sm">
-                <DetailRightColumnItem label="Nama" value={eventData.narahubungName || eventData.organizerName || 'Admin Hegira'} />
-                <DetailRightColumnItem label="No. Telpon" value={eventData.narahubungPhone || 'N/A'} />
+                <DetailRightColumnItem label="Name" value={eventData.narahubungName || eventData.organizerName || 'Admin Hegira'} />
+                <DetailRightColumnItem label="Phone No." value={eventData.narahubungPhone || 'N/A'} />
                 <DetailRightColumnItem label="Email" value={eventData.narahubungEmail || 'N/A'} />
               </div>
             </section>

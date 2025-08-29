@@ -50,12 +50,12 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
   const handleToggleBookmark = (e: React.MouseEvent) => {
     e.stopPropagation(); 
     setIsBookmarked(!isBookmarked);
-    alert(isBookmarked ? `${name} dihapus dari simpanan.` : `${name} disimpan.`);
+    alert(isBookmarked ? `${name} removed from bookmarks.` : `${name} saved.`);
   };
   
   const badgesToDisplay = specialFeatures.length > 0 
     ? specialFeatures.slice(0, 3) 
-    : ["Verified", "Respon Cepat", "Terdaftar OJK"].slice(0,3); 
+    : ["Verified", "Fast Response", "OJK Registered"].slice(0,3); 
 
   const handleCardClick = () => {
     if (onActionClick) {
@@ -73,7 +73,7 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleCardClick(); }}
-      aria-label={`Lihat detail untuk ${name}`}
+      aria-label={`View details for ${name}`}
     >
       <div className="p-5 sm:p-6 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-4">
@@ -88,7 +88,7 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
           <button
             onClick={handleToggleBookmark}
             className="p-2 text-hegra-yellow hover:text-hegra-yellow/80 focus:outline-none"
-            aria-label={isBookmarked ? `Hapus ${name} dari simpanan` : `Simpan ${name}`}
+            aria-label={isBookmarked ? `Remove ${name} from bookmarks` : `Save ${name}`}
           >
             <Star size={24} fill={isBookmarked ? "currentColor" : "none"} className="transition-colors duration-200" />
           </button>
@@ -110,14 +110,14 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
         </div>
 
         <div className="space-y-2 text-sm text-gray-600 mb-5 flex-grow">
-          <div className="flex items-center">
-            <Briefcase size={15} className="mr-2.5 text-hegra-turquoise/80 flex-shrink-0" />
-            <span>Sektor: <strong className="text-hegra-deep-navy/90">{sector}</strong></span>
-          </div>
-          <div className="flex items-center">
-            <MapPin size={15} className="mr-2.5 text-hegra-turquoise/80 flex-shrink-0" />
-            <span className="truncate" title={location}>Lokasi: <strong className="text-hegra-deep-navy/90">{location}</strong></span>
-          </div>
+                      <div className="flex items-center">
+              <Briefcase size={15} className="mr-2.5 text-hegra-turquoise/80 flex-shrink-0" />
+              <span>Sector: <strong className="text-hegra-deep-navy/90">{sector}</strong></span>
+            </div>
+            <div className="flex items-center">
+              <MapPin size={15} className="mr-2.5 text-hegra-turquoise/80 flex-shrink-0" />
+              <span className="truncate" title={location}>Location: <strong className="text-hegra-deep-navy/90">{location}</strong></span>
+            </div>
           <div className="flex items-center">
             <DollarSign size={15} className="mr-2.5 text-hegra-turquoise/80 flex-shrink-0" />
             <span>Budget: <strong className="text-hegra-deep-navy/90">{budget}</strong></span>
@@ -130,9 +130,9 @@ const BusinessMatchingCard: React.FC<BusinessMatchingCardProps> = (props) => {
                        transition-all duration-300
                        flex items-center justify-center group/button
                        hover:bg-hegra-turquoise/10"
-            aria-label={`Selengkapnya tentang ${name}`}
+            aria-label={`Learn more about ${name}`}
           >
-            Selengkapnya
+            Learn More
             <ArrowRight size={18} className="ml-2 transition-transform duration-300 group-hover/button:translate-x-1 group-focus-visible/button:translate-x-1" />
           </button>
         </div>

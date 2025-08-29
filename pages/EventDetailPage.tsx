@@ -15,7 +15,7 @@ const formatCurrency = (amount: number) => {
 
 // Utility function to format description with lists
 const formatDescriptionWithLists = (description: string | undefined): string => {
-  if (!description) return '<p>Informasi detail mengenai event ini akan segera tersedia.</p>';
+  if (!description) return '<p>Detailed information about this event will be available soon.</p>';
 
   const lines = description.split('\n');
   const outputLines: string[] = [];
@@ -73,9 +73,9 @@ const TicketCategoryCard: React.FC<TicketCategoryCardProps> = ({ category, quant
   const decrement = () => onQuantityChange(category.id, Math.max(0, quantity - 1));
 
   const statusStyles = {
-    'available': { text: 'Tersedia', chip: 'bg-green-100 text-green-700' },
-    'almost-sold': { text: 'Hampir Habis', chip: 'bg-yellow-100 text-yellow-700' },
-    'sold-out': { text: 'Habis Terjual', chip: 'bg-red-100 text-red-700' },
+    'available': { text: 'Available', chip: 'bg-green-100 text-green-700' },
+    'almost-sold': { text: 'Almost Sold Out', chip: 'bg-yellow-100 text-yellow-700' },
+    'sold-out': { text: 'Sold Out', chip: 'bg-red-100 text-red-700' },
   };
 
   const currentStatus = category.availabilityStatus ? statusStyles[category.availabilityStatus] : null;
@@ -121,7 +121,7 @@ const TicketCategoryCard: React.FC<TicketCategoryCardProps> = ({ category, quant
             onClick={decrement}
             disabled={quantity === 0 || category.availabilityStatus === 'sold-out'}
             className="p-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            aria-label={`Kurangi jumlah tiket ${category.name}`}
+            aria-label={`Decrease quantity of ${category.name} tickets`}
           >
             <Minus size={16} />
           </button>
@@ -130,7 +130,7 @@ const TicketCategoryCard: React.FC<TicketCategoryCardProps> = ({ category, quant
             onClick={increment}
             disabled={category.availabilityStatus === 'sold-out'}
             className="p-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            aria-label={`Tambah jumlah tiket ${category.name}`}
+            aria-label={`Increase quantity of ${category.name} tickets`}
           >
             <Plus size={16} />
           </button>
@@ -209,12 +209,12 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
   const currentEventUrl = `${window.location.origin}/event/${event.id}`; // More specific URL
 
   const shareActions = {
-    copyLink: () => navigator.clipboard.writeText(currentEventUrl).then(() => alert('Link event disalin!')),
+    copyLink: () => navigator.clipboard.writeText(currentEventUrl).then(() => alert('Event link copied!')),
     whatsapp: () => window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(event.name + ' - ' + currentEventUrl)}`, '_blank'),
     facebook: () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentEventUrl)}`, '_blank'),
     twitter: () => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentEventUrl)}&text=${encodeURIComponent(event.name)}`, '_blank'),
     linkedin: () => window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentEventUrl)}&title=${encodeURIComponent(event.name)}&summary=${encodeURIComponent(event.summary || '')}`, '_blank'),
-    instagram: () => alert('Bagikan di Instagram melalui aplikasi mobile Anda! Salin link dan buka Instagram.'), // Simplified
+    instagram: () => alert('Share on Instagram through your mobile app! Copy the link and open Instagram.'), // Simplified
   };
 
 
@@ -286,7 +286,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
     }
   }, [totalSelectedQuantity, onNavigate, onNavigateRequestWithConfirmation]);
 
-  const buttonText = totalSelectedQuantity > 0 ? 'Pesan Sekarang' : 'Pilih Tiket';
+  const buttonText = totalSelectedQuantity > 0 ? 'Order Now' : 'Select Tickets';
   const buttonIcon = <ShoppingCart size={totalSelectedQuantity > 0 ? 20 : 18} />;
 
   const filteredTicketCategories = useMemo(() => {
@@ -326,21 +326,21 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
   if (event.name === "AI FUTURE FEST - Menuju Indonesia 5.0") {
     // Hardcoded HTML for "AI FUTURE FEST"
     descriptionHtml = `
-      <p class="mb-4">Bersiaplah untuk menyongsong era baru dengan AI FUTURE FEST - Menuju Indonesia 5.0, festival teknologi AI terbesar di Indonesia! Acara ini menghadirkan berbagai inovasi terkini dalam kecerdasan buatan, dari otomatisasi industri hingga AI dalam kehidupan sehari-hari.</p>
-      <p class="mb-4">Dengan mengusung visi "Membangun Ekosistem AI yang Inklusif dan Berkelanjutan", AI FUTURE FEST menghadirkan para pakar, startup AI, pelaku industri, serta pemerintah untuk bersama-sama mendukung transformasi digital menuju Indonesia 5.0.</p>
-      <h3 class="text-lg font-jakarta font-semibold text-hegra-navy mt-6 mb-3">Apa yang Bisa Anda Dapatkan?</h3>
+      <p class="mb-4">Get ready to welcome a new era with AI FUTURE FEST - Towards Indonesia 5.0, the largest AI technology festival in Indonesia! This event brings together various latest innovations in artificial intelligence, from industrial automation to AI in everyday life.</p>
+      <p class="mb-4">With the vision of "Building an Inclusive and Sustainable AI Ecosystem", AI FUTURE FEST brings together experts, AI startups, industry players, and government to jointly support digital transformation towards Indonesia 5.0.</p>
+      <h3 class="text-lg font-jakarta font-semibold text-hegra-navy mt-6 mb-3">What Can You Get?</h3>
       <ul class="space-y-2 list-none p-0">
-        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Keynote Speech dari pakar AI global & pemimpin industri</li>
-        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Panel Diskusi & Talkshow tentang tren AI & implementasinya di Indonesia</li>
-        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Workshop & Masterclass untuk meningkatkan keterampilan AI</li>
-        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Startup & Tech Showcase menampilkan inovasi AI terbaru</li>
-        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Networking & Hiring Session bagi profesional dan pencari kerja di bidang AI</li>
+        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Keynote Speech from global AI experts & industry leaders</li>
+        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Panel Discussions & Talkshows about AI trends & their implementation in Indonesia</li>
+        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Workshops & Masterclasses to enhance AI skills</li>
+        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Startup & Tech Showcase featuring the latest AI innovations</li>
+        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Networking & Hiring Sessions for professionals and job seekers in the AI field</li>
       </ul>
-      <p class="mt-6">Jangan lewatkan kesempatan emas ini untuk menjadi bagian dari revolusi AI di Indonesia!</p>
+      <p class="mt-6">Don't miss this golden opportunity to be part of the AI revolution in Indonesia!</p>
       <div class="mt-8 pt-6 border-t border-gray-200">
-        <h3 class="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Daftar & Informasi Kontak</h3>
-        <p class="flex items-center text-gray-700 mb-1.5"><span class="text-hegra-turquoise mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"></path></svg></span>Daftar sekarang di: <a href="https://www.aifuturefest.com" target="_blank" rel="noopener noreferrer" class="text-hegra-turquoise hover:underline ml-1">www.aifuturefest.com</a></p>
-        <p class="flex items-center text-gray-700"><span class="text-hegra-turquoise mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>Kontak: (+62) 812-3456-7890 | <span class="text-hegra-turquoise mr-1 ml-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0 1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><a href="mailto:info@aifuturefest.com" class="text-hegra-turquoise hover:underline">info@aifuturefest.com</a></p>
+        <h3 class="text-lg font-jakarta font-semibold text-hegra-navy mb-3">Registration & Contact Information</h3>
+        <p class="flex items-center text-gray-700 mb-1.5"><span class="text-hegra-turquoise mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"></path></svg></span>Register now at: <a href="https://www.aifuturefest.com" target="_blank" rel="noopener noreferrer" class="text-hegra-turquoise hover:underline ml-1">www.aifuturefest.com</a></p>
+        <p class="flex items-center text-gray-700"><span class="text-hegra-turquoise mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>Contact: (+62) 812-3456-7890 | <span class="text-hegra-turquoise mr-1 ml-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0 1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><a href="mailto:info@aifuturefest.com" class="text-hegra-turquoise hover:underline">info@aifuturefest.com</a></p>
       </div>
     `;
   } else {
@@ -361,7 +361,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
         role="img"
         aria-label={`Poster event ${event.name}`}
       >
-        {!(event.coverImageUrl || event.posterUrl) && <div className="absolute inset-0 flex items-center justify-center text-gray-500">Poster Event</div>}
+        {!(event.coverImageUrl || event.posterUrl) && <div className="absolute inset-0 flex items-center justify-center text-gray-500">Event Poster</div>}
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -380,7 +380,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                 <div className="flex items-start">
                   <CalendarDays size={20} className="text-hegra-turquoise mr-3 mt-0.5 flex-shrink-0" />
                   <div>
-                    <strong className="block text-hegra-navy">Tanggal & Waktu</strong>
+                    <strong className="block text-hegra-navy">Date & Time</strong>
                     <span>{formatDisplayDate(event.dateDisplay)}</span>
                     <span className="block text-gray-600 text-sm mt-0.5">{formatEventTime(event.timeDisplay, event.timezone)}</span>
                   </div>
@@ -388,7 +388,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                 <div className="flex items-start">
                   <MapPin size={20} className="text-hegra-turquoise mr-3 mt-0.5 flex-shrink-0" />
                   <div>
-                    <strong className="block text-hegra-navy">Lokasi</strong>
+                    <strong className="block text-hegra-navy">Location</strong>
                     <a 
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.googleMapsQuery || event.location)}`} 
                       target="_blank" 
@@ -402,19 +402,19 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                 {event.parkingAvailable !== undefined && event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
                   <div className="flex items-start">
                     <ParkingCircle size={20} className="text-hegra-turquoise mr-3 mt-0.5 flex-shrink-0" />
-                    <div><strong className="text-hegra-navy">Parkir:</strong> {event.parkingAvailable ? 'Tersedia' : 'Terbatas/Tidak Tersedia'}</div>
+                    <div><strong className="text-hegra-navy">Parking:</strong> {event.parkingAvailable ? 'Available' : 'Limited/Not Available'}</div>
                   </div>
                 )}
                 {event.ageRestriction && event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
                   <div className="flex items-start">
                     <Users size={20} className="text-hegra-turquoise mr-3 mt-0.5 flex-shrink-0" />
-                    <div><strong className="text-hegra-navy">Batasan Usia:</strong> {event.ageRestriction}</div>
+                    <div><strong className="text-hegra-navy">Age Restriction:</strong> {event.ageRestriction}</div>
                   </div>
                 )}
                 {event.arrivalInfo && event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
                   <div className="flex items-start md:col-span-2">
                     <Clock size={20} className="text-hegra-turquoise mr-3 mt-0.5 flex-shrink-0" />
-                    <div><strong className="text-hegra-navy">Info Kedatangan:</strong> {event.arrivalInfo}</div>
+                    <div><strong className="text-hegra-navy">Arrival Info:</strong> {event.arrivalInfo}</div>
                   </div>
                 )}
               </div>
@@ -422,7 +422,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
               {/* Event Creator Profile Section */}
               {(event.organizerName || event.narahubungPhone || event.narahubungEmail) && (
                  <div className="mt-6 pt-6 border-t border-gray-100">
-                    <h3 className="text-md font-jakarta font-semibold text-gray-700 mb-3">Diselenggarakan oleh:</h3>
+                    <h3 className="text-md font-jakarta font-semibold text-gray-700 mb-3">Organized by:</h3>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             {event.organizerLogoUrl ? (
@@ -432,7 +432,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                                     {event.organizerName ? event.organizerName.charAt(0).toUpperCase() : <Briefcase size={20}/>}
                                 </div>
                             )}
-                            <span className="text-sm font-medium text-hegra-navy">{event.organizerName || 'Penyelenggara Event'}</span>
+                            <span className="text-sm font-medium text-hegra-navy">{event.organizerName || 'Event Organizer'}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                             {event.narahubungPhone && (
@@ -441,7 +441,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                                     target="_blank" rel="noopener noreferrer" 
                                     className="p-2 text-gray-500 hover:text-green-500 bg-gray-100 hover:bg-green-50 rounded-full transition-colors"
                                     title={`WhatsApp ${event.narahubungName || event.organizerName}`}
-                                    aria-label="Hubungi via WhatsApp"
+                                    aria-label="Contact via WhatsApp"
                                 >
                                     <WhatsAppIcon size={18} />
                                 </a>
@@ -451,7 +451,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                                     href={`mailto:${event.narahubungEmail}`} 
                                     className="p-2 text-gray-500 hover:text-red-500 bg-gray-100 hover:bg-red-50 rounded-full transition-colors"
                                     title={`Email ${event.narahubungName || event.organizerName}`}
-                                    aria-label="Hubungi via Email"
+                                    aria-label="Contact via Email"
                                 >
                                     <MailIcon size={18} />
                                 </a>
@@ -470,12 +470,12 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                   aria-expanded={showShareOptions}
                   aria-controls="share-options-menu"
                 >
-                  <Share2 size={18} /> Bagikan Event Ini
+                  <Share2 size={18} /> Share This Event
                 </button>
                 {showShareOptions && (
                   <div id="share-options-menu" className="absolute left-0 right-0 bottom-full mb-2 w-full bg-white border rounded-md shadow-lg z-20 p-2 space-y-1">
                     <button onClick={shareActions.copyLink} className="w-full text-left flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 rounded">
-                      <LinkIcon size={16} /> Salin Link
+                      <LinkIcon size={16} /> Copy Link
                     </button>
                     <button onClick={shareActions.whatsapp} className="w-full text-left flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 rounded">
                        <WhatsAppIcon size={16}/> WhatsApp
@@ -500,14 +500,14 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
             {/* Full Event Description */}
             <section aria-labelledby="event-description-heading" className="bg-white p-6 rounded-xl border border-hegra-navy/10 mb-8">
               <div className="flex justify-between items-center mb-4">
-                <h2 id="event-description-heading" className="text-2xl font-jakarta font-bold text-hegra-navy">Deskripsi Event</h2>
+                <h2 id="event-description-heading" className="text-2xl font-jakarta font-bold text-hegra-navy">Event Description</h2>
                 {event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
                   <button
                     onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
                     className="flex items-center text-sm text-hegra-turquoise hover:text-hegra-navy font-semibold transition-colors"
                     aria-expanded={isDescriptionExpanded}
                   >
-                    {isDescriptionExpanded ? 'Sembunyikan' : 'Selengkapnya'}
+                    {isDescriptionExpanded ? 'Hide' : 'Show More'}
                     {isDescriptionExpanded ? <ChevronUp size={18} className="ml-1" /> : <ChevronDown size={18} className="ml-1" />}
                   </button>
                 )}
@@ -524,7 +524,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
               <section id="ticket-section" aria-labelledby="ticket-options-heading" className="bg-white p-6 rounded-xl border border-hegra-navy/10">
                 <div className="flex items-center gap-3 mb-6">
                   <Ticket size={28} className="text-hegra-turquoise" />
-                  <h2 id="ticket-options-heading" className="text-2xl font-jakarta font-bold text-hegra-navy">Pilih Tiket Anda</h2>
+                  <h2 id="ticket-options-heading" className="text-2xl font-jakarta font-bold text-hegra-navy">Select Your Tickets</h2>
                 </div>
                 
                 {isMultiDay && (
@@ -535,12 +535,12 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                         className={`flex-shrink-0 w-[120px] h-[120px] flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-200 focus:outline-none ${selectedDate === 'all' ? 'bg-hegra-turquoise/20 border-hegra-turquoise text-hegra-turquoise shadow-lg' : 'bg-white border-gray-200 text-hegra-navy hover:border-hegra-turquoise hover:bg-hegra-turquoise/5'}`}
                       >
                         <CalendarDays size={32} />
-                        <span className="mt-2 font-semibold">Semua</span>
+                        <span className="mt-2 font-semibold">All</span>
                       </button>
                       {eventDates.map(dateStr => {
                           const dateObj = new Date(dateStr + 'T00:00:00'); // Use UTC context
-                          const day = dateObj.toLocaleDateString('id-ID', { day: '2-digit' });
-                          const month = dateObj.toLocaleDateString('id-ID', { month: 'short' });
+                          const day = dateObj.toLocaleDateString('en-US', { day: '2-digit' });
+                          const month = dateObj.toLocaleDateString('en-US', { month: 'short' });
                           return (
                               <button
                                   key={dateStr}
@@ -572,7 +572,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                   </div>
                 ) : (
                   <p className="text-gray-600 text-center py-8 bg-gray-100 rounded-lg">
-                    Tidak ada tiket yang tersedia untuk tanggal yang dipilih.
+                    No tickets available for the selected date.
                   </p>
                 )}
               </section>
@@ -583,7 +583,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
           {event.name !== "AI FUTURE FEST - Menuju Indonesia 5.0" && (
             <div className="hidden lg:block lg:w-1/3 mt-8 lg:mt-0">
               <div className="sticky top-24 bg-white p-6 rounded-xl border border-hegra-navy/10">
-                <h3 className="text-xl font-jakarta font-bold text-hegra-navy mb-4">Ringkasan Pesanan</h3>
+                <h3 className="text-xl font-jakarta font-bold text-hegra-navy mb-4">Order Summary</h3>
                 {totalSelectedQuantity > 0 ? (
                   <div className="space-y-2 mb-4 text-sm">
                     {event.ticketCategories.map(cat => {
@@ -602,7 +602,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                     </div>
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-sm mb-4">Pilih jenis dan jumlah tiket yang ingin Anda beli dari daftar di sebelah kiri.</p>
+                  <p className="text-gray-500 text-sm mb-4">Select the type and quantity of tickets you want to buy from the list on the left.</p>
                 )}
 
                 <button 
@@ -614,7 +614,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
                   {buttonText}
                 </button>
                 {event.ticketCategories.some(cat => cat.availabilityStatus === 'sold-out' && (selectedTickets[cat.id] || 0) > 0) && (
-                  <p className="text-xs text-red-600 mt-2 text-center">Beberapa tiket yang dipilih sudah habis.</p>
+                  <p className="text-xs text-red-600 mt-2 text-center">Some selected tickets are sold out.</p>
                 )}
               </div>
             </div>
@@ -627,7 +627,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
         <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white p-4 border-t border-gray-200 shadow-lg">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-xs text-gray-500">Total Pesanan</p>
+              <p className="text-xs text-gray-500">Total Order</p>
               <p className="text-xl font-bold text-hegra-yellow">{formatCurrency(totalPrice)}</p>
             </div>
             <button
@@ -640,7 +640,7 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ event, onNavigate, on
             </button>
           </div>
           {event.ticketCategories.some(cat => cat.availabilityStatus === 'sold-out' && (selectedTickets[cat.id] || 0) > 0) && (
-              <p className="text-xs text-red-600 mt-1 text-center">Beberapa tiket yang dipilih sudah habis.</p>
+              <p className="text-xs text-red-600 mt-1 text-center">Some selected tickets are sold out.</p>
           )}
         </div>
       )}

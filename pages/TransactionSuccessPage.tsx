@@ -186,12 +186,12 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
   const handleAddToCalendar = () => {
     const parsedDate = parseDateString(event.dateDisplay);
     if (!parsedDate) {
-      alert("Tidak dapat memproses tanggal event untuk kalender.");
+              alert("Cannot process event date for calendar.");
       return;
     }
     const parsedTimes = parseTimeString(event.timeDisplay, parsedDate, event.timezone);
     if (!parsedTimes) {
-      alert("Tidak dapat memproses waktu event untuk kalender.");
+              alert("Cannot process event time for calendar.");
       return;
     }
 
@@ -225,11 +225,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
   };
 
 
-  const handleSendToEmail = () => alert('Fungsi "Kirim ke Email" belum diimplementasikan. Tiket akan dikirim ke: ' + formData.email);
-  const handleSendToWhatsApp = () => alert('Fungsi "Kirim ke WhatsApp" belum diimplementasikan. Tiket akan dikirim ke: ' + formData.phoneNumber);
-  const handleContactCreatorPhone = () => alert('Menghubungi Event Creator melalui telepon (placeholder).');
-  const handleContactCreatorEmail = () => alert('Menghubungi Event Creator melalui email (placeholder).');
-  const handleDownloadTicket = () => alert('Fungsi "Unduh Tiket" belum diimplementasikan. Gunakan tombol "Lihat Tiket-ku" untuk tampilan tiket.');
+      const handleSendToEmail = () => alert('The "Send to Email" function has not been implemented yet. Tickets will be sent to: ' + formData.email);
+    const handleSendToWhatsApp = () => alert('The "Send to WhatsApp" function has not been implemented yet. Tickets will be sent to: ' + formData.phoneNumber);
+      const handleContactCreatorPhone = () => alert('Contacting Event Creator via phone (placeholder).');
+    const handleContactCreatorEmail = () => alert('Contacting Event Creator via email (placeholder).');
+      const handleDownloadTicket = () => alert('The "Download Ticket" function has not been implemented yet. Use the "View My Tickets" button to display tickets.');
   
   const totalTicketsPurchased = selectedTickets.reduce((sum, ticket) => sum + ticket.quantity, 0);
 
@@ -411,11 +411,11 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
         >
           <CheckCircle className="h-6 w-6 text-white mr-3 mt-0.5 flex-shrink-0" />
           <div className="flex-grow">
-            <p className="font-bold">Transaksi Selesai & Berhasil!</p>
+                          <p className="font-bold">Transaction Complete & Successful!</p>
             <p className="text-sm mt-0.5">
-              E-tiket Anda telah diterbitkan dan dikirim ke email ({formData.email}) & WhatsApp ({formData.phoneNumber}).
+                              Your e-tickets have been issued and sent to email ({formData.email}) & WhatsApp ({formData.phoneNumber}).
             </p>
-            <p className="text-sm mt-0.5">Terima kasih telah bertransaksi dengan Hegira.</p>
+                          <p className="text-sm mt-0.5">Thank you for transacting with Hegira.</p>
           </div>
           <button 
             onClick={() => {
@@ -438,9 +438,9 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
               <h2 className="text-2xl font-jakarta font-bold text-hegra-navy mb-6 border-b pb-3">Detail E-Tiket Anda</h2>
 
               <div className="mb-6 p-4 border border-dashed border-gray-300 rounded-lg text-center bg-gray-50">
-                <h3 className="text-lg font-jakarta font-medium text-hegra-navy mb-2">Pindai untuk Masuk Event</h3>
+                                  <h3 className="text-lg font-jakarta font-medium text-hegra-navy mb-2">Scan to Enter Event</h3>
                 <canvas id="mainQrCode" className="mx-auto my-4" style={{ width: '128px', height: '128px' }} />
-                <p className="text-xs text-gray-500">Tunjukkan kode ini saat memasuki area event. Detail per tiket dapat dilihat di "Lihat Tiket-ku".</p>
+                <p className="text-xs text-gray-500">Show this code when entering the event area. Ticket details can be viewed in "View My Tickets".</p>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6 text-sm">
@@ -577,7 +577,7 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                         </>
                       ) : (
                         <>
-                          <Eye size={18} /> Lihat Tiket-ku (PDF)
+                          <Eye size={18} /> View My Tickets (PDF)
                         </>
                       )}
                     </button>
@@ -591,13 +591,13 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                       onClick={handleSendToEmail}
                       className="w-full flex items-center justify-center gap-2 bg-hegra-navy text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-opacity-80 transition-colors"
                     >
-                      <Mail size={18} /> Kirim ke Email Saya
+                                              <Mail size={18} /> Send to My Email
                     </button>
                     <button
                       onClick={handleSendToWhatsApp}
                       className="w-full flex items-center justify-center gap-2 bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-green-600 transition-colors"
                     >
-                      <WhatsAppIcon size={18} /> Kirim ke WhatsApp Saya
+                                              <WhatsAppIcon size={18} /> Send to My WhatsApp
                     </button>
                   </div>
 
@@ -649,7 +649,7 @@ const TransactionSuccessPage: React.FC<TransactionSuccessPageProps> = ({ transac
                     </>
                   ) : (
                     <>
-                      <Eye size={16} /> Lihat Tiket-ku (PDF)
+                      <Eye size={16} /> View My Tickets (PDF)
                     </>
                   )}
               </button>

@@ -15,15 +15,15 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
   const quickLinks = [
-    { name: 'Tentang Hegira', target: 'landing' as PageName },
-    { name: 'Pusat Bantuan', target: 'help' as PageName },
-    { name: 'Event Terbaru', target: 'events' as PageName },
+    { name: 'About Hegira', target: 'landing' as PageName },
+    { name: 'Help Center', target: 'help' as PageName },
+    { name: 'Latest Events', target: 'events' as PageName },
     { name: 'Business Matching', target: 'business' as PageName },
   ];
 
   const legalLinks = [
-    { name: 'Syarat & Ketentuan', href: '#' },
-    { name: 'Kebijakan Privasi', href: '#' },
+    { name: 'Terms & Conditions', href: '#' },
+    { name: 'Privacy Policy', href: '#' },
     { name: 'Cookie Policy', href: '#' },
   ];
 
@@ -53,15 +53,15 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
         <div className="md:grid md:grid-cols-4 md:gap-x-8 lg:gap-x-10 mb-12">
           {/* Section 1: Logo, About, Social Media (Full width on mobile, 1st column on desktop) */}
           <div className="space-y-4 mb-10 md:mb-0 md:col-span-1">
-            <button 
-              onClick={() => onNavigate('landing')} 
-              className="inline-block focus:outline-none mb-2" 
-              aria-label="Hegira Beranda"
-            >
+                          <button 
+                onClick={() => onNavigate('landing')} 
+                className="inline-block focus:outline-none mb-2" 
+                aria-label="Hegira Home"
+              >
               <Logo className="h-10 w-auto text-hegra-white" useGradient={true} />
             </button>
             <p className="text-sm leading-relaxed text-hegra-white">
-              Platform terintegrasi untuk event dan ticketing. Menghubungkan peluang, menciptakan pengalaman.
+              Integrated platform for events and ticketing. Connecting opportunities, creating experiences.
             </p>
             <div className="flex space-x-4 mt-4">
               {socialMedia.map(social => (
@@ -70,7 +70,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
                   href={social.href} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  aria-label={`Hegira di ${social.name}`}
+                  aria-label={`Hegira on ${social.name}`}
                   className="text-hegra-white hover:text-hegra-yellow transition-colors duration-300 transform hover:scale-110"
                 >
                   <social.icon size={22} />
@@ -86,7 +86,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-3 md:grid-cols-3">
             {/* Quick Links */}
             <div>
-              <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Navigasi</h5>
+              <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Navigation</h5>
               <ul className="space-y-3">
                 {quickLinks.map(link => (
                   <li key={link.name}>
@@ -103,7 +103,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
 
             {/* Legal & Support */}
             <div>
-              <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Legal & Bantuan</h5>
+              <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Legal & Support</h5>
               <ul className="space-y-3">
                 {legalLinks.map(link => (
                   <li key={link.name}>
@@ -125,7 +125,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
 
             {/* Contact Info */}
             <div>
-              <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Hubungi Kami</h5>
+              <h5 className="text-lg font-semibold font-jakarta text-hegra-yellow mb-5">Contact Us</h5>
               <ul className="space-y-3 text-sm text-hegra-white">
                 <li className="flex items-start">
                   <Mail size={18} className="mr-3 mt-1 text-hegra-white flex-shrink-0" />
@@ -145,7 +145,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, currentPage }) => {
         </div>
 
         <div className="border-t border-hegra-white/30 pt-8 mt-8 text-center text-sm text-hegra-white">
-          <p>&copy; 2025 asia karya lumina. Semua hak cipta dilindungi.</p>
+          <p>&copy; 2025 asia karya lumina. All rights reserved.</p>
         </div>
       </div>
     </footer>

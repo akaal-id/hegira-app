@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState } from 'react';
-import { Star, MapPin, Ticket, CalendarDays, Clock, Eye, MoreHorizontal } from 'lucide-react';
-import { EventData, PageName, formatEventTime, formatDisplayDate } from '../HegiraApp'; // Renamed import
+import { Star, MapPin, CalendarDays, Clock, Building2 } from 'lucide-react';
+import { EventData, PageName, formatEventTime, formatDisplayDate } from '../../HegiraApp';
 
 // Helper function to format currency
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 };
 
-interface EventCardProps extends EventData {
+interface BusinessEventCardProps extends EventData {
   onNavigate: (page: PageName, data?: any) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = (props) => {
+const BusinessEventCard: React.FC<BusinessEventCardProps> = (props) => {
   const {
     id,
     category,
@@ -27,13 +27,12 @@ const EventCard: React.FC<EventCardProps> = (props) => {
     posterUrl = 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZXZlbnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
     onNavigate,
     ticketCategories,
-    summary, // Summary is still passed as a prop, but not rendered here
+    summary,
     organizerName,
     organizerLogoUrl,
   } = props;
 
   const [isBookmarked, setIsBookmarked] = useState(false);
-  // isSummaryExpanded state is removed
 
   const categoryStyles = {
     B2C: 'bg-hegra-turquoise text-hegra-deep-navy text-xs',
@@ -42,7 +41,11 @@ const EventCard: React.FC<EventCardProps> = (props) => {
   };
 
   const handleDetailClick = () => {
-    onNavigate('eventDetail', props);
+    if (category === 'B2B' || category === 'B2G') {
+      onNavigate('businessEvent', props);
+    } else {
+      onNavigate('eventDetail', props);
+    }
   };
 
   let finalPriceDisplay: string;
@@ -60,6 +63,24 @@ const EventCard: React.FC<EventCardProps> = (props) => {
     }
   }
 
+  // Customize button text and icon based on event category
+  const getButtonContent = () => {
+    if (category === 'B2B' || category === 'B2G') {
+      return {
+        text: 'See Business',
+        icon: Building2,
+        className: 'bg-gradient-to-r from-hegra-navy to-hegra-navy/80 hover:from-hegra-navy/30 hover:to-hegra-navy/40 hover:text-hegra-navy'
+      };
+    }
+    return {
+      text: 'Buy Ticket',
+      icon: Building2, // Using Building2 for consistency
+      className: 'bg-gradient-to-r from-hegra-turquoise to-hegra-turquoise/80 hover:from-hegra-turquoise/30 hover:to-hegra-turquoise/40 hover:text-hegra-turquoise'
+    };
+  };
+
+  const buttonContent = getButtonContent();
+  const ButtonIcon = buttonContent.icon;
 
   return (
     <div className="bg-hegra-card-bg rounded-xl border border-hegra-navy/10 hover:border-hegra-turquoise/20 overflow-hidden transition-all duration-300 group flex flex-col event-card h-full">
@@ -100,8 +121,6 @@ const EventCard: React.FC<EventCardProps> = (props) => {
           <span>{location}</span>
         </div>
         
-        {/* Event summary and expand/collapse button are removed from here */}
-
         {organizerName && (
           <div className="flex items-center text-sm text-gray-600 mb-4 pt-2 border-t border-gray-100">
             {organizerLogoUrl ? (
@@ -115,7 +134,7 @@ const EventCard: React.FC<EventCardProps> = (props) => {
           </div>
         )}
         
-        <div className="mt-auto"> {/* Pushes content below to the bottom */}
+        <div className="mt-auto">
           <div className="flex items-baseline mb-4">
             <p className={`text-2xl font-bold font-jakarta ${finalPriceColorClass}`}>
               {finalPriceDisplay}
@@ -124,14 +143,14 @@ const EventCard: React.FC<EventCardProps> = (props) => {
 
           <button 
             onClick={handleDetailClick}
-            className="w-full bg-gradient-to-r from-hegra-turquoise to-hegra-turquoise/80 text-white font-semibold py-3 px-4 rounded-lg
+            className={`w-full text-white font-semibold py-3 px-4 rounded-lg
                        transition-all duration-300
                        flex items-center justify-center group/button
-                       hover:bg-gradient-to-r hover:from-hegra-turquoise/30 hover:to-hegra-turquoise/40 hover:text-hegra-turquoise"
-            aria-label={`See ticket details for ${name}`}
+                       ${buttonContent.className}`}
+            aria-label={`${buttonContent.text.toLowerCase()} for event ${name}`}
           >
-            <Ticket size={18} className="mr-2 transition-transform duration-300" />
-            See Ticket
+            <ButtonIcon size={18} className="mr-2 transition-transform duration-300" />
+            {buttonContent.text}
           </button>
         </div>
       </div>
@@ -139,4 +158,4 @@ const EventCard: React.FC<EventCardProps> = (props) => {
   );
 };
 
-export default EventCard;
+export default BusinessEventCard;

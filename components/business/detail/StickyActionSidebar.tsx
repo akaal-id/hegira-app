@@ -40,7 +40,7 @@ const StickyActionSidebar: React.FC<StickyActionSidebarProps> = ({
   const handleQuickCollabSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!projectIdea.trim()) { // Budget can be optional
-        alert("Mohon isi ide proyek Anda.");
+        alert("Please fill in your project idea.");
         return;
     }
     onCollaborationSubmit({ projectIdea, budget });
@@ -55,42 +55,42 @@ const StickyActionSidebar: React.FC<StickyActionSidebarProps> = ({
         onClick={onOpenMeetingScheduler}
         className="w-full flex items-center justify-center gap-2 bg-hegra-turquoise text-white font-semibold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-colors text-sm shadow-md transform hover:scale-105 btn-hover-gradient"
       >
-        <CalendarPlus size={18} /> Ajukan Meeting
+        <CalendarPlus size={18} /> Schedule Meeting
       </button>
       <button
-        onClick={() => alert('Fitur "Kirim Proposal" akan segera hadir!')}
+        onClick={() => alert('"Send Proposal" feature coming soon!')}
         className="w-full flex items-center justify-center gap-2 bg-hegra-navy text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-opacity-90 transition-colors text-sm border border-hegra-navy"
       >
-        <Send size={16} /> Kirim Proposal (Segera)
+        <Send size={16} /> Send Proposal (Soon)
       </button>
        <button
-        onClick={() => alert('Fitur "Minta Penawaran" akan segera hadir!')}
+        onClick={() => alert('"Request Quote" feature coming soon!')}
         className="w-full flex items-center justify-center gap-2 bg-transparent text-hegra-turquoise border-2 border-hegra-turquoise font-semibold py-2.5 px-4 rounded-lg hover:bg-hegra-turquoise/10 transition-colors text-sm"
       >
-        <MessageSquare size={16} /> Minta Penawaran (Segera)
+        <MessageSquare size={16} /> Request Quote (Soon)
       </button>
     </>
   );
 
   const QuickCollabForm = ({isMobile}: {isMobile?: boolean}) => (
      <form onSubmit={handleQuickCollabSubmit} className={`mt-4 pt-4 border-t border-gray-100 space-y-2.5 ${isMobile ? 'p-1' : ''}`}>
-        <h4 className={`font-semibold text-hegra-deep-navy ${isMobile ? 'text-sm' : 'text-md'}`}>Minat Kolaborasi Cepat</h4>
+        <h4 className={`font-semibold text-hegra-deep-navy ${isMobile ? 'text-sm' : 'text-md'}`}>Quick Collaboration Interest</h4>
         <div>
-        <label htmlFor={`projectIdea-${isMobile ? 'mobile' : 'desktop'}`} className="sr-only">Ide Proyek</label>
-        <textarea id={`projectIdea-${isMobile ? 'mobile' : 'desktop'}`} value={projectIdea} onChange={(e) => setProjectIdea(e.target.value)} rows={2} placeholder="Ide proyek singkat..." className="w-full text-xs p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-hegra-turquoise focus:border-hegra-turquoise bg-white"></textarea>
+        <label htmlFor={`projectIdea-${isMobile ? 'mobile' : 'desktop'}`} className="sr-only">Project Idea</label>
+        <textarea id={`projectIdea-${isMobile ? 'mobile' : 'desktop'}`} value={projectIdea} onChange={(e) => setProjectIdea(e.target.value)} rows={2} placeholder="Brief project idea..." className="w-full text-xs p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-hegra-turquoise focus:border-hegra-turquoise bg-white"></textarea>
         </div>
         <div>
-        <label htmlFor={`budget-${isMobile ? 'mobile' : 'desktop'}`} className="sr-only">Perkiraan Budget (Rp)</label>
-        <input type="text" id={`budget-${isMobile ? 'mobile' : 'desktop'}`} value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="Estimasi Budget (opsional)" className="w-full text-xs p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-hegra-turquoise focus:border-hegra-turquoise bg-white"/>
+        <label htmlFor={`budget-${isMobile ? 'mobile' : 'desktop'}`} className="sr-only">Budget Estimate (Rp)</label>
+        <input type="text" id={`budget-${isMobile ? 'mobile' : 'desktop'}`} value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="Budget Estimate (optional)" className="w-full text-xs p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-hegra-turquoise focus:border-hegra-turquoise bg-white"/>
         </div>
-        <button type="submit" className="w-full bg-hegra-yellow text-hegra-navy font-semibold py-2 px-3 rounded-lg hover:bg-opacity-90 text-sm btn-hover-gradient">Kirim Minat</button>
+        <button type="submit" className="w-full bg-hegra-yellow text-hegra-navy font-semibold py-2 px-3 rounded-lg hover:bg-opacity-90 text-sm btn-hover-gradient">Send Interest</button>
     </form>
   );
 
   const ContactDetails = () => (
     contactInfo && (contactInfo.phone || contactInfo.email || contactInfo.website) ? (
       <div className="mt-4 pt-4 border-t border-gray-100">
-        <h4 className="text-sm font-semibold text-hegra-deep-navy mb-1.5">Kontak Perusahaan</h4>
+        <h4 className="text-sm font-semibold text-hegra-deep-navy mb-1.5">Company Contact</h4>
         <div className="space-y-1 text-xs">
           {contactInfo.phone && (
             <a href={`tel:${contactInfo.phone}`} className="flex items-center text-gray-600 hover:text-hegra-turquoise transition-colors">
@@ -116,7 +116,7 @@ const StickyActionSidebar: React.FC<StickyActionSidebarProps> = ({
     <>
       {/* Desktop Sticky Sidebar */}
       <div className="hidden lg:block sticky top-24 bg-white p-5 rounded-xl border border-gray-200 shadow-lg">
-        <h3 className="text-lg font-semibold text-hegra-deep-navy mb-3">Tertarik Kolaborasi?</h3>
+        <h3 className="text-lg font-semibold text-hegra-deep-navy mb-3">Interested in Collaboration?</h3>
         <div className="space-y-2.5">
           <ActionButtonsList />
         </div>
@@ -133,7 +133,7 @@ const StickyActionSidebar: React.FC<StickyActionSidebarProps> = ({
           aria-expanded={isMobileActionsOpen}
           aria-controls="mobile-actions-sheet"
         >
-          <span>Aksi & Kontak</span>
+          <span>Actions & Contact</span>
           {isMobileActionsOpen ? <X size={20} /> : <ChevronUp size={20} />}
         </button>
       </div>
@@ -145,7 +145,7 @@ const StickyActionSidebar: React.FC<StickyActionSidebarProps> = ({
             className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-hegra-yellow p-4 transition-transform duration-300 ease-out max-h-[75vh] overflow-y-auto"
         >
             <div className="flex justify-between items-center mb-3">
-                <h3 className="text-md font-semibold text-hegra-deep-navy">Aksi Cepat & Kontak</h3>
+                <h3 className="text-md font-semibold text-hegra-deep-navy">Quick Actions & Contact</h3>
                 <button onClick={() => setIsMobileActionsOpen(false)} className="p-1 text-gray-500 hover:text-hegra-navy">
                     <X size={22}/>
                 </button>

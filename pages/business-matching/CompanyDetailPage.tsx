@@ -9,67 +9,297 @@ import { BusinessMatchingCardData } from '../../components/BusinessMatchingCard'
 import CompanyDetailHeader from '../../components/business/detail/CompanyDetailHeader';
 import CompanyMetrics from '../../components/business/detail/CompanyMetrics';
 import CompanyAboutSection from '../../components/business/detail/CompanyAboutSection';
-import PortfolioCarousel from '../../components/business/detail/PortfolioCarousel';
+import CompanyProducts from '../../components/business/detail/CompanyProducts';
 import CompanyReviews from '../../components/business/detail/CompanyReviews';
 import StickyActionSidebar from '../../components/business/detail/StickyActionSidebar';
 import MeetingSchedulerModal from '../../components/business/MeetingSchedulerModal';
 import { Briefcase, MapPin, DollarSign, Users, BarChart3, Heart, Award, CalendarCheck, MessageSquare, Send } from 'lucide-react';
 
+// Dummy data for products that can be linked to companies
+const dummyProducts = [
+  // PT Digital Innovation Nusantara Products (ID: 1)
+  {
+    id: 'prod_001',
+    companyId: 1,
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Custom Software Development',
+    price: '25,000,000',
+    sellerName: 'PT Digital Innovation Nusantara',
+    location: 'South Jakarta, DKI Jakarta'
+  },
+  {
+    id: 'prod_002',
+    companyId: 1,
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Data Analytics Platform',
+    price: '35,000,000',
+    sellerName: 'PT Digital Innovation Nusantara',
+    location: 'South Jakarta, DKI Jakarta'
+  },
+  {
+    id: 'prod_003',
+    companyId: 1,
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Cloud Infrastructure Setup',
+    price: '45,000,000',
+    sellerName: 'PT Digital Innovation Nusantara',
+    location: 'South Jakarta, DKI Jakarta'
+  },
+  {
+    id: 'prod_004',
+    companyId: 1,
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Mobile App Development',
+    price: '30,000,000',
+    sellerName: 'PT Digital Innovation Nusantara',
+    location: 'South Jakarta, DKI Jakarta'
+  },
+  {
+    id: 'prod_005',
+    companyId: 1,
+    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'AI Chatbot Solution',
+    price: '20,000,000',
+    sellerName: 'PT Digital Innovation Nusantara',
+    location: 'South Jakarta, DKI Jakarta'
+  },
+  {
+    id: 'prod_006',
+    companyId: 1,
+    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Cybersecurity Audit',
+    price: '40,000,000',
+    sellerName: 'PT Digital Innovation Nusantara',
+    location: 'South Jakarta, DKI Jakarta'
+  },
 
-// Sample detailed data for a company (Acme Event Solutions)
-const acmeEventSolutionsData: BusinessMatchingCardData = {
-  id: 1001,
-  name: 'Acme Event Solutions',
-  logoUrl: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80', // Example logo
+  // Creative Studio Together Products (ID: 2)
+  {
+    id: 'prod_007',
+    companyId: 2,
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Brand Identity Design',
+    price: '15,000,000',
+    sellerName: 'Creative Studio Together',
+    location: 'Bandung, West Java'
+  },
+  {
+    id: 'prod_008',
+    companyId: 2,
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Marketing Campaign Design',
+    price: '12,000,000',
+    sellerName: 'Creative Studio Together',
+    location: 'Bandung, West Java'
+  },
+  {
+    id: 'prod_009',
+    companyId: 2,
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'UI/UX Design Services',
+    price: '18,000,000',
+    sellerName: 'Creative Studio Together',
+    location: 'Bandung, West Java'
+  },
+  {
+    id: 'prod_010',
+    companyId: 2,
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Video Production & Editing',
+    price: '25,000,000',
+    sellerName: 'Creative Studio Together',
+    location: 'Bandung, West Java'
+  },
+  {
+    id: 'prod_011',
+    companyId: 2,
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Social Media Content Package',
+    price: '8,000,000',
+    sellerName: 'Creative Studio Together',
+    location: 'Bandung, West Java'
+  },
+  {
+    id: 'prod_012',
+    companyId: 2,
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Print Design Services',
+    price: '10,000,000',
+    sellerName: 'Creative Studio Together',
+    location: 'Bandung, West Java'
+  },
+
+  // Precision Manufacturing Indonesia Products (ID: 3)
+  {
+    id: 'prod_013',
+    companyId: 3,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Custom Metal Fabrication',
+    price: '150,000,000',
+    sellerName: 'Precision Manufacturing Indonesia',
+    location: 'Surabaya, East Java'
+  },
+  {
+    id: 'prod_014',
+    companyId: 3,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Industrial Equipment Manufacturing',
+    price: '250,000,000',
+    sellerName: 'Precision Manufacturing Indonesia',
+    location: 'Surabaya, East Java'
+  },
+  {
+    id: 'prod_015',
+    companyId: 3,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Precision CNC Machining',
+    price: '180,000,000',
+    sellerName: 'Precision Manufacturing Indonesia',
+    location: 'Surabaya, East Java'
+  },
+  {
+    id: 'prod_016',
+    companyId: 3,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Quality Control Services',
+    price: '75,000,000',
+    sellerName: 'Precision Manufacturing Indonesia',
+    location: 'Surabaya, East Java'
+  },
+  {
+    id: 'prod_017',
+    companyId: 3,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Supply Chain Management',
+    price: '120,000,000',
+    sellerName: 'Precision Manufacturing Indonesia',
+    location: 'Surabaya, East Java'
+  },
+  {
+    id: 'prod_018',
+    companyId: 3,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Custom Tooling Solutions',
+    price: '200,000,000',
+    sellerName: 'Precision Manufacturing Indonesia',
+    location: 'Surabaya, East Java'
+  },
+
+  // Brilliant Education Solutions Products (ID: 4)
+  {
+    id: 'prod_019',
+    companyId: 4,
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Corporate Training Programs',
+    price: '12,000,000',
+    sellerName: 'Brilliant Education Solutions',
+    location: 'Yogyakarta, DIY'
+  },
+  {
+    id: 'prod_020',
+    companyId: 4,
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Online Learning Platform',
+    price: '18,000,000',
+    sellerName: 'Brilliant Education Solutions',
+    location: 'Yogyakarta, DIY'
+  },
+  {
+    id: 'prod_021',
+    companyId: 4,
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Leadership Development Course',
+    price: '15,000,000',
+    sellerName: 'Brilliant Education Solutions',
+    location: 'Yogyakarta, DIY'
+  },
+  {
+    id: 'prod_022',
+    companyId: 4,
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Skills Assessment Tools',
+    price: '8,000,000',
+    sellerName: 'Brilliant Education Solutions',
+    location: 'Yogyakarta, DIY'
+  },
+  {
+    id: 'prod_023',
+    companyId: 4,
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Educational Content Creation',
+    price: '10,000,000',
+    sellerName: 'Brilliant Education Solutions',
+    location: 'Yogyakarta, DIY'
+  },
+  {
+    id: 'prod_024',
+    companyId: 4,
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
+    title: 'Student Performance Analytics',
+    price: '14,000,000',
+    sellerName: 'Brilliant Education Solutions',
+    location: 'Yogyakarta, DIY'
+  }
+];
+
+// Sample detailed data for a company (PT Digital Innovation Nusantara)
+const ptDigitalInnovationData: BusinessMatchingCardData = {
+  id: 1,
+  name: 'PT Digital Innovation Nusantara',
+  logoUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80', // Example logo
   matchScore: 4.7, 
-  sector: 'Event Management & Production',
-  location: 'Jakarta Pusat, DKI Jakarta',
-  budget: 'Fleksibel (Proyek Basis)',
+  sector: 'Information Technology',
+  location: 'South Jakarta, DKI Jakarta',
+  budget: 'Rp 50M - Rp 100M',
   lat: -6.1751, 
   lng: 106.8650,
   isOnline: true,
-  specialFeatures: ['Tim Profesional', 'Portofolio Luas', 'Respon Cepat', 'Teknologi Terbaru'],
-  description: `Acme Event Solutions adalah perusahaan manajemen event terkemuka yang berdedikasi untuk menciptakan pengalaman acara yang tak terlupakan. Dengan tim berpengalaman dan jaringan vendor yang luas, kami menangani semua aspek event Anda, mulai dari konsep kreatif, perencanaan anggaran, produksi teknis, hingga pelaksanaan di lapangan. Kami telah berhasil menyelenggarakan berbagai jenis acara, termasuk konferensi perusahaan, peluncuran produk, pameran dagang, konser musik, dan acara sosial.<br/><br/>
-                Fokus kami adalah pada inovasi, detail, dan kepuasan klien. Kami percaya bahwa setiap event adalah unik dan harus mencerminkan visi serta tujuan klien kami. Dengan pendekatan kolaboratif, kami bekerja sama dengan Anda untuk memastikan setiap detail tereksekusi dengan sempurna.`,
+  specialFeatures: ['Professional Team', 'Extensive Portfolio', 'Fast Response', 'Latest Technology'],
+  description: `PT Digital Innovation Nusantara is a leading technology company dedicated to delivering innovative digital solutions for businesses across Indonesia. With a team of experienced developers, designers, and technology consultants, we specialize in custom software development, data analytics, cloud infrastructure, and emerging technologies like AI and machine learning.<br/><br/>
+                Our focus is on creating scalable, secure, and user-friendly solutions that drive business growth and digital transformation. We believe in building long-term partnerships with our clients, understanding their unique challenges, and delivering solutions that exceed expectations.`,
   keyMetrics: [
-    { label: "Total Event Diselenggarakan", value: "500+", icon: Briefcase },
-    { label: "Klien Korporat Terlayani", value: "150+", icon: Users },
-    { label: "Rating Kepuasan Klien", value: "4.8/5", icon: Heart },
-    { label: "Jangkauan Peserta Terbesar", value: "10,000+", icon: BarChart3 },
+    { label: "Projects Completed", value: "200+", icon: Briefcase },
+    { label: "Corporate Clients Served", value: "80+", icon: Users },
+    { label: "Client Satisfaction Rating", value: "4.8/5", icon: Heart },
+    { label: "Team Members", value: "50+", icon: BarChart3 },
   ],
   portfolio: [
-    { title: "Global Tech Summit 2023", description: "Konferensi teknologi internasional dengan 2000+ peserta dari 50 negara. Menampilkan pembicara utama dan sesi interaktif.", imageUrl: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
-    { title: "Music Fest 'Soundrenaline Reborn'", description: "Festival musik multi-genre yang menghadirkan artis lokal dan internasional. Pengelolaan panggung, logistik, dan keamanan.", imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
-    { title: "Product Launch 'InnovateX'", description: "Peluncuran produk teknologi inovatif dengan konsep acara yang imersif dan futuristik.", imageUrl: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
-    { title: "Pameran Seni Kontemporer 'ArtVolution'", description: "Pameran seni yang menampilkan karya-karya seniman muda berbakat. Kurasi, instalasi, dan promosi.", imageUrl: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
+    { title: "E-Commerce Platform for Retail Chain", description: "Custom e-commerce solution with inventory management, payment gateway integration, and analytics dashboard for a major Indonesian retail chain.", imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
+    { title: "Data Analytics Dashboard for Manufacturing", description: "Real-time data visualization and analytics platform for manufacturing operations, helping optimize production efficiency.", imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
+    { title: "Cloud Migration for Financial Services", description: "Secure cloud infrastructure migration for a financial services company, ensuring compliance and scalability.", imageUrl: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
+    { title: "Mobile Banking App", description: "Cross-platform mobile banking application with biometric authentication and real-time transaction monitoring.", imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" },
   ],
   reviews: [
-    { author: "PT Inovasi Jaya", rating: 5, comment: "Acme sangat profesional dan kreatif! Event kami berjalan sukses besar berkat mereka.", date: "15 Juli 2024" },
-    { author: "XYZ Corporation", rating: 4, comment: "Tim yang responsif dan solutif. Ada beberapa kendala kecil, tapi secara keseluruhan memuaskan.", date: "10 Juni 2024" },
-    { author: "Creative Labs ID", rating: 5, comment: "Konsep yang ditawarkan selalu segar dan out-of-the-box. Sangat direkomendasikan!", date: "20 Mei 2024" },
-    { author: "Mega Konser Group", rating: 4, comment: "Manajemen logistik dan teknis yang handal untuk acara skala besar.", date: "1 April 2024" },
+    { author: "PT Retail Indonesia", rating: 5, comment: "Excellent team and delivery! Our e-commerce platform exceeded all expectations.", date: "July 15, 2024" },
+    { author: "Bank Digital Nusantara", rating: 4, comment: "Professional service and on-time delivery. The mobile app is performing excellently.", date: "June 10, 2024" },
+    { author: "Manufacturing Corp", rating: 5, comment: "The analytics dashboard has transformed our operations. Highly recommended!", date: "May 20, 2024" },
+    { author: "Tech Startup Indonesia", rating: 4, comment: "Great technical expertise and responsive team. Delivered quality solutions.", date: "April 1, 2024" },
   ],
   contact: {
     phone: "+62 21 555 0101",
-    email: "info@acmeevents.co.id",
-    website: "https://www.acmeevents.co.id",
+    email: "info@digitalinnovation.co.id",
+    website: "https://www.digitalinnovation.co.id",
   },
    availability: [
-    { day: "Senin", slots: ["09:00", "10:00", "14:00"] },
-    { day: "Selasa", slots: ["10:00", "11:00", "15:00"] },
-    { day: "Rabu", slots: ["09:30", "13:30", "15:30"] },
-    { day: "Kamis", slots: ["10:00", "14:00"] },
-    { day: "Jumat", slots: ["09:00", "11:00", "13:00"] },
+    { day: "Monday", slots: ["09:00", "10:00", "14:00"] },
+    { day: "Tuesday", slots: ["10:00", "11:00", "15:00"] },
+    { day: "Wednesday", slots: ["09:30", "13:30", "15:30"] },
+    { day: "Thursday", slots: ["10:00", "14:00"] },
+    { day: "Friday", slots: ["09:00", "11:00", "13:00"] },
   ],
 };
 
+// Function to get products for a specific company
+const getCompanyProducts = (companyId: number) => {
+  return dummyProducts.filter(product => product.companyId === companyId);
+};
 
 interface CompanyDetailPageProps {
   company: BusinessMatchingCardData; 
   onNavigate: (page: PageName, data?: any) => void;
 }
 
-const CompanyDetailPage: React.FC<CompanyDetailPageProps> = ({ company = acmeEventSolutionsData, onNavigate }) => {
+const CompanyDetailPage: React.FC<CompanyDetailPageProps> = ({ company = ptDigitalInnovationData, onNavigate }) => {
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
   const [schedulingForVendor, setSchedulingForVendor] = useState<string | null>(null);
 
@@ -79,15 +309,17 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = ({ company = acmeEve
   };
 
   const handleMeetingScheduled = (details: {vendorName: string, date: Date, timeSlot: string, duration: string, type: string, agenda: string}) => {
-    alert(`Permintaan meeting untuk ${details.vendorName} pada ${details.date.toLocaleDateString('id-ID',{day:'2-digit', month:'long', year:'numeric'})} slot ${details.timeSlot} telah dikirim!\nDurasi: ${details.duration}\nTipe: ${details.type}\nAgenda: ${details.agenda}`);
+    alert(`Meeting request for ${details.vendorName} on ${details.date.toLocaleDateString('en-US',{day:'2-digit', month:'long', year:'numeric'})} slot ${details.timeSlot} has been sent!\nDuration: ${details.duration}\nType: ${details.type}\nAgenda: ${details.agenda}`);
     setIsMeetingModalOpen(false);
     setSchedulingForVendor(null);
   };
   
   const handleCollaborationSubmit = (formData: { projectIdea: string; budget: string }) => {
-    alert(`Minat kolaborasi terkirim:\nIde Proyek: ${formData.projectIdea}\nEstimasi Budget: ${formData.budget || 'Belum ditentukan'}`);
+    alert(`Collaboration interest sent:\nProject Idea: ${formData.projectIdea}\nBudget Estimate: ${formData.budget || 'Not determined yet'}`);
   };
 
+  // Get products for the current company
+  const companyProducts = getCompanyProducts(company.id);
 
   return (
     <div className="bg-gray-50 min-h-screen pb-24 lg:pb-0"> {/* Padding bottom for mobile sticky bar */}
@@ -96,7 +328,10 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = ({ company = acmeEve
         logoUrl={company.logoUrl}
         companyName={company.name}
         rating={company.matchScore} 
-        onBack={() => onNavigate('business')}
+        onBack={() => {
+          // Clear the selected business when going back
+          onNavigate('business', null);
+        }}
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -105,10 +340,10 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = ({ company = acmeEve
           <div className="lg:w-[calc(100%-24rem-2rem)] xl:w-[calc(100%-26rem-2rem)] space-y-8 mb-8 lg:mb-0"> {/* Adjust width based on sidebar */}
             <CompanyMetrics metrics={company.keyMetrics || []} />
             <CompanyAboutSection 
-              description={company.description || "Deskripsi perusahaan tidak tersedia."}
-              specializations={company.specialFeatures || ["Layanan Profesional"]}
+              description={company.description || "Company description not available."}
+              specializations={company.specialFeatures || ["Professional Services"]}
             />
-            <PortfolioCarousel projects={company.portfolio || []} />
+            <CompanyProducts products={companyProducts} companyName={company.name} />
             <CompanyReviews reviews={company.reviews || []} />
           </div>
 

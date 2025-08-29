@@ -1,6 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { routes } from './routes';
+import { BrowserRouter as Router } from 'react-router-dom';
 import HegiraApp from '../HegiraApp';
 
 const App: React.FC = () => {

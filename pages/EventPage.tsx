@@ -4,7 +4,7 @@
 */
 import React, { useState, useMemo } from 'react';
 import EventCard from '../components/EventCard';
-import { Search, ChevronLeft, ChevronRight, Filter as FilterIcon, ChevronDown, ChevronUp } from 'lucide-react'; 
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react'; 
 import { EventData, PageName } from '../HegiraApp'; // Renamed import
 
 interface EventPageProps {
@@ -19,7 +19,6 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['Festivals']); // Example, can be dynamic
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
 
@@ -79,64 +78,53 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-      <header className="mb-8 md:mb-12 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-jakarta font-bold text-hegra-turquoise">Jelajahi Event</h1>
-        <p className="mt-3 text-lg text-gray-700 max-w-3xl mx-auto">
-          Selami dunia penuh kegembiraan dan peluang. Jelajahi beragam koleksi acara mendatang, 
-          dari festival yang meriah dan konferensi yang berwawasan hingga pameran yang menarik. Temukan pengalaman tak terlupakan Anda berikutnya di sini.
-        </p>
-      </header>
+             <header className="mb-8 md:mb-12 text-center">
+         <h1 className="text-4xl md:text-5xl lg:text-6xl font-jakarta font-bold text-hegra-turquoise">Explore Events</h1>
+         <p className="mt-3 text-lg text-gray-700 max-w-3xl mx-auto">
+           Dive into a world full of excitement and opportunities. Explore a diverse collection of upcoming events, 
+           from lively festivals and insightful conferences to engaging exhibitions. Find your next unforgettable experience here.
+         </p>
+       </header>
       
-      <div className="mb-12 md:mb-16">
-        <div className="relative max-w-2xl mx-auto">
-          <input
-            type="search"
-            id="search-event"
-            name="search-event"
-            placeholder="Cari nama, kategori, atau lokasi event..."
-            className="w-full py-3 px-4 pl-12 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors bg-white" 
-            aria-label="Search events"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className="mb-8">
+        <div className="relative">
+                     <input
+             type="search"
+             id="search-event"
+             name="search-event"
+             placeholder="Search event name, category, or location..."
+             className="w-full py-4 px-4 pl-12 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-hegra-turquoise/20 focus:border-hegra-turquoise/50 transition-colors bg-white" 
+             aria-label="Search events"
+             value={searchTerm}
+             onChange={(e) => setSearchTerm(e.target.value)}
+           />
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
         </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
-        <aside className="w-full md:w-1/4 lg:w-1/5 bg-white p-6 rounded-lg shadow-sm border border-gray-200 self-start">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-jakarta font-semibold text-hegra-navy">Filters</h2>
-            <button 
-              onClick={() => setIsFilterVisible(!isFilterVisible)} 
-              className="text-hegra-navy hover:text-hegra-turquoise p-1"
-              aria-expanded={isFilterVisible}
-              aria-controls="event-filters-content"
-            >
-              {isFilterVisible ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-            </button>
+        <aside className="w-full md:w-1/4 lg:w-1/5 bg-white rounded-xl border border-hegra-navy/10 p-6 self-start">
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-hegra-deep-navy">Filters</h2>
           </div>
           
-          {isFilterVisible && (
-            <div id="event-filters-content" className="space-y-6">
+          <div className="space-y-6">
               {/* Category Filter */}
-              <div>
-                <h3 className="text-lg font-jakarta font-medium text-gray-800 mb-2">Category</h3>
-                <ul className="space-y-1">
+              <div className="mb-6">
+                <h4 className="font-medium text-gray-700 mb-3">Category</h4>
+                <div className="space-y-2">
                   {categories.map(category => (
-                    <li key={category}>
-                      <label className="flex items-center space-x-2 text-gray-700 hover:text-hegra-turquoise cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={selectedCategories.includes(category)}
-                          onChange={() => handleCategoryChange(category)}
-                          className="form-checkbox h-4 w-4 text-hegra-turquoise rounded border-gray-300 focus:ring-hegra-turquoise/20"
-                        />
-                        <span>{category}</span>
-                      </label>
-                    </li>
+                    <label key={category} className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(category)}
+                        onChange={() => handleCategoryChange(category)}
+                        className="rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                      />
+                      <span className="text-sm text-gray-600">{category}</span>
+                    </label>
                   ))}
-                </ul>
+                </div>
               </div>
 
               {/* Date Range Filter */}
@@ -168,7 +156,6 @@ const EventPage: React.FC<EventPageProps> = ({ events, onNavigate }) => {
                 </div>
               </div>
             </div>
-          )}
         </aside>
 
         <main className="w-full md:w-3/4 lg:w-4/5">

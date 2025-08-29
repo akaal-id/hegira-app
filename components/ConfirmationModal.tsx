@@ -51,7 +51,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <button
           onClick={onCancel}
           className="absolute top-4 right-4 text-gray-400 hover:text-hegra-turquoise transition-colors"
-          aria-label="Tutup modal konfirmasi"
+          aria-label="Close confirmation modal"
         >
           <X size={24} />
         </button>

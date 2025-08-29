@@ -22,87 +22,87 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({
   if (!isOpen) return null;
 
   const tncContent = `
-    Selamat datang di Hegra! Sebelum Anda melanjutkan pembelian tiket untuk event "${eventName}", mohon luangkan waktu untuk membaca dan memahami Syarat dan Ketentuan berikut ini. Dengan mengklik "Ya, Saya Mengerti dan Setuju", Anda dianggap telah membaca, memahami, dan menyetujui seluruh isi dari Syarat dan Ketentuan ini.
+    Welcome to Hegra! Before you proceed with purchasing tickets for the event "${eventName}", please take the time to read and understand the following Terms and Conditions. By clicking "Yes, I Understand and Agree", you are deemed to have read, understood, and agreed to all the contents of these Terms and Conditions.
 
-    <h5>1. Definisi</h5>
+    <h5>1. Definitions</h5>
     <ul>
-        <li><strong>Platform Hegra (selanjutnya disebut "Hegra" atau "Kami")</strong>: Merujuk pada aplikasi dan situs web Hegra yang menyediakan layanan informasi dan pembelian tiket event.</li>
-        <li><strong>Penyelenggara Event (selanjutnya disebut "Penyelenggara")</strong>: Pihak ketiga yang bertanggung jawab atas pelaksanaan dan konten dari event yang tiketnya dijual melalui Hegra.</li>
-        <li><strong>Pengguna (selanjutnya disebut "Anda")</strong>: Setiap individu yang mengakses atau menggunakan Platform Hegra untuk mencari informasi atau melakukan pembelian tiket.</li>
-        <li><strong>Tiket</strong>: Dokumen elektronik (e-tiket) yang memberikan hak kepada pemegangnya untuk menghadiri event tertentu sesuai dengan kategori dan ketentuan yang tertera.</li>
+        <li><strong>Hegra Platform (hereinafter referred to as "Hegra" or "We")</strong>: Refers to the Hegra application and website that provides event information and ticket purchasing services.</li>
+        <li><strong>Event Organizer (hereinafter referred to as "Organizer")</strong>: Third party responsible for the implementation and content of the event whose tickets are sold through Hegra.</li>
+        <li><strong>User (hereinafter referred to as "You")</strong>: Any individual who accesses or uses the Hegra Platform to search for information or make ticket purchases.</li>
+        <li><strong>Ticket</strong>: Electronic document (e-ticket) that gives the holder the right to attend a specific event according to the category and terms stated.</li>
     </ul>
 
-    <h5>2. Pembelian Tiket</h5>
+    <h5>2. Ticket Purchase</h5>
     <ol>
-        <li>Anda wajib memberikan data yang akurat, lengkap, dan terkini saat melakukan proses pemesanan tiket, termasuk nama lengkap, alamat email, dan nomor telepon.</li>
-        <li>Setelah pembayaran berhasil diverifikasi, e-tiket akan dikirimkan ke alamat email yang Anda daftarkan dan/atau melalui notifikasi dalam aplikasi. Pastikan alamat email yang Anda masukkan benar dan aktif.</li>
-        <li>Hegra tidak bertanggung jawab atas kegagalan pengiriman e-tiket yang disebabkan oleh kesalahan penulisan alamat email atau masalah teknis pada server email Anda.</li>
-        <li>Semua transaksi pembelian tiket bersifat final setelah pembayaran dikonfirmasi.</li>
+        <li>You are required to provide accurate, complete, and current data when making ticket reservations, including full name, email address, and phone number.</li>
+        <li>After payment is successfully verified, e-tickets will be sent to the email address you registered and/or through notifications in the application. Make sure the email address you enter is correct and active.</li>
+        <li>Hegra is not responsible for e-ticket delivery failures caused by email address typos or technical issues with your email server.</li>
+        <li>All ticket purchase transactions are final after payment is confirmed.</li>
     </ol>
 
-    <h5>3. Penggunaan Tiket</h5>
+    <h5>3. Ticket Usage</h5>
     <ol>
-        <li>Satu tiket berlaku untuk satu orang, kecuali jika secara eksplisit dinyatakan berbeda (misalnya, tiket keluarga atau grup).</li>
-        <li>Tiket hanya berlaku untuk event, tanggal, dan waktu yang tertera pada tiket.</li>
-        <li>Tiket yang sudah dibeli pada umumnya tidak dapat dipindahtangankan, kecuali jika diizinkan secara khusus oleh Penyelenggara Event dan/atau Hegra.</li>
-        <li>Tiket yang sudah dibeli pada umumnya tidak dapat dibatalkan, ditukar, atau diuangkan kembali (non-refundable), kecuali dalam kasus pembatalan event oleh Penyelenggara atau kondisi lain yang ditetapkan oleh Penyelenggara dan/atau Hegra. Kebijakan refund akan mengikuti ketentuan dari Penyelenggara.</li>
-        <li>Dilarang memperjualbelikan tiket di luar platform resmi atau dengan harga yang tidak wajar. Hegra dan Penyelenggara berhak membatalkan tiket yang diperoleh melalui cara yang tidak sah.</li>
-        <li>Anda bertanggung jawab penuh atas keamanan e-tiket Anda. Jangan membagikan kode QR atau detail unik tiket kepada pihak yang tidak berkepentingan.</li>
+        <li>One ticket is valid for one person, unless explicitly stated otherwise (e.g., family or group tickets).</li>
+        <li>Tickets are only valid for the event, date, and time stated on the ticket.</li>
+        <li>Tickets that have been purchased generally cannot be transferred, unless specifically permitted by the Event Organizer and/or Hegra.</li>
+        <li>Tickets that have been purchased generally cannot be cancelled, exchanged, or refunded (non-refundable), except in cases of event cancellation by the Organizer or other conditions set by the Organizer and/or Hegra. Refund policy will follow the Organizer's terms.</li>
+        <li>It is prohibited to resell tickets outside the official platform or at unreasonable prices. Hegra and the Organizer have the right to cancel tickets obtained through unauthorized means.</li>
+        <li>You are fully responsible for the security of your e-ticket. Do not share the QR code or unique ticket details with unauthorized parties.</li>
     </ol>
 
-    <h5>4. Pengumpulan dan Penggunaan Data Pribadi</h5>
+    <h5>4. Collection and Use of Personal Data</h5>
     <ol>
-        <li>Dengan melakukan transaksi di Hegra, Anda menyetujui pengumpulan, penyimpanan, penggunaan, dan pengungkapan data pribadi Anda (termasuk data diri pemesan dan data pemegang tiket tambahan jika ada) oleh Hegra dan Penyelenggara.</li>
-        <li>Data pribadi Anda akan digunakan untuk keperluan:
+        <li>By making transactions on Hegra, you agree to the collection, storage, use, and disclosure of your personal data (including booker data and additional ticket holder data if any) by Hegra and the Organizer.</li>
+        <li>Your personal data will be used for:
             <ul>
-                <li>Memproses transaksi pembelian tiket.</li>
-                <li>Menerbitkan dan mengirimkan e-tiket.</li>
-                <li>Komunikasi terkait event (informasi, perubahan, pembatalan).</li>
-                <li>Verifikasi identitas di lokasi event.</li>
-                <li>Analisis dan pengembangan layanan Hegra.</li>
-                <li>Tujuan pemasaran dengan persetujuan Anda (opt-in).</li>
+                <li>Processing ticket purchase transactions.</li>
+                <li>Issuing and sending e-tickets.</li>
+                <li>Event-related communication (information, changes, cancellations).</li>
+                <li>Identity verification at event locations.</li>
+                <li>Analysis and development of Hegra services.</li>
+                <li>Marketing purposes with your consent (opt-in).</li>
             </ul>
         </li>
-        <li>Data pribadi Anda dapat dibagikan kepada Penyelenggara Event terkait untuk keperluan manajemen event dan komunikasi dengan peserta.</li>
-        <li>Hegra berkomitmen untuk melindungi data pribadi Anda sesuai dengan Kebijakan Privasi Hegra dan peraturan perundang-undangan yang berlaku di Indonesia. Silakan merujuk ke Kebijakan Privasi kami untuk informasi lebih lanjut.</li>
+        <li>Your personal data may be shared with the relevant Event Organizer for event management purposes and communication with participants.</li>
+        <li>Hegra is committed to protecting your personal data in accordance with Hegra's Privacy Policy and applicable laws and regulations in Indonesia. Please refer to our Privacy Policy for more information.</li>
     </ol>
 
-    <h5>5. Pelaksanaan Event</h5>
+    <h5>5. Event Implementation</h5>
     <ol>
-        <li>Anda wajib mematuhi seluruh peraturan dan tata tertib yang berlaku di lokasi event, termasuk ketentuan yang ditetapkan oleh Penyelenggara dan pengelola venue.</li>
-        <li>Penyelenggara berhak menolak masuk atau mengeluarkan peserta yang berperilaku tidak pantas, mengganggu ketertiban, atau melanggar peraturan tanpa pengembalian dana tiket.</li>
-        <li>Penyelenggara berhak melakukan perubahan terhadap jadwal, pengisi acara, atau aspek lain dari event dengan pemberitahuan sebelumnya kepada peserta melalui email atau media komunikasi lain yang dianggap patut.</li>
-        <li>Dilarang membawa senjata tajam, minuman keras, obat-obatan terlarang, atau barang-barang lain yang dapat membahayakan keselamatan dan kenyamanan peserta lain. Daftar barang yang dilarang dapat berbeda untuk setiap event dan akan diinformasikan oleh Penyelenggara.</li>
-        <li>Pengambilan foto atau video selama event mungkin tunduk pada batasan yang ditetapkan oleh Penyelenggara.</li>
+        <li>You must comply with all rules and regulations applicable at the event location, including terms set by the Organizer and venue management.</li>
+        <li>The Organizer has the right to deny entry or expel participants who behave inappropriately, disturb order, or violate regulations without ticket refunds.</li>
+        <li>The Organizer has the right to make changes to the schedule, performers, or other aspects of the event with prior notice to participants via email or other appropriate communication media.</li>
+        <li>It is prohibited to bring sharp weapons, alcoholic beverages, illegal drugs, or other items that may endanger the safety and comfort of other participants. The list of prohibited items may vary for each event and will be informed by the Organizer.</li>
+        <li>Taking photos or videos during the event may be subject to restrictions set by the Organizer.</li>
     </ol>
 
-    <h5>6. Pembatalan, Penundaan, dan Perubahan Event oleh Penyelenggara</h5>
+    <h5>6. Event Cancellation, Postponement, and Changes by Organizer</h5>
     <ol>
-        <li>Jika event dibatalkan oleh Penyelenggara, proses pengembalian dana (refund) atau kompensasi lainnya akan menjadi tanggung jawab penuh Penyelenggara sesuai dengan kebijakan mereka. Hegra akan berupaya memfasilitasi komunikasi antara Anda dan Penyelenggara terkait hal ini.</li>
-        <li>Jika event ditunda atau mengalami perubahan signifikan, Penyelenggara akan memberikan informasi mengenai opsi yang tersedia (misalnya, penggunaan tiket di tanggal baru atau refund).</li>
-        <li>Hegra bertindak sebagai platform penjualan tiket dan tidak bertanggung jawab atas pelaksanaan, kualitas, perubahan, penundaan, atau pembatalan event oleh Penyelenggara.</li>
+        <li>If the event is cancelled by the Organizer, the refund process or other compensation will be the full responsibility of the Organizer according to their policy. Hegra will endeavor to facilitate communication between you and the Organizer regarding this matter.</li>
+        <li>If the event is postponed or experiences significant changes, the Organizer will provide information about available options (e.g., using tickets on the new date or refund).</li>
+        <li>Hegra acts as a ticket sales platform and is not responsible for the implementation, quality, changes, postponement, or cancellation of events by the Organizer.</li>
     </ol>
 
-    <h5>7. Batasan Tanggung Jawab</h5>
+    <h5>7. Limitation of Liability</h5>
     <ol>
-        <li>Hegra tidak bertanggung jawab atas segala kerugian, cedera, atau kerusakan properti yang mungkin Anda alami selama menghadiri event, kecuali jika disebabkan secara langsung oleh kelalaian berat Hegra.</li>
-        <li>Hegra dan Penyelenggara tidak bertanggung jawab atas kegagalan pelaksanaan event yang disebabkan oleh keadaan kahar (force majeure) seperti bencana alam, perang, huru-hara, pandemi, atau peraturan pemerintah yang di luar kendali wajar.</li>
+        <li>Hegra is not responsible for any losses, injuries, or property damage you may experience while attending the event, unless caused directly by Hegra's gross negligence.</li>
+        <li>Hegra and the Organizer are not responsible for event implementation failures caused by force majeure circumstances such as natural disasters, war, riots, pandemics, or government regulations beyond reasonable control.</li>
     </ol>
 
-    <h5>8. Hak Kekayaan Intelektual</h5>
-    <p>Seluruh konten dan materi yang terdapat di Platform Hegra, termasuk namun tidak terbatas pada logo, desain, teks, grafis, dan perangkat lunak, adalah milik Hegra atau pemberi lisensinya dan dilindungi oleh undang-undang hak cipta dan kekayaan intelektual lainnya.</p>
+    <h5>8. Intellectual Property Rights</h5>
+    <p>All content and materials contained on the Hegra Platform, including but not limited to logos, designs, text, graphics, and software, are owned by Hegra or its licensors and are protected by copyright and other intellectual property laws.</p>
 
-    <h5>9. Persetujuan</h5>
-    <p>Dengan mencentang kotak persetujuan dan melanjutkan transaksi, Anda menyatakan bahwa Anda telah membaca, memahami, dan menyetujui untuk terikat oleh seluruh Syarat dan Ketentuan ini, serta Kebijakan Privasi Hegra.</p>
+    <h5>9. Consent</h5>
+    <p>By checking the consent box and proceeding with the transaction, you declare that you have read, understood, and agreed to be bound by all these Terms and Conditions, as well as Hegra's Privacy Policy.</p>
 
-    <h5>10. Lain-lain</h5>
+    <h5>10. Miscellaneous</h5>
     <ol>
-        <li>Syarat dan Ketentuan ini diatur dan ditafsirkan sesuai dengan hukum yang berlaku di Republik Indonesia.</li>
-        <li>Hegra berhak untuk mengubah Syarat dan Ketentuan ini dari waktu ke waktu tanpa pemberitahuan sebelumnya. Versi terbaru akan selalu tersedia di Platform Hegra. Penggunaan Platform Hegra secara berkelanjutan setelah perubahan dianggap sebagai persetujuan Anda terhadap perubahan tersebut.</li>
-        <li>Jika ada pertanyaan lebih lanjut mengenai Syarat dan Ketentuan ini, silakan hubungi layanan pelanggan kami melalui email di support@hegra.com atau melalui fitur bantuan di aplikasi.</li>
+        <li>These Terms and Conditions are governed by and interpreted in accordance with the laws applicable in the Republic of Indonesia.</li>
+        <li>Hegra has the right to change these Terms and Conditions from time to time without prior notice. The latest version will always be available on the Hegra Platform. Continued use of the Hegra Platform after changes is considered as your consent to such changes.</li>
+        <li>If you have further questions regarding these Terms and Conditions, please contact our customer service via email at support@hegra.com or through the help feature in the application.</li>
     </ol>
 
-    Terima kasih telah menggunakan Hegra!
+    Thank you for using Hegra!
   `;
 
 
@@ -117,7 +117,7 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({
         <button
           onClick={onCancel}
           className="absolute top-4 right-4 text-gray-400 hover:text-hegra-turquoise transition-colors z-20"
-          aria-label="Tutup modal Syarat dan Ketentuan"
+          aria-label="Close Terms and Conditions modal"
         >
           <X size={24} />
         </button>
@@ -127,7 +127,7 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({
             <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-hegra-turquoise" aria-hidden="true" />
           </div>
           <h2 id="tnc-modal-title" className="text-xl sm:text-2xl font-semibold text-hegra-navy">
-            Syarat dan Ketentuan Pembelian Tiket
+            Ticket Purchase Terms and Conditions
           </h2>
         </div>
 
@@ -142,14 +142,14 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({
             type="button"
             className="w-full sm:w-auto inline-flex justify-center rounded-lg border border-transparent shadow-sm px-6 py-3 bg-hegra-turquoise text-base font-semibold text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hegra-yellow sm:text-sm transition-colors"
           >
-            Ya, Saya Mengerti dan Setuju
+            Yes, I Understand and Agree
           </button>
           <button
             onClick={onCancel}
             type="button"
             className="w-full sm:w-auto inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-6 py-3 bg-white text-base font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hegra-turquoise sm:text-sm transition-colors"
           >
-            Tidak, Batalkan Pesanan
+            No, Cancel Order
           </button>
         </div>
       </div>

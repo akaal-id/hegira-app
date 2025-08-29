@@ -32,10 +32,11 @@ import Home from './Home';
 import FullScreenLoader from './components/FullScreenLoader';
 import { BusinessMatchingCardData } from './components/BusinessMatchingCard';
 import CompanyDetailPage from './pages/business-matching/CompanyDetailPage';
+import BusinessEventPage from './pages/business-matching/BusinessEventPage';
 import RoleSwitchModal from './components/RoleSwitchModal';
 import OrganizationVerificationModal from './components/auth/OrganizationVerificationModal';
 import { ShoppingCart, Users, UserCog, PlusCircle, AlertTriangle } from 'lucide-react';
-import { generateEventSlug, generateCompanySlug } from './src/routes';
+import { generateEventSlug, generateCompanySlug } from './src/utils';
 
 
 
@@ -87,7 +88,7 @@ export interface EventData {
   organizerName?: string;
   organizerLogoUrl?: string;
   termsAndConditions?: string;
-  status: 'Draf' | 'Aktif' | 'Selesai';
+  status: 'Draft' | 'Active' | 'Completed';
   theme: string;
   address: string;
   eventSlug?: string;
@@ -140,7 +141,7 @@ export type PageName =
   'paymentLoading' | 'transactionSuccess' | 'ticketDisplay' |
   'createEventInfo' |
   'articlesPage' |
-  'businessDetail' |
+  'businessDetail' | 'businessEvent' |
   'home';
 
 export type UserRole = 'visitor' | 'creator' | 'organization' | null;
@@ -270,10 +271,10 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     displayPrice: 'Rp 75.000',
     organizerName: 'Kolektif Musik Depok',
     organizerLogoUrl: 'https://picsum.photos/seed/kmd/50/50',
-    summary: 'Konser musik indie dengan suasana rooftop dan pemandangan kota.',
+            summary: 'Indie music concert with rooftop atmosphere and city views.',
     googleMapsQuery: 'ITC Depok, Jawa Barat',
     parkingAvailable: true, ageRestriction: '18+', arrivalInfo: 'Pintu masuk dari Lobby Utara ITC Depok, naik lift ke lantai paling atas.',
-    status: 'Aktif', theme: 'Konser Musik', address: 'Jl. Margonda Raya No.56, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431',
+        status: 'Active', theme: 'Music Concert', address: 'Jl. Margonda Raya No.56, Depok, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16431',
     termsAndConditions: 'Dilarang membawa makanan dan minuman dari luar. Dilarang membawa senjata tajam dan obat-obatan terlarang. Tiket yang sudah dibeli tidak dapat dikembalikan.',
     eventSlug: 'local-soundscape-indie-music-night', narahubungName: 'Panitia Soundscape', narahubungPhone: '081200001111', narahubungEmail: 'info@localsound.id'
   },
@@ -282,19 +283,19 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     location: 'Margo City Depok', posterUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
     coverImageUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=450&q=80',
     dateDisplay: '2025/07/19', timeDisplay: '09:00 - 17:00', timezone: 'WIB',
-    fullDescription: 'Konferensi tahunan untuk para content creator, influencer, dan agensi. Sesi networking, workshop, dan diskusi panel dengan para ahli di industri kreatif digital.',
+            fullDescription: 'Annual conference for content creators, influencers, and agencies. Networking sessions, workshops, and panel discussions with experts in the digital creative industry.',
     ticketCategories: [
-      { id: 'early-bird-creator', name: 'Early Bird Creator Pass', price: 200000, description: 'Akses semua sesi, berlaku hingga 30 Juni.', availabilityStatus: 'sold-out', useEventSchedule: true, maxQuantity: 100, ticketsPurchased: 100 },
-      { id: 'creator-pass', name: 'Creator Pass', price: 250000, description: 'Akses semua sesi konferensi.', availabilityStatus: 'available', useEventSchedule: false, ticketStartDate: '2025-07-01', ticketEndDate: '2025-07-19', ticketStartTime: '08:00', ticketEndTime: '18:00', ticketIsTimeRange: true, ticketTimezone: 'WIB', maxQuantity: 300, ticketsPurchased: 5 },
-      { id: 'business-pass', name: 'Business Pass', price: 500000, description: 'Akses semua sesi + area networking B2B.', availabilityStatus: 'available', useEventSchedule: true, maxQuantity: 150, ticketsPurchased: 0 }
+      { id: 'early-bird-creator', name: 'Early Bird Creator Pass', price: 200000, description: 'Access to all sessions, valid until June 30.', availabilityStatus: 'sold-out', useEventSchedule: true, maxQuantity: 100, ticketsPurchased: 100 },
+              { id: 'creator-pass', name: 'Creator Pass', price: 250000, description: 'Access to all conference sessions.', availabilityStatus: 'available', useEventSchedule: false, ticketStartDate: '2025-07-01', ticketEndDate: '2025-07-19', ticketStartTime: '08:00', ticketEndTime: '18:00', ticketIsTimeRange: true, ticketTimezone: 'WIB', maxQuantity: 300, ticketsPurchased: 5 },
+              { id: 'business-pass', name: 'Business Pass', price: 500000, description: 'Access to all sessions + B2B networking area.', availabilityStatus: 'available', useEventSchedule: true, maxQuantity: 150, ticketsPurchased: 0 }
     ],
     displayPrice: 'Mulai Rp 250.000',
     organizerName: 'Hegira Event Management',
     organizerLogoUrl: '/image/hegiralogo.png',
-    summary: 'Konferensi networking dan workshop untuk content creator & influencer.',
+            summary: 'Networking conference and workshop for content creators & influencers.',
     googleMapsQuery: 'Margo City, Depok',
-    parkingAvailable: true, ageRestriction: '17+', arrivalInfo: 'Registrasi di Main Atrium Margo City, lantai dasar.',
-    status: 'Aktif', theme: 'Konferensi & Workshop', address: 'Jl. Margonda Raya No.358, Kemiri Muka, Kecamatan Beji, Kota Depok, Jawa Barat 16423',
+    parkingAvailable: true, ageRestriction: '17+', arrivalInfo: 'Registration at Main Atrium Margo City, ground floor.',
+    status: 'Active', theme: 'Conference & Workshop', address: 'Jl. Margonda Raya No.358, Kemiri Muka, Kecamatan Beji, Kota Depok, Jawa Barat 16423',
     eventSlug: 'creator-connect-2025-conference', narahubungName: 'Tim Hegira Events', narahubungPhone: '081211112222', narahubungEmail: 'events@hegira.com'
   },
   {
@@ -313,7 +314,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     organizerLogoUrl: 'https://picsum.photos/seed/kemenkop/50/50',
     summary: 'Forum pemerintah & UMKM untuk akselerasi transformasi digital.',
     googleMapsQuery: 'Hotel Indonesia Kempinski Jakarta',
-    status: 'Draf', theme: 'Forum & Pameran', address: 'Jl. M.H. Thamrin No.1, Menteng, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10310',
+    status: 'Draft', theme: 'Forum & Exhibition', address: 'Jl. M.H. Thamrin No.1, Menteng, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10310',
     eventSlug: 'forum-digitalisasi-umkm-nasional-2025', narahubungName: 'Sekretariat Forum', narahubungPhone: '0215550011', narahubungEmail: 'info@forumumkm.go.id'
   },
    {
@@ -331,7 +332,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     organizerLogoUrl: 'https://picsum.photos/seed/ksj/50/50',
     summary: 'Pameran karya seni kontemporer dari seniman muda Indonesia.',
     googleMapsQuery: 'Galeri Nasional Indonesia',
-    status: 'Aktif', theme: 'Pameran Seni', address: 'Jl. Medan Merdeka Tim. No.14, Gambir, Kecamatan Gambir, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10110',
+    status: 'Active', theme: 'Art Exhibition', address: 'Jl. Medan Merdeka Tim. No.14, Gambir, Kecamatan Gambir, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10110',
     eventSlug: 'pameran-seni-kontemporer-ruangrupa', narahubungName: 'Kurator Pameran', narahubungPhone: '085678901234', narahubungEmail: 'ruangrupa@artmail.com'
   },
   {
@@ -349,7 +350,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     organizerLogoUrl: '/image/hegiralogo.png',
     summary: 'Festival kuliner Nusantara dengan ratusan tenant dan demo masak.',
     googleMapsQuery: 'Lapangan Banteng Jakarta',
-    status: 'Aktif', theme: 'Festival Kuliner', address: 'Ps. Baru, Kecamatan Sawah Besar, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta',
+    status: 'Active', theme: 'Culinary Festival', address: 'Ps. Baru, Kecamatan Sawah Besar, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta',
     eventSlug: 'cita-rasa-nusantara-food-festival', narahubungName: 'Tim Kuliner Hegira', narahubungPhone: '081233334444', narahubungEmail: 'foodfest@hegira.com'
   },
   {
@@ -364,7 +365,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     ], displayPrice: 'Rp 75.000',
     organizerName: 'Creator Hegira', summary: 'Pameran kuliner akbar dengan chef internasional.', googleMapsQuery: 'JIExpo Kemayoran',
     parkingAvailable: true, ageRestriction: 'Semua Umur', arrivalInfo: 'Gunakan pintu masuk Hall C.',
-    status: 'Aktif', theme: 'Pameran Kuliner', address: 'JIExpo Kemayoran, Jakarta Pusat',
+    status: 'Active', theme: 'Culinary Exhibition', address: 'JIExpo Kemayoran, Jakarta Pusat',
     termsAndConditions: 'Dilarang membawa makanan dari luar. Voucher makanan tersedia.', eventSlug: 'jakarta-culinary-expo-2025', narahubungName: 'Creator Hegira', narahubungEmail:'info@jce.com', narahubungPhone:'+62812FOODFEST'
   },
   {
@@ -383,7 +384,7 @@ const sampleEventsInitial: (Omit<EventData, 'ticketCategories'> & { ticketCatego
     organizerLogoUrl: '/image/hegiralogo.png',
     summary: 'Turnamen e-sport dengan kualifikasi online dan grand final offline.',
     googleMapsQuery: 'BritAma Arena Jakarta',
-    status: 'Selesai', theme: 'Turnamen E-Sport', address: 'Jl. Raya Kelapa Nias, Kelapa Gading Tim., Kec. Klp. Gading, Jkt Utara, Daerah Khusus Ibukota Jakarta 14240',
+    status: 'Completed', theme: 'E-Sport Tournament', address: 'Jl. Raya Kelapa Nias, Kelapa Gading Tim., Kec. Klp. Gading, Jkt Utara, Daerah Khusus Ibukota Jakarta 14240',
     eventSlug: 'hegira-echampions-cup-2025-tournament', narahubungName: 'Panitia E-Sport Hegira', narahubungPhone: '089988887777', narahubungEmail: 'esports@hegira.com'
   }
 ];
@@ -417,6 +418,7 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
   
   const [currentPage, setCurrentPage] = useState<PageName>('landing');
   const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
+  const [selectedBusiness, setSelectedBusiness] = useState<BusinessMatchingCardData | null>(null);
   const [checkoutData, setCheckoutData] = useState<CheckoutInfo | null>(null);
   const [transactionResult, setTransactionResult] = useState<TransactionData | null>(null);
   const [allEventsData, setAllEventsData] = useState<EventData[]>(sampleEvents);
@@ -464,6 +466,7 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
     else if (path.startsWith('/events/')) newPage = 'eventDetail';
     else if (path === '/business') newPage = 'business';
     else if (path.startsWith('/business/')) newPage = 'businessDetail';
+    else if (path.startsWith('/business-event/')) newPage = 'businessEvent';
     else if (path === '/help') newPage = 'help';
     else if (path === '/login') newPage = 'login';
     else if (path === '/signup') newPage = 'signup';
@@ -513,6 +516,17 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
               console.error('Error parsing navigation data:', e);
             }
           }
+        }
+      }
+    }
+    
+    // Handle business event page
+    if (path.startsWith('/business-event/')) {
+      const eventSlug = path.split('/business-event/')[1];
+      if (eventSlug) {
+        const event = allEventsData.find(e => e.eventSlug === eventSlug);
+        if (event) {
+          setSelectedEvent(event);
         }
       }
     }
@@ -610,6 +624,8 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
 
       if (page === 'eventDetail' && data) {
         setSelectedEvent(data as EventData);
+      } else if (page === 'businessEvent' && data) {
+        setSelectedEvent(data as EventData);
       } else if (page === 'checkout' && data) {
         setCheckoutData(data as CheckoutInfo);
       } else if (page === 'transactionSuccess' && transactionResult) {
@@ -617,7 +633,9 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
       } else if (page === 'ticketDisplay' && transactionResult) {
         // Data is already in transactionResult
       } else if (page === 'businessDetail' && data) {
-        // setSelectedCompanyForDetail(data as BusinessMatchingCardData);
+        setSelectedBusiness(data as BusinessMatchingCardData);
+      } else if (page === 'business') {
+        setSelectedBusiness(null);
       }
 
       if (page !== 'login' && page !== 'signup' && page !== 'otpInput' && page !== 'creatorAuth' && page !== 'paymentLoading') {
@@ -694,6 +712,15 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
           path = `/business/${data.slug}`;
         } else if (data?.name) {
           path = `/business/${generateCompanySlug(data.name)}`;
+        } else {
+          path = '/business';
+        }
+        break;
+      case 'businessEvent':
+        if (data?.eventSlug) {
+          path = `/business-event/${data.eventSlug}`;
+        } else if (data?.name) {
+          path = `/business-event/${generateEventSlug(data.name)}`;
         } else {
           path = '/business';
         }
@@ -926,7 +953,7 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
     
     switch (currentPage) {
       case 'landing': return <LandingPage heroEvents={allEventsData.slice(0, 3)} featuredEvents={allEventsData.slice(0, 6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal} />;
-      case 'events': return <EventPage events={allEventsData.filter(e => e.status === 'Aktif')} onNavigate={navigateToPage} />;
+              case 'events': return <EventPage events={allEventsData.filter(e => e.status === 'Active')} onNavigate={navigateToPage} />;
       case 'business': return <BusinessMatchingPage onNavigate={navigateToPage} />;
       case 'help': return <HelpPage />;
       case 'dashboard':
@@ -956,7 +983,8 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
       case 'ticketDisplay': return transactionResult ? <TicketDisplayPage transactionData={transactionResult} onNavigate={navigateToPage}/> : <LandingPage heroEvents={allEventsData.slice(0,3)} featuredEvents={allEventsData.slice(0,6)} onNavigate={navigateToPage} onOpenLoginModal={() => handleOpenAuthModal()} openSubscriptionModal={openSubscriptionModal}/>;
       case 'createEventInfo': return <CreateEventInfoPage onNavigate={navigateToPage} onOpenAuthModal={() => handleOpenAuthModal()} isLoggedIn={isLoggedIn} userRole={userRole} />;
       case 'articlesPage': return <ArticleListPage onNavigate={navigateToPage} />;
-      case 'businessDetail': return selectedEvent ? <CompanyDetailPage company={selectedEvent as unknown as BusinessMatchingCardData} onNavigate={navigateToPage} /> : <BusinessMatchingPage onNavigate={navigateToPage} />;
+      case 'businessDetail': return selectedBusiness ? <CompanyDetailPage company={selectedBusiness} onNavigate={navigateToPage} /> : <BusinessMatchingPage onNavigate={navigateToPage} />;
+      case 'businessEvent': return selectedEvent ? <BusinessEventPage event={selectedEvent} onNavigate={navigateToPage} onNavigateRequestWithConfirmation={handleNavigateRequestWithConfirmation} /> : <BusinessMatchingPage onNavigate={navigateToPage} />;
       case 'creatorAuth':
         if (authPageToShow === 'otpInput' && activeAuthRole && activeAuthRole !== "Event Visitor") {
             return null;
@@ -995,6 +1023,7 @@ const sampleEvents: EventData[] = sampleEventsInitial.map(event => ({
   const hideNavbar = isFullScreenPage || (authPageToShow === 'otpInput' && currentPage === 'creatorAuth');
   const hideFooter = isFullScreenPage ||
                      currentPage === 'eventDetail' || currentPage === 'checkout' || currentPage === 'transactionSuccess' ||
+                     currentPage === 'businessEvent' ||
                      (authPageToShow === 'otpInput' && currentPage === 'creatorAuth');
 
   return (

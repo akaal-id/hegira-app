@@ -158,7 +158,7 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
                     className="w-full sm:w-auto flex items-center justify-center gap-2 bg-hegra-turquoise text-white font-bold py-2.5 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                     {isLoading ? <Loader2 size={20} className="animate-spin" /> : <TicketIcon size={20} />}
-                    {isLoading ? 'Memproses PDF...' : 'Lihat Tiket-ku'}
+                    {isLoading ? 'Processing PDF...' : 'View My Tickets'}
                 </button>
                 <button
                     onClick={handleDownloadAllTickets}
@@ -166,7 +166,7 @@ const TicketDisplayPage: React.FC<TicketDisplayPageProps> = ({ transactionData, 
                     className="w-full sm:w-auto flex items-center justify-center gap-2 bg-hegra-yellow text-hegra-navy font-bold py-2.5 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                     {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
-                    {isLoading ? 'Memproses PDF...' : 'Unduh Semua Tiket (PDF)'}
+                    {isLoading ? 'Processing PDF...' : 'Download All Tickets (PDF)'}
                 </button>
             </div>
         </div>

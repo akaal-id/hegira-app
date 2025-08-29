@@ -1,5 +1,5 @@
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { URLS, generateEventSlug, generateCompanySlug } from '../routes';
+import { URLS, generateEventSlug, generateCompanySlug } from '../utils';
 import { PageName } from '../../HegiraApp';
 
 export const useNavigation = () => {

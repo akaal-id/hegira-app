@@ -37,10 +37,10 @@ const CompanyDetailHeader: React.FC<CompanyDetailHeaderProps> = ({
           <button
             onClick={onBack}
             className="absolute top-0 left-0 -mt-20 sm:-mt-24 md:-mt-28 lg:-mt-32 flex items-center text-sm text-white bg-black/40 hover:bg-black/60 px-3 py-1.5 rounded-lg transition-colors group backdrop-blur-sm"
-            aria-label="Kembali ke daftar bisnis"
+            aria-label="Back to business list"
           >
             <ArrowLeft size={18} className="mr-1.5 transform transition-transform group-hover:-translate-x-0.5" />
-            Kembali
+            Back
           </button>
           
           <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 md:gap-6 pt-4">
@@ -66,7 +66,7 @@ const CompanyDetailHeader: React.FC<CompanyDetailHeaderProps> = ({
                       fill={i < Math.round(rating) ? 'currentColor' : 'none'}
                     />
                   ))}
-                  <span className="ml-1.5 text-xs text-hegra-deep-navy font-medium">({rating.toFixed(1)} dari 5)</span>
+                  <span className="ml-1.5 text-xs text-hegra-deep-navy font-medium">({rating.toFixed(1)} of 5)</span>
                 </div>
               )}
             </div>

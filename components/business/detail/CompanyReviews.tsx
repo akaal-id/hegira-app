@@ -20,10 +20,10 @@ const CompanyReviews: React.FC<CompanyReviewsProps> = ({ reviews }) => {
   if (!reviews || reviews.length === 0) {
      return (
         <section aria-labelledby="reviews-title" className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <h2 id="reviews-title" className="text-xl font-semibold text-hegra-deep-navy mb-4">Ulasan Klien</h2>
+            <h2 id="reviews-title" className="text-xl font-semibold text-hegra-deep-navy mb-4">Client Reviews</h2>
             <div className="flex flex-col items-center justify-center text-gray-400 h-32 bg-gray-50 rounded-md">
                 <MessageSquare size={32} className="mb-2" />
-                <p className="text-sm ">Belum ada ulasan untuk perusahaan ini.</p>
+                <p className="text-sm ">No reviews available for this company yet.</p>
             </div>
         </section>
     );
@@ -32,7 +32,7 @@ const CompanyReviews: React.FC<CompanyReviewsProps> = ({ reviews }) => {
   return (
     <section aria-labelledby="reviews-title" className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
       <h2 id="reviews-title" className="text-xl font-semibold text-hegra-deep-navy mb-5">
-        Ulasan Klien ({reviews.length})
+        Client Reviews ({reviews.length})
       </h2>
       <div className="space-y-5 max-h-96 overflow-y-auto pr-2"> {/* Added pr-2 for scrollbar space */}
         {reviews.map((review, index) => (
@@ -42,7 +42,7 @@ const CompanyReviews: React.FC<CompanyReviewsProps> = ({ reviews }) => {
                 <UserCircle size={24} className="text-gray-400 mr-1.5" />
                 <div>
                   <p className="text-sm font-semibold text-hegra-deep-navy">{review.author}</p>
-                  <p className="text-xs text-gray-400">{new Date(review.date).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric'})}</p>
+                  <p className="text-xs text-gray-400">{new Date(review.date).toLocaleDateString('en-US', { day:'numeric', month:'long', year:'numeric'})}</p>
                 </div>
               </div>
               <div className="flex items-center">

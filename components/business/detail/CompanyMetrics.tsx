@@ -20,15 +20,15 @@ const CompanyMetrics: React.FC<CompanyMetricsProps> = ({ metrics }) => {
   if (!metrics || metrics.length === 0) {
     return (
       <section aria-labelledby="company-metrics-title" className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <h2 id="company-metrics-title" className="sr-only">Metrik Perusahaan</h2>
-        <p className="text-sm text-gray-500">Data metrik perusahaan tidak tersedia saat ini.</p>
+        <h2 id="company-metrics-title" className="sr-only">Company Metrics</h2>
+        <p className="text-sm text-gray-500">Company metrics data is not available at the moment.</p>
       </section>
     );
   }
 
   return (
     <section aria-labelledby="company-metrics-title" className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-      <h2 id="company-metrics-title" className="sr-only">Metrik Utama Perusahaan</h2> {/* Changed to sr-only as cards are self-descriptive */}
+      <h2 id="company-metrics-title" className="sr-only">Company Key Metrics</h2> {/* Changed to sr-only as cards are self-descriptive */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
         {metrics.map((metric, index) => {
           const IconComponent = metric.icon || Award;

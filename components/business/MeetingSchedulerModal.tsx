@@ -27,7 +27,7 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('09:00');
-  const [meetingDuration, setMeetingDuration] = useState<string>('30 menit');
+  const [meetingDuration, setMeetingDuration] = useState<string>('30 minutes');
   const [meetingType, setMeetingType] = useState<string>('Online (Google Meet)');
   const [agenda, setAgenda] = useState<string>('');
 
@@ -36,7 +36,7 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDate || !selectedTimeSlot || !agenda.trim()) {
-      alert('Harap lengkapi tanggal, slot waktu, dan agenda meeting.');
+      alert('Please complete the date, time slot, and meeting agenda.');
       return;
     }
     onSchedule({
@@ -51,8 +51,8 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
 
   // Mock time slots and dates
   const availableTimeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
-  const meetingDurations = ['30 menit', '45 menit', '1 jam', '1 jam 30 menit'];
-  const meetingTypes = ['Online (Google Meet)', 'Online (Zoom)', 'Telepon', 'Offline (Kantor Vendor)', 'Offline (Lokasi Netral)'];
+  const meetingDurations = ['30 minutes', '45 minutes', '1 hour', '1 hour 30 minutes'];
+  const meetingTypes = ['Online (Google Meet)', 'Online (Zoom)', 'Phone Call', 'Offline (Vendor Office)', 'Offline (Neutral Location)'];
   
   // Generate dates for the next 7 days
   const today = new Date();
@@ -61,7 +61,7 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
     date.setDate(today.getDate() + i);
     return {
       value: date.toISOString().split('T')[0],
-      label: date.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' }),
+      label: date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }),
     };
   });
 
@@ -77,20 +77,20 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-hegra-turquoise transition-colors z-20"
-          aria-label="Tutup modal jadwal meeting"
+          aria-label="Close meeting schedule modal"
         >
           <X size={24} />
         </button>
 
         <h2 id="meeting-scheduler-modal-title" className="text-xl sm:text-2xl font-semibold text-hegra-navy mb-2 flex items-center">
           <Calendar size={24} className="mr-3 text-hegra-turquoise" />
-          Jadwalkan Meeting Dengan
+          Schedule Meeting With
         </h2>
         <p className="text-lg font-medium text-hegra-turquoise mb-6">{vendorName}</p>
         
         <form onSubmit={handleSubmit} className="space-y-5 overflow-y-auto custom-scrollbar-modal pr-1 flex-grow">
           <div>
-            <label htmlFor="meetingDate" className="block text-sm font-medium text-gray-700 mb-1">Pilih Tanggal</label>
+            <label htmlFor="meetingDate" className="block text-sm font-medium text-gray-700 mb-1">Select Date</label>
             <select
               id="meetingDate"
               value={selectedDate.toISOString().split('T')[0]}
@@ -104,7 +104,7 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
           </div>
 
           <div>
-            <label htmlFor="timeSlot" className="block text-sm font-medium text-gray-700 mb-1">Slot Waktu Tersedia (WIB)</label>
+            <label htmlFor="timeSlot" className="block text-sm font-medium text-gray-700 mb-1">Available Time Slots (WIB)</label>
             <select
               id="timeSlot"
               value={selectedTimeSlot}
@@ -115,18 +115,18 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
                 <option key={slot} value={slot}>{slot}</option>
               ))}
             </select>
-            <p className="text-xs text-gray-500 mt-1">Slot waktu adalah simulasi.</p>
+            <p className="text-xs text-gray-500 mt-1">Time slots are simulation.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="meetingDuration" className="block text-sm font-medium text-gray-700 mb-1">Durasi Meeting</label>
+              <label htmlFor="meetingDuration" className="block text-sm font-medium text-gray-700 mb-1">Meeting Duration</label>
               <select id="meetingDuration" value={meetingDuration} onChange={(e) => setMeetingDuration(e.target.value)} className="w-full py-2.5 px-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors text-sm appearance-none">
                 {meetingDurations.map(dur => <option key={dur} value={dur}>{dur}</option>)}
               </select>
             </div>
             <div>
-              <label htmlFor="meetingType" className="block text-sm font-medium text-gray-700 mb-1">Tipe Meeting</label>
+              <label htmlFor="meetingType" className="block text-sm font-medium text-gray-700 mb-1">Meeting Type</label>
               <select id="meetingType" value={meetingType} onChange={(e) => setMeetingType(e.target.value)} className="w-full py-2.5 px-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors text-sm appearance-none">
                 {meetingTypes.map(type => <option key={type} value={type}>{type}</option>)}
               </select>
@@ -134,7 +134,7 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
           </div>
 
           <div>
-            <label htmlFor="agenda" className="block text-sm font-medium text-gray-700 mb-1">Agenda Singkat <span className="text-red-500">*</span></label>
+            <label htmlFor="agenda" className="block text-sm font-medium text-gray-700 mb-1">Brief Agenda <span className="text-red-500">*</span></label>
             <textarea
               id="agenda"
               rows={3}
@@ -142,12 +142,12 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
               onChange={(e) => setAgenda(e.target.value)}
               required
               className="w-full py-2 px-3 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-1 focus:ring-hegra-turquoise transition-colors text-sm placeholder-gray-400"
-              placeholder="Contoh: Diskusi potensi kerjasama proyek X, Presentasi produk Y..."
+              placeholder="Example: Discussion of potential collaboration for project X, Product Y presentation..."
             />
           </div>
           <div className="p-3 bg-blue-50 border-l-4 border-hegra-turquoise rounded-md text-xs text-blue-700">
             <Info size={16} className="inline mr-1.5 mb-0.5"/>
-            Tim <span className="font-semibold">{vendorName}</span> akan menerima notifikasi dan mengkonfirmasi ketersediaan jadwal Anda.
+            The <span className="font-semibold">{vendorName}</span> team will receive notification and confirm your schedule availability.
           </div>
         </form>
 
@@ -158,14 +158,14 @@ const MeetingSchedulerModal: React.FC<MeetingSchedulerModalProps> = ({
             onClick={handleSubmit} // Can also be directly on the button
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-transparent shadow-sm px-6 py-2.5 bg-hegra-yellow text-hegra-navy text-sm font-bold hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hegra-navy transition-colors"
           >
-            <Send size={16} /> Kirim Permintaan Meeting
+            <Send size={16} /> Send Meeting Request
           </button>
           <button
             type="button"
             onClick={onClose}
             className="w-full sm:w-auto inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-6 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hegra-turquoise transition-colors"
           >
-            Batal
+            Cancel
           </button>
         </div>
       </div>

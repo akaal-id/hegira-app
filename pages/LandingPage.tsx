@@ -14,63 +14,63 @@ import { PageName, EventData } from '../HegiraApp';
 
 const sampleArticles = [
   {
-    slug: '5-tips-sukses-menggelar-event-hybrid',
+    slug: '5-tips-success-hybrid-event',
     imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
-    category: 'Tips & Trik',
-    title: '5 Tips Sukses Menggelar Event Hybrid yang Menarik',
-    excerpt: 'Event hybrid semakin populer. Kombinasikan pengalaman fisik dan virtual dengan strategi jitu untuk engagement maksimal.',
-    author: 'Tim Hegira',
-    date: '15 Juli 2024',
+    category: 'Tips & Tricks',
+    title: '5 Tips for Successfully Organizing an Engaging Hybrid Event',
+    excerpt: 'Hybrid events are becoming increasingly popular. Combine physical and virtual experiences with smart strategies for maximum engagement.',
+    author: 'Hegira Team',
+    date: 'July 15, 2024',
   },
   {
-    slug: 'studi-kasus-konser-xyz-bersama-hegira',
+    slug: 'case-study-xyz-concert-hegira',
     imageUrl: 'https://images.unsplash.com/photo-1561414927-6d86591d0c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
-    category: 'Studi Kasus',
-    title: 'Studi Kasus: Kesuksesan Konser XYZ dengan Dukungan Penuh Hegira',
-    excerpt: 'Bagaimana Konser XYZ berhasil menjual ribuan tiket dan memberikan pengalaman tak terlupakan bagi penontonnya? Simak ceritanya.',
+    category: 'Case Study',
+    title: 'Case Study: XYZ Concert Success with Full Hegira Support',
+    excerpt: 'How did XYZ Concert successfully sell thousands of tickets and provide an unforgettable experience for its audience? Read the story.',
     author: 'Andini Putri',
-    date: '10 Juli 2024',
+    date: 'July 10, 2024',
   },
   {
-    slug: 'tren-event-2025-yang-wajib-diketahui',
+    slug: 'event-trends-2025-must-know',
     imageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60',
-    category: 'Wawasan',
-    title: 'Tren Event 2025: Inovasi dan Teknologi yang Akan Mendominasi',
-    excerpt: 'Dari AI hingga keberlanjutan, apa saja tren yang akan membentuk industri event di tahun mendatang? Persiapkan diri Anda!',
+    category: 'Insights',
+    title: 'Event Trends 2025: Innovation and Technology That Will Dominate',
+    excerpt: 'From AI to sustainability, what trends will shape the event industry in the coming year? Prepare yourself!',
     author: 'Budi Santoso',
-    date: '5 Juli 2024',
+    date: 'July 5, 2024',
   },
 ];
 
 const sampleBusinessMatchingPartners: BusinessMatchingCardData[] = [
   {
     id: 1001,
-    name: "Vendor Properti Event Terbaik",
-    sector: "Peralatan & Produksi Event",
-    location: "Jakarta & Sekitarnya",
-    budget: "Fleksibel, Mulai dari Rp 5 Juta",
+    name: "Best Event Property Vendor",
+    sector: "Event Equipment & Production",
+    location: "Jakarta & Surroundings",
+    budget: "Flexible, Starting from Rp 5 Million",
     matchScore: 4.8,
-    specialFeatures: ["Kualitas Terjamin", "Pengalaman Luas", "Respon Cepat"],
+    specialFeatures: ["Guaranteed Quality", "Extensive Experience", "Fast Response"],
     logoUrl: "https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80&blend=FFA500&sat=-100&bri=0&bm=multiply",
   },
   {
     id: 1002,
-    name: "Brand Sponsorship Nasional",
-    sector: "Sponsor Korporat & Media",
-    location: "Seluruh Indonesia",
-    budget: "Mulai dari Rp 50 Juta per Event",
+    name: "National Brand Sponsorship",
+    sector: "Corporate & Media Sponsor",
+    location: "All Indonesia",
+    budget: "Starting from Rp 50 Million per Event",
     matchScore: 4.5,
-    specialFeatures: ["Jangkauan Nasional", "Citra Brand Kuat", "Aktivasi Kreatif"],
+    specialFeatures: ["National Reach", "Strong Brand Image", "Creative Activation"],
     logoUrl: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80&blend=4B998E&sat=-100&bri=0&bm=multiply",
   },
   {
     id: 1003,
-    name: "Investor Ventura & Angel",
-    sector: "Investasi & Pendanaan Awal",
-    location: "Asia Tenggara",
+    name: "Venture & Angel Investor",
+    sector: "Investment & Early Funding",
+    location: "Southeast Asia",
     budget: "Seed & Series A Funding",
     matchScore: 4.2,
-    specialFeatures: ["Pendanaan Strategis", "Jaringan Luas", "Mentorship"],
+    specialFeatures: ["Strategic Funding", "Extensive Network", "Mentorship"],
     logoUrl: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80&blend=18093B&sat=-100&bri=0&bm=multiply",
   },
 ];
@@ -127,10 +127,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
     event.preventDefault();
     const emailInput = event.currentTarget.elements.namedItem('email') as HTMLInputElement;
     if (emailInput && emailInput.value) {
-      alert(`Terima kasih! Email ${emailInput.value} telah didaftarkan untuk newsletter Hegira.`);
+      alert(`Thank you! Email ${emailInput.value} has been registered for Hegira newsletter.`);
       emailInput.value = ''; // Clear input
     } else {
-      alert('Mohon masukkan alamat email Anda.');
+      alert('Please enter your email address.');
     }
   };
 
@@ -144,14 +144,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         <div className="container mx-auto px-0 sm:px-6 lg:px-8"> {/* Adjusted padding for full-bleed scroll */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-10 md:mb-16  px-4 sm:px-0"> {/* Padding for title section */}
             <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy text-center md:text-left">Temukan Event <span className="text-gradient">Menarik</span></h2>
-              <p className="text-neutral-700 mt-2 text-center md:text-left">Jelajahi berbagai acara terbaru dan paling populer.</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy text-center md:text-left">Discover <span className="text-gradient">Exciting</span> Events</h2>
+              <p className="text-neutral-700 mt-2 text-center md:text-left">Explore the latest and most popular events.</p>
             </div>
             <button 
               onClick={() => onNavigate('events')} 
               className="mt-4 md:mt-0 text-hegra-gradient-start hover:text-hegra-gradient-mid font-semibold transition-colors duration-300 group flex items-center"
             >
-              Lihat Semua Event <TrendingUp size={20} className="ml-2 transform transition-transform group-hover:translate-x-1" />
+              View All Events <TrendingUp size={20} className="ml-2 transform transition-transform group-hover:translate-x-1" />
             </button>
           </div>
           {/* Horizontal Scroll Container for Event Cards */}
@@ -166,7 +166,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
                 </div>
               )) : (
                  <div className="w-full text-center py-10 px-4">
-                    <p className="text-gray-500">Belum ada event unggulan yang tersedia saat ini.</p>
+                    <p className="text-gray-500">No featured events available at the moment.</p>
                 </div>
               )}
             </div>
@@ -183,37 +183,37 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold font-jakarta text-hegra-deep-navy mb-8">
-            Apa itu <span className="text-hegra-turquoise">Hegira?</span>
+            What is <span className="text-hegra-turquoise">Hegira?</span>
           </h2>
           
           <div className="md:grid md:grid-cols-2 md:gap-x-12 lg:gap-x-16 mb-12 text-gray-700 text-base md:text-lg leading-relaxed space-y-4 md:space-y-0">
             <p>
-              Hegira adalah platform event terintegrasi yang dirancang untuk merevolusi cara Anda menemukan, mengelola, dan menikmati berbagai acara. Kami percaya bahwa setiap event adalah sebuah kesempatan—untuk belajar, bertumbuh, berjejaring, dan menciptakan kenangan.
+              Hegira is an integrated event platform designed to revolutionize how you discover, manage, and enjoy various events. We believe that every event is an opportunity—to learn, grow, network, and create memories.
             </p>
             <p>
-              Misi kami adalah memberdayakan penyelenggara event dengan alat yang intuitif dan komprehensif, sekaligus memberikan pengalaman yang mulus dan menyenangkan bagi para peserta. Dari konser musik megah hingga workshop bisnis yang intim, Hegira hadir untuk Anda.
+              Our mission is to empower event organizers with intuitive and comprehensive tools, while providing a seamless and enjoyable experience for participants. From grand music concerts to intimate business workshops, Hegira is here for you.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 md:mb-16">
             <FeatureItem
               icon={TicketIconLucide}
-              title="Tiket Terintegrasi"
-              description="Beli dan jual tiket untuk berbagai jenis event (B2C, B2B, B2G) dengan mudah, aman, dan cepat."
+              title="Integrated Tickets"
+              description="Buy and sell tickets for various types of events (B2C, B2B, B2G) easily, safely, and quickly."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={Users}
-              title="Jangkauan Luas"
-              description="Temukan audiens yang lebih luas untuk event Anda atau jelajahi ribuan event menarik di seluruh Indonesia."
+              title="Wide Reach"
+              description="Find a wider audience for your events or explore thousands of exciting events across Indonesia."
               iconBgClass="bg-hegra-yellow/20"
               iconColorClass="text-hegra-yellow"
             />
             <FeatureItem
               icon={Briefcase}
-              title="Kelola Event Mudah"
-              description="Tools lengkap bagi event creator untuk mengelola penjualan tiket, promosi, dan analitik secara profesional."
+              title="Easy Event Management"
+              description="Complete tools for event creators to professionally manage ticket sales, promotions, and analytics."
               iconBgClass="bg-hegra-chino/20"
               iconColorClass="text-hegra-chino"
             />
@@ -232,66 +232,66 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
-              Buat Event <span className="text-gradient">Impian Anda</span>
+              Create Your <span className="text-gradient">Dream Event</span>
             </h2>
             <p className="text-lg text-gray-600 mt-3 max-w-3xl mx-auto">
-              Hegra menyediakan platform lengkap untuk membantu Anda merencanakan, mempromosikan, dan mengelola event dengan sukses. Mulai dari konser, seminar, hingga workshop, semua jadi lebih mudah.
+              Hegira provides a complete platform to help you plan, promote, and manage events successfully. From concerts, seminars, to workshops, everything becomes easier.
             </p>
           </div>
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
             <FeatureItem
               icon={Edit3}
-              title="Pembuatan Event Mudah"
-              description="Buat dan kustomisasi halaman event Anda dengan cepat dan intuitif."
+              title="Easy Event Creation"
+              description="Create and customize your event page quickly and intuitively."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={TicketIconLucide}
-              title="Manajemen Tiket Lanjutan"
-              description="Atur berbagai kategori tiket, harga, kuota, dan kode promo."
+              title="Advanced Ticket Management"
+              description="Set various ticket categories, prices, quotas, and promo codes."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={BarChart3} 
-              title="Analitik Mendalam" 
-              description="Pantau performa penjualan, demografi peserta, dan data penting lainnya."
+              title="Deep Analytics" 
+              description="Monitor sales performance, participant demographics, and other important data."
               iconBgClass="bg-hegra-turquoise/20" 
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={Lightbulb}
-              title="Promosi Cerdas"
-              description="Manfaatkan fitur promosi terintegrasi untuk menjangkau audiens yang tepat."
+              title="Smart Promotion"
+              description="Leverage integrated promotion features to reach the right audience."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={ShieldCheck}
-              title="Pembayaran Aman"
-              description="Sistem pembayaran yang aman dan terpercaya dengan berbagai pilihan metode."
+              title="Secure Payment"
+              description="Safe and trusted payment system with various method options."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={Users2}
-              title="Manajemen Peserta"
-              description="Kelola data peserta, check-in, dan komunikasi dengan mudah."
+              title="Participant Management"
+              description="Manage participant data, check-in, and communication easily."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={Briefcase}
               title="Business Matching Tools"
-              description="Fasilitasi networking dan pertemuan bisnis antar peserta atau sponsor (B2B/B2G)."
+              description="Facilitate networking and business meetings between participants or sponsors (B2B/B2G)."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
             <FeatureItem
               icon={Settings}
-              title="Kustomisasi Halaman"
-              description="Sesuaikan tampilan halaman event Anda agar sesuai dengan brand."
+              title="Page Customization"
+              description="Customize your event page appearance to match your brand."
               iconBgClass="bg-hegra-turquoise/20"
               iconColorClass="text-hegra-turquoise"
             />
@@ -303,7 +303,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
                          hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg 
                          inline-flex items-center gap-2.5"
             >
-              <PlusCircle size={22} /> Mulai Buat Event Anda
+              <PlusCircle size={22} /> Start Creating Your Event
             </button>
           </div>
         </div>
@@ -314,10 +314,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
-              Temukan <span className="text-gradient">Koneksi Bisnis</span> Potensial
+              Find <span className="text-gradient">Business Connections</span> Potential
             </h2>
             <p className="text-lg text-gray-600 mt-3 max-w-3xl mx-auto">
-              Perluas jaringan Anda, temukan vendor, mitra strategis, atau investor untuk event dan bisnis Anda melalui platform Business Matching Hegira.
+              Expand your network, find vendors, strategic partners, or investors for your events and business through Hegira's Business Matching platform.
             </p>
           </div>
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
@@ -326,18 +326,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
                 key={partner.id}
                 {...partner}
                 onNavigate={onNavigate} // For general navigation if not overridden
-                onActionClick={openSubscriptionModal} // This will be prioritized by BusinessMatchingCard
+                onActionClick={() => onNavigate('business')} // Redirect to business matching page
               />
             ))}
           </div>
           <div className="text-center">
             <button 
-              onClick={openSubscriptionModal} // Changed to openSubscriptionModal
+              onClick={() => onNavigate('business')} // Redirect to business matching page
               className="bg-hegra-turquoise text-white font-bold py-3.5 px-8 rounded-lg text-lg
                          hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg 
                          inline-flex items-center gap-2.5"
             >
-              <Briefcase size={22} /> Jelajahi Peluang Business Matching
+              <Briefcase size={22} /> Explore Business Matching Opportunities
             </button>
           </div>
         </div>
@@ -348,10 +348,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-jakarta text-hegra-deep-navy">
-              Artikel & <span className="text-gradient">Wawasan</span> Terbaru
+              Articles & <span className="text-gradient">Insights</span> Latest
             </h2>
             <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
-              Dapatkan tips, tren, dan studi kasus terkini seputar dunia event dan business matching.
+              Get the latest tips, trends, and case studies about the world of events and business matching.
             </p>
           </div>
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
@@ -364,7 +364,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
               onClick={() => onNavigate('articlesPage')}
               className="text-hegra-gradient-start hover:text-hegra-gradient-mid font-semibold transition-colors duration-300 group flex items-center mx-auto"
             >
-              Lihat Semua Artikel <BookOpen size={20} className="ml-2 transform transition-transform group-hover:translate-x-1" />
+              View All Articles <BookOpen size={20} className="ml-2 transform transition-transform group-hover:translate-x-1" />
             </button>
           </div>
         </div>
@@ -375,23 +375,23 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Zap size={48} className="mx-auto mb-4 text-white" />
           <h2 className="text-3xl md:text-4xl font-bold font-jakarta text-hegra-white mb-4">
-            Jangan Ketinggalan Update Terbaru dari Hegira!
+            Don't Miss the Latest Updates from Hegira!
           </h2>
           <p className="text-lg text-hegra-light-bg/90 mb-8 max-w-xl mx-auto">
-            Daftarkan email Anda untuk mendapatkan informasi event terbaru, promo spesial, dan tips eksklusif.
+            Register your email to get the latest event information, special promotions, and exclusive tips.
           </p>
           <form onSubmit={handleNewsletterSubmit} className="max-w-lg mx-auto flex flex-col sm:flex-row gap-3">
-            <label htmlFor="newsletter-email" className="sr-only">Alamat Email</label>
+            <label htmlFor="newsletter-email" className="sr-only">Email Address</label>
             <input
               type="email"
               id="newsletter-email"
               name="email"
               required
-              placeholder="Masukkan alamat email Anda..."
+              placeholder="Enter your email address..."
               className="flex-grow py-3 px-4 rounded-lg border border-transparent 
                          focus:ring-2 focus:ring-hegra-navy focus:border-hegra-navy 
                          text-base shadow-md text-hegra-deep-navy"
-              aria-label="Alamat email untuk newsletter"
+              aria-label="Email address for newsletter"
             />
             <button
               type="submit"
@@ -399,7 +399,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ heroEvents, featuredEvents, o
                          hover:bg-opacity-90 transition-colors shadow-md
                          transform hover:scale-105"
             >
-              <Mail size={20} className="inline mr-2 -mt-0.5" /> Daftar Sekarang
+              <Mail size={20} className="inline mr-2 -mt-0.5" /> Register Now
             </button>
           </form>
         </div>

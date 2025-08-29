@@ -41,12 +41,12 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ events, onNavigate }) => {
       <section
         className="my-4 md:my-6 lg:my-8"
         aria-roledescription="carousel"
-        aria-label="Promosi Unggulan Hegira"
+        aria-label="Hegira Featured Promotions"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative text-hegra-white overflow-hidden rounded-3xl border border-hegra-navy/10">
             <div className="relative w-full aspect-[16/6] bg-gray-200 flex items-center justify-center">
-              <p className="text-gray-500">Tidak ada event unggulan saat ini.</p>
+              <p className="text-gray-500">No featured events at the moment.</p>
             </div>
           </div>
         </div>
@@ -63,11 +63,11 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ events, onNavigate }) => {
         role="button"
         tabIndex={0}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onNavigate('eventDetail', event); }}
-        aria-label={`Lihat detail untuk event ${event.name}`}
+        aria-label={`View details for event ${event.name}`}
       >
         <img
           src={displayPosterUrl}
-          alt={`Poster untuk ${event.name}`}
+          alt={`Poster for ${event.name}`}
           className="w-full h-full object-cover"
           loading={events.indexOf(event) === 0 ? "eager" : "lazy"}
           onError={(e) => (e.currentTarget.src = 'https://picsum.photos/seed/slidererror/1280/480?text=Error+Loading+Image')}
@@ -95,7 +95,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ events, onNavigate }) => {
                   className={`min-w-full h-full`}
                   role="group"
                   aria-roledescription="slide"
-                  aria-label={`Slide ${slideIndex + 1} dari ${events.length}: ${event.name}`} // Keep for overall slide context
+                  aria-label={`Slide ${slideIndex + 1} of ${events.length}: ${event.name}`} // Keep for overall slide context
                   aria-hidden={currentSlide !== slideIndex}
                 >
                   {renderSlideContent(event)}
@@ -108,14 +108,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ events, onNavigate }) => {
                 <button
                   onClick={prevSlide}
                   className="absolute top-1/2 left-3 md:left-5 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 md:p-3 rounded-full transition-colors focus:outline-none z-20"
-                  aria-label="Slide sebelumnya"
+                  aria-label="Previous slide"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
                   onClick={nextSlide}
                   className="absolute top-1/2 right-3 md:right-5 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 md:p-3 rounded-full transition-colors focus:outline-none z-20"
-                  aria-label="Slide berikutnya"
+                  aria-label="Next slide"
                 >
                   <ChevronRight size={24} />
                 </button>
@@ -127,7 +127,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ events, onNavigate }) => {
                       onClick={() => goToSlide(index)}
                       className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 ease-in-out
                                   ${currentSlide === index ? 'bg-hegra-turquoise scale-125' : 'bg-white/60 hover:bg-white/90'}`}
-                      aria-label={`Ke slide ${index + 1}`}
+                      aria-label={`Go to slide ${index + 1}`}
                       aria-current={currentSlide === index ? "true" : "false"}
                     />
                   ))}
